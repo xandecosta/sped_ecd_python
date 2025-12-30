@@ -1,29 +1,27 @@
 # Contexto do Projeto: SPED-ECD Parser Pro
 
 ## Estado Atual
-- **Data:** 29/12/2025
-- **Fase:** Inicialização e Configuração
-- **Status:** Schemas JSON gerados com sucesso.
+- **Data:** 30/12/2025
+- **Fase:** Implementação do Core
+- **Status:** Parser Core (`ECDReader`) implementado e validado.
 
 ## O Que Foi Feito
 1.  **Estrutura de Pastas:**
-    - `/core`: Lógica do parser (vazio).
-    - `/schemas`: Definições JSON geradas (`layout_1.00.json` a `layout_9.00.json`).
-    - `/tests`: Testes unitários (vazio).
-    - `/utils`: Utilitários (`gerar_schemas.py` implementado).
-    - `/venv`: Ambiente virtual configurado.
+    - `/core`: `reader_ecd.py` implementado (classe `ECDReader`).
+    - `/schemas`: Definições JSON geradas.
+    - `/tests`: Testes unitários (pendente).
+    - `/utils`: `gerar_schemas.py` funcional.
+    - `/venv`: Configurado.
 
-2.  **Arquivos de Configuração:**
-    - `.cursorrules`: Regras do projeto e comportamento do agente.
-    - `README.md`: Documentação inicial e instruções de setup.
-    - `.gitignore`: Padrão Python.
+2.  **Funcionalidades:**
+    - **Detecção de Layout:** Automática via registro `I010`.
+    - **Leitura Otimizada:** Uso de Generators (`yield`) para processar arquivos grandes linha a linha.
+    - **Parsing Dinâmico:** Conversão de tipos (Numérico/Decimal/Data) baseada nos schemas JSON.
 
-3.  **Versionamento:**
-    - Repositório Git inicializado.
-    - Remoto configurado: `https://github.com/xandecosta/sped_ecd_python`
-    - Branch principal: `main` (código atualizado e sincronizado).
+3.  **Arquivos de Configuração:**
+    - `.cursorrules`, `README.md`, `.gitignore` atualizados.
 
 ## Próximos Passos
-- Implementar classe `ECDReader` em `/core` para leitura dos arquivos.
-- Utilizar `layout_9.00.json` para validar estrutura de arquivos de teste.
-- Criar testes iniciais de leitura.
+- Criar testes unitários formais em `tests/` para cobrir casos de borda (arquivo inexistente, schema ausente, tipos inválidos).
+- Implementar validação de estrutura (comparar campos obrigatórios).
+- Começar a estruturar o banco de dados ou saída (CSV/Pandas) para os dados processados.
