@@ -136,3 +136,7 @@ dmypy.json
 # editors
 .vscode/
 .idea/
+
+# Dados do projeto (Ignorar arquivos reais da empresa)
+data/input/
+data/output/

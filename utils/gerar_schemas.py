@@ -6,7 +6,7 @@ import logging
 # Configuração de Logs
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
-INPUT_FILE = r"data_raw/campos_por_registros.csv"
+INPUT_FILE = r"data/reference/campos_por_registros.csv"
 OUTPUT_DIR = r"schemas"
 
 
@@ -33,7 +33,7 @@ def gerar_schemas():
         df = df.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
 
         # 3. Tratamento de Tipos
-        # Converte Decimal para int, tratando vazios e hífens como 0
+        # Converte Decimal para int, tratando vazios e hifens como 0
         df["Decimal"] = (
             df["Decimal"].replace({"-": "0", "": "0"}).fillna("0").astype(int)
         )
