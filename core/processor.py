@@ -44,12 +44,20 @@ class ECDProcessor:
                 .copy()
             )
 
-            # Normalização: Remove o prefixo do registro (ex: 'I150_DT_INI' -> 'DT_INI')
+            # 1. Remove a coluna 'REG' global redundante para evitar colisão no rename
+            if "REG" in df_reg.columns:
+                df_reg = df_reg.drop(columns=["REG"])
+
+            # 2. Normalização: Remove o prefixo do registro (ex: 'I150_DT_INI' -> 'DT_INI')
             prefixo = f"{reg}_"
             df_reg.columns = [
-                c.replace(prefixo, "") if c.startswith(prefixo) else c
+                str(c).replace(prefixo, "") if str(c).startswith(prefixo) else c
                 for c in df_reg.columns
             ]
+
+            # 3. Fallback de segurança: Garante que não existem colunas duplicadas
+            # (Útil se houver campos no schema com nomes idênticos após remoção de prefixo)
+            df_reg = df_reg.loc[:, ~df_reg.columns.duplicated()].copy()
 
             self.blocos[f"dfECD_{reg}"] = df_reg
 
@@ -208,15 +216,16 @@ class ECDProcessor:
                 if nivel == 1:
                     continue
                 # Agrega os analíticos para o nível superior
+                # Nota: Usamos lambda x: sum(x) para garantir compatibilidade com Decimal
                 agregados = (
                     tabela_balancete[tabela_balancete["NIVEL"] == nivel]
                     .groupby("COD_CTA_SUP")
                     .agg(
                         {
-                            "VL_SLD_INI_SIG": sum,
-                            "VL_DEB": sum,
-                            "VL_CRED": sum,
-                            "VL_SLD_FIN_SIG": sum,
+                            "VL_SLD_INI_SIG": lambda x: sum(x),
+                            "VL_DEB": lambda x: sum(x),
+                            "VL_CRED": lambda x: sum(x),
+                            "VL_SLD_FIN_SIG": lambda x: sum(x),
                         }
                     )
                     .reset_index()

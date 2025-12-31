@@ -6,7 +6,7 @@ from core.processor import ECDProcessor
 from utils.exporter import ECDExporter
 
 # Configuração de Logs para acompanhar o progresso no terminal
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+logging.basicConfig(level=logging.ERROR, format="%(levelname)s: %(message)s")
 
 
 def executar_pipeline_ecd():
@@ -51,11 +51,11 @@ def executar_pipeline_ecd():
 
     tabelas_para_exportar = {
         "01_Plano_Contas": df_plano,
-        "02_Lancamentos_Diario": df_lancamentos,
-        "03_Saldos_Mensais_Analiticos": df_saldos,
-        "04_Balancete_Consolidado": df_balancete,
-        "05_Balanço_Patrimonial_J100": demos["BP"],
-        "06_DRE_J150": demos["DRE"],
+        "02_Lancamentos_Contabeis": df_lancamentos,
+        "03_Saldos_Mensais": df_saldos,
+        "04_Balancetes_Mensais": df_balancete,
+        "05_BP": demos["BP"],
+        "06_DRE": demos["DRE"],
     }
 
     exporter.exportar_lote(tabelas_para_exportar, nome_projeto)

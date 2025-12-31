@@ -53,10 +53,15 @@ class ECDExporter:
 
             # 2. Exportação para EXCEL (Para conferência humana)
             # Sugestão: exportar para Excel apenas tabelas de resumo ou se solicitado
-            if any(
-                term in nome_tabela
-                for term in ["Balancete", "PlanoContas", "BP", "DRE"]
-            ):
+            # Defina quais desses nomes devem gerar um arquivo Excel
+            termos_excel = [
+                "Plano_Contas",
+                "Balancetes_Mensais",
+                "BP",
+                "DRE",
+                "Lancamentos_Contabeis",
+            ]
+            if any(term in nome_tabela for term in termos_excel):
                 caminho_xlsx = os.path.join(self.path_saida, f"{nome_tabela}.xlsx")
                 # Usamos o motor 'openpyxl' para suportar formatação
                 df.to_excel(caminho_xlsx, index=False, engine="openpyxl")
