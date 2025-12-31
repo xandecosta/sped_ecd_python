@@ -2,26 +2,20 @@
 
 ## Estado Atual
 - **Data:** 30/12/2025
-- **Fase:** Implementação do Core
-- **Status:** Parser Core (`ECDReader`) implementado e validado.
+- **Fase:** Implementação do Core (ETL)
+- **Status:** Parser Core 2.0 funcional e validado.
 
 ## O Que Foi Feito
-1.  **Estrutura de Pastas:**
-    - `/core`: `reader_ecd.py` implementado (classe `ECDReader`).
-    - `/schemas`: Definições JSON geradas.
-    - `/tests`: Testes unitários (pendente).
-    - `/utils`: `gerar_schemas.py` funcional.
-    - `/venv`: Configurado.
+1.  **Parser Core 2.0 (`ECDReader`):**
+    - **Hierarquia:** Processamento de registros baseado em Nível (Pai/Filho).
+    - **Chaves:** Geração automática de PK (`DT_FIN` + `LINHA`) e FK (`FK_PAI`).
+    - **Tipagem:** Conversão automática de Decimais (`100,00` -> `100.0`) e Datas (`DDMMYYYY` -> `date`).
+    - **Período:** Captura dinâmica da data final do arquivo (Reg 0000) para compor a PK.
 
-2.  **Funcionalidades:**
-    - **Detecção de Layout:** Automática via registro `I010`.
-    - **Leitura Otimizada:** Uso de Generators (`yield`) para processar arquivos grandes linha a linha.
-    - **Parsing Dinâmico:** Conversão de tipos (Numérico/Decimal/Data) baseada nos schemas JSON.
-
-3.  **Arquivos de Configuração:**
-    - `.cursorrules`, `README.md`, `.gitignore` atualizados.
+2.  **Metadados:**
+    - Schemas JSON contendo hierarquia completa.
 
 ## Próximos Passos
-- Criar testes unitários formais em `tests/` para cobrir casos de borda (arquivo inexistente, schema ausente, tipos inválidos).
-- Implementar validação de estrutura (comparar campos obrigatórios).
-- Começar a estruturar o banco de dados ou saída (CSV/Pandas) para os dados processados.
+- Refinar testes unitários para cobrir casos de borda (ex: datas inválidas, quebra de hierarquia).
+- Criar script de exportação (Ex: `to_pandas` ou `to_sql`) para materializar os dados processados.
+- Avaliar performance com arquivos maiores.
