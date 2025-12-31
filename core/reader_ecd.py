@@ -3,6 +3,7 @@ import logging
 import os
 import glob
 from datetime import datetime, date
+from decimal import Decimal, InvalidOperation
 from typing import Generator, Dict, Any, Optional
 
 # Configuração de Logs
@@ -15,9 +16,9 @@ class ECDReader:
         self.layout_versao: Optional[str] = None
         self.schema: Optional[Dict[str, Any]] = None
         self.periodo_ecd: Optional[str] = None  # YYYYMMDD do registro 0000
-        # Assume que schemas está no diretório pai de core/
-        self.schemas_dir = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "schemas"
+        # Path dinâmico robusto (Pythonic)
+        self.schemas_dir = os.path.normpath(
+            os.path.join(os.path.dirname(__file__), "..", "schemas")
         )
 
     def _detectar_layout(self) -> None:
@@ -64,33 +65,45 @@ class ECDReader:
     def _converter_valor(
         self, valor: str, tipo: str, decimal: int, nome_campo: str
     ) -> Any:
-        """Converte o valor string para o tipo apropriado."""
-        if not valor:
+        """Converte o valor string para o tipo apropriado com regras de prioridade."""
+        if valor is None:
             return None
 
-        if tipo == "N":
+        # O valor vem do split, então pode ser string vazia.
+        if valor == "":
+            return None
+
+        # --- Prioridade 1: Datas ---
+        # Verifica se é campo de data pelo nome
+        if "DT_" in nome_campo or "DATA" in nome_campo:
+            # Sanitização: Remove caracteres não numéricos se houver
+            # Garante que tenha 8 digitos com zeros a esquerda (ex: 1012020 -> 01012020)
+            valor_data = valor.zfill(8)
+
+            if len(valor_data) == 8 and valor_data.isdigit():
+                try:
+                    return datetime.strptime(valor_data, "%d%m%Y").date()
+                except ValueError:
+                    logging.warning(f"Data inválida no campo {nome_campo}: {valor}")
+                    return valor  # Retorna string original se falhar parser
+            else:
+                return valor
+
+        # --- Prioridade 2: Numéricos Reais (Precisão com Decimal) ---
+        if tipo == "N" and decimal > 0:
             try:
-                # Substitui vírgula por ponto para conversão
+                # Substitui vírgula por ponto para o Decimal
                 valor_fmt = valor.replace(",", ".")
-                if decimal > 0:
-                    return float(valor_fmt)
-                else:
-                    return int(float(valor_fmt))
-            except ValueError:
+                return Decimal(valor_fmt)
+            except (InvalidOperation, ValueError):
                 logging.warning(
-                    f"Erro de conversão Numérica no campo {nome_campo}: '{valor}'"
+                    f"Erro de conversão Decimal no campo {nome_campo}: '{valor}'"
                 )
                 return None
 
-        # Tentativa de detecção de data pelo nome do campo
-        if "DT_" in nome_campo or "DATA" in nome_campo:
-            # Formato esperado: DDMMYYYY
-            if len(valor) == 8 and valor.isdigit():
-                try:
-                    return datetime.strptime(valor, "%d%m%Y").date()
-                except ValueError:
-                    # Pode não ser uma data válida, retorna string
-                    pass
+        # --- Prioridade 3: Numéricos Inteiros ou Identificadores (Decimal == 0) ---
+        # Se for tipo 'N' mas sem decimais (ex: código, CNPJ),
+        # mantemos como STRING para preservar zeros à esquerda (ex: '0015').
 
         return valor
 
@@ -118,12 +131,11 @@ class ECDReader:
 
                 registro = partes[1]
 
-                # Ignorar Bloco C (conforme especificação original)
+                # Ignorar Bloco C
                 if registro.startswith("C"):
                     continue
 
                 if registro not in self.schema:
-                    # logging.debug(f"Linha {numero_linha}: Registro {registro} não mapeado.")
                     continue
 
                 # Obter definição do schema
@@ -131,12 +143,32 @@ class ECDReader:
                 nivel = def_registro.get("nivel", 0)
                 campos_layout = def_registro.get("campos", [])
 
+                # Validação de robustez: Número de pipes esperado
+                # O arquivo SPED começa com | e termina com |
+                # Ex: |0000|LECD|...| gera ['', '0000', 'LECD', ..., '']
+                # len(partes) deve ser len(campos_layout) + 2 (pelo pipe inicial e o registro)
+                # Mais 1 se houver o pipe final (comum no SPED).
+                esperado_base = len(campos_layout) + 2
+                if len(partes) < esperado_base:
+                    logging.warning(
+                        f"Linha {numero_linha} ({registro}): Menos campos que o esperado. "
+                        f"Esperado >= {esperado_base}, Obtido {len(partes)}"
+                    )
+                elif len(partes) > esperado_base + 1:
+                    logging.warning(
+                        f"Linha {numero_linha} ({registro}): Mais campos que o esperado "
+                        f"(possível pipe extra). Obtido {len(partes)}"
+                    )
+
                 dados_registro = {"REG": registro, "LINHA_ORIGEM": numero_linha}
 
                 # --- Extração de Campos ---
                 for i, def_campo in enumerate(campos_layout):
-                    idx_valor = i + 1  # offset do pipe inicial
-                    valor_bruto = partes[idx_valor] if idx_valor < len(partes) else ""
+                    # Indexação corrigida:
+                    # partes[0]='', partes[1]=REG, partes[2]=Primeiro Campo...
+                    # Como o layout inclui o campo REG, campos_layout[0] mapeia para partes[1].
+                    idx_real = i + 1
+                    valor_bruto = partes[idx_real] if idx_real < len(partes) else ""
 
                     valor_final = self._converter_valor(
                         valor_bruto,
@@ -149,38 +181,29 @@ class ECDReader:
                 # --- Captura de Período (Registro 0000) ---
                 if registro == "0000":
                     dt_fin = dados_registro.get("0000_DT_FIN")
+
+                    # Garantir que temos uma string YYYYMMDD para a PK
                     if isinstance(dt_fin, date):
                         self.periodo_ecd = dt_fin.strftime("%Y%m%d")
-                    elif isinstance(
-                        dt_fin, (int, float)
-                    ):  # Fallback se conversão falhar ou for numérico estranho
-                        self.periodo_ecd = str(dt_fin)
-                    else:
-                        # Tenta pegar bruto se a conversão de data falhou mas tem 8 digitos
-                        if partes[4] and len(partes[4]) == 8:
-                            # 0000_DT_FIN é o 4º campo (indice 4 no array partes [0, REG, LECD, DT_INI, DT_FIN])
-                            # Ops, partes[0]='', [1]='0000', [2]=LECD, [3]=DT_INI, [4]=DT_FIN
-                            # Confirmando schema:
-                            # 1: REG, 2: LECD, 3: DT_INI, 4: DT_FIN
-                            # Então partes[4] é o valor.
-                            # Correção: partes[4] seria DT_INI se seguir a ordem, vamos confiar no dicionário
-                            pass
-
-                    if not self.periodo_ecd:
-                        logging.warning(
-                            "Não foi possível detectar DT_FIN no registro 0000. PKs podem ficar inconsistentes."
+                    elif isinstance(dt_fin, str):
+                        # Caso a conversão falhe mas tenhamos a string bruta
+                        if len(dt_fin) == 8 and dt_fin.isdigit():
+                            self.periodo_ecd = f"{dt_fin[4:]}{dt_fin[2:4]}{dt_fin[:2]}"
+                        else:
+                            self.periodo_ecd = dt_fin
+                    elif dt_fin is None:
+                        # Fallback crítico: sem data fim no registro 0000
+                        logging.critical(
+                            "Registro 0000 sem DT_FIN. Usando '00000000' como período."
                         )
-                        self.periodo_ecd = "UNKNOWN"
+                        self.periodo_ecd = "00000000"
 
                 # --- Geração de PK ---
-                # PK = {PERIODO}_{LINHA:08d}
-                # Se periodo for unknown, usa apenas linha
                 pk_prefix = self.periodo_ecd if self.periodo_ecd else "00000000"
                 pk_atual = f"{pk_prefix}_{numero_linha:08d}"
                 dados_registro["PK"] = pk_atual
 
                 # --- Geração de FK (Pai) ---
-                # A FK é a PK do último registro de nível imediatamente superior (nivel - 1)
                 if nivel > 0:
                     fk_pai = contexto_pais.get(nivel - 1)
                     dados_registro["FK_PAI"] = fk_pai
@@ -190,40 +213,26 @@ class ECDReader:
                 # Atualizar o contexto de pais para o nível atual
                 contexto_pais[nivel] = pk_atual
 
-                # Limpar níveis inferiores do contexto (opcional, mas bom pra evitar lixo)
-                # Se estou no nível 2, tudo que era nível 3+ do passado não é mais meu filho direto
-                # Mas como é um dicionário e sobrescrevemos, não é estritamente necessário se a lógica for nivel-1
-
                 yield dados_registro
 
 
 if __name__ == "__main__":
-    # Bloco de Teste
+    # Exemplo simples de uso do reader
+    import glob
+
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     input_dir = os.path.join(base_dir, "data", "input")
+    arquivos = glob.glob(os.path.join(input_dir, "*.txt"))
 
-    arquivos_txt = glob.glob(os.path.join(input_dir, "*.txt"))
-
-    if arquivos_txt:
-        arquivo_teste = arquivos_txt[-1]
-        print(f"--- TESTANDO ECDReader v2.0 com: {os.path.basename(arquivo_teste)} ---")
-
-        try:
-            reader = ECDReader(arquivo_teste)
-            gerador = reader.processar_arquivo()
-
-            print("\n[Primeiros 10 Registros Processados]")
-            for i, reg in enumerate(gerador):
-                print(
-                    f"#{i + 1} [Nível: {reader.schema[reg['REG']].get('nivel')}] PK: {reg.get('PK')} | Pai: {reg.get('FK_PAI')} | {reg.get('REG')}"
-                )
-                # Imprimir alguns campos chaves para conferência
-                # print(reg)
-                if i >= 15:  # Aumentei um pouco para pegar filhos
-                    break
-            print("\nTeste concluído.")
-
-        except Exception as e:
-            logging.error(f"FALHA NO TESTE: {e}", exc_info=True)
+    if arquivos:
+        arquivo = arquivos[0]
+        print(f"--- Demonstração ECDReader: {os.path.basename(arquivo)} ---")
+        reader = ECDReader(arquivo)
+        for i, registro in enumerate(reader.processar_arquivo()):
+            print(
+                f"Linha {registro['LINHA_ORIGEM']}: {registro['REG']} | PK: {registro['PK']}"
+            )
+            if i >= 4:
+                break
     else:
-        print(f"Nenhum arquivo .txt encontrado em: {input_dir}")
+        print("Nenhum arquivo de entrada encontrado em data/input/")
