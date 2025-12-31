@@ -2,19 +2,17 @@
 
 ## Estado Atual
 - **Data:** 31/12/2025
-- **Fase:** Qualidade e Infraestrutura (Testes)
-- **Status:** Suíte de testes 100% robusta e independente de dados reais. Core validado.
+- **Fase:** Exportação e Processamento
+- **Status:** Processador validado com lógica de Balancetes e Demonstrações Financeiras (BP/DRE).
 
 ## O Que Foi Feito
-1.  **Refinamento de Testes Unitários:**
-    - **Mocks Dinâmicos:** Uso de `tmp_path` do pytest para gerar arquivos ECD sob demanda na memória. O projeto não depende mais de arquivos externos para rodar os testes.
-    - **Testes de Exceção:** Verificação de tratamento de erros para arquivos inexistentes.
-    - **Validação de Ciclo de Vida:** Confirmação de que o `periodo_ecd` é capturado corretamente no registro `0000`.
-    - **Limpeza de Código:** Remoção de variáveis não utilizadas e avisos de lint no arquivo de testes.
-
-2.  **Ajustes no Core (v2.2.1):**
-    - **Correção de Indexação:** Ajustado o offset para `i+1` para alinhar corretamente os campos do layout (incluindo o `REG`).
+1.  **Refinamento de Testes Unitários:** Suíte 100% independente com mocks.
+2.  **ECDProcessor (v1.1):**
+    - **Integração Hierárquica:** Inclusão dos métodos `gerar_balancetes` e `processar_demonstracoes`.
+    - **Propagação Bottom-Up:** Motor de cálculo que soma saldos de contas analíticas para sintéticas, garantindo integridade nos balancetes mensais.
+    - **Precisão:** Uso mandatório de `Decimal` em todos os cálculos financeiros.
+    - **Documentação:** Comentários técnicos detalhados adicionados para manutenção futura.
 
 ## Próximos Passos
-- Implementar o módulo de **Exportação** (`core/exporter.py`) para consolidar DataFrames.
-- Integração de blocos e salvamento em Parquet.
+- Implementar salvamento em **Parquet** (eficiência) e **CSV** (portabilidade).
+- Criar interface de linha de comando (CLI) para processamento em lote.
