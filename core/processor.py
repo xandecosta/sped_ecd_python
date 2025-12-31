@@ -57,7 +57,9 @@ class ECDProcessor:
 
             # 3. Fallback de segurança: Garante que não existem colunas duplicadas
             # (Útil se houver campos no schema com nomes idênticos após remoção de prefixo)
-            df_reg = df_reg.loc[:, ~df_reg.columns.duplicated()].copy()
+            # Usamos pd.Series para evitar alertas de tipagem do linter no Index
+            df_cols = pd.Series(df_reg.columns)
+            df_reg = df_reg.loc[:, ~df_cols.duplicated().values].copy()
 
             self.blocos[f"dfECD_{reg}"] = df_reg
 

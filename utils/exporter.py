@@ -16,15 +16,13 @@ class ECDExporter:
             path_saida: Caminho base onde os ficheiros serão salvos.
         """
         self.path_saida = path_saida
-        self.pasta_parquet = os.path.join(path_saida, "arquivos_PARQUET")
         self._preparar_pastas()
 
     def _preparar_pastas(self) -> None:
         """Cria a estrutura de pastas necessária."""
-        for pasta in [self.path_saida, self.pasta_parquet]:
-            if not os.path.exists(pasta):
-                os.makedirs(pasta)
-                logging.info(f"Pasta criada: {pasta}")
+        if not os.path.exists(self.path_saida):
+            os.makedirs(self.path_saida)
+            logging.info(f"Pasta criada: {self.path_saida}")
 
     def exportar_lote(
         self, dicionario_dfs: Dict[str, pd.DataFrame], nome_base: str
@@ -47,7 +45,7 @@ class ECDExporter:
 
             # 1. Exportação para PARQUET (Substituto do .rds)
             # Ideal para bases pesadas como Lançamentos e Saldos
-            caminho_parquet = os.path.join(self.pasta_parquet, f"{nome_tabela}.parquet")
+            caminho_parquet = os.path.join(self.path_saida, f"{nome_tabela}.parquet")
             df.to_parquet(caminho_parquet, index=False, engine="pyarrow")
             log_gerados.append(f"PARQUET: {os.path.basename(caminho_parquet)}")
 
