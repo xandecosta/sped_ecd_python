@@ -2,23 +2,20 @@
 
 ## Estado Atual
 - **Data:** 02/01/2026
-- **Versão:** 1.3 (Continuidade Histórica e Refinamento de UX)
-- **Status:** Pipeline robusto com suporte a Forward Roll (continuidade de saldos) e priorização de relatórios financeiros na exportação.
+- **Versão:** 1.5 (Estabilização e Padronização PT-BR)
+- **Status:** Motor core estabilizado. A tentativa de integração com o Plano Referencial RFB (v1.4 - Experimental) foi documentada e engavetada para priorizar a performance do motor analítico analítico de auditoria.
 
 ## O Que Foi Feito
 > Para o histórico detalhado de todas as versões, consulte o [CHANGELOG.md](./CHANGELOG.md).
 
-1.  **Sincronização de Saldos (Forward Roll):**
-    - Implementação de lógica de continuidade histórica no `processor.py`.
-    - **Regra de Negócio:** O saldo inicial de um mês é agora forçado a ser o saldo final (já ajustado) do mês anterior. Isso resolve a quebra de sequência causada por encerramentos trimestrais ou mensais no SPED.
-2.  **Arquitetura de Exportação e UX:**
-    - **Priorização:** Relatórios de Balanço Patrimonial (BP) e DRE agora encabeçam a lista de exportação (`01_` e `02_`).
-    - **Reforço de Formato:** Garantia de exportação Excel para todos os relatórios analíticos e sintéticos essenciais.
-3.  **Integridade Contábil (Ajuste Pré-Fechamento):**
-3.  **Processamento em Lote (Batch):**
-    - Refinamento do pipeline para passar metadados do período (id_folder) durante todo o fluxo de exportação.
-4.  **Estabilidade do Motor:**
-    - Tratamento resiliente de tipos `Decimal` e nulos (`NaN`) durante o merge de ajustes de encerramento.
+1.  **Padronização PT-BR:**
+    - Refatoração completa de nomenclaturas de "ficheiro" para "arquivo".
+2.  **Pesquisa Técnica (RFB):**
+    - Foi realizado um protótipo de leitura de tabelas da Receita Federal. O código foi simplificado na v1.5 para manter o foco no plano de contas da empresa.
+3.  **Continuidade em Mudanças de Software (Registro I157):**
+    - Suporte ao Registro I157 mantido para assegurar o *Forward Roll* em casos de transferência de saldos.
+4.  **Consolidação de Dependências:**
+    - Estabilização do ambiente Python com a instalação e configuração do `pyarrow` para exportações de alta performance.
 
 ## Próximos Passos
 - Implementar interface visual ou CLI avançada para seleção de arquivos.

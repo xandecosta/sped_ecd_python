@@ -2,6 +2,17 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.5.0] - 2026-01-02
+### Alterado
+- **Estabilização do Motor Core:** Simplificação das classes `ECDReader` e `ECDProcessor`, removendo métodos experimentais de mapeamento referencial para garantir 100% de estabilidade nas análises periciais.
+- **Padronização PT-BR:** Refatoração sistemática de termos em Português de Portugal para Português do Brasil (ex: "ficheiro" -> "arquivo") no código, testes e logs.
+- **Arquitetura de Exportação:** Renomeação do log de auditoria para `Arquivos_Gerados.txt` e inclusão de dependência `pyarrow` no workflow.
+
+## [1.4.0] - 2026-01-02 (Pesquisa Técnica)
+### Nota de Desenvolvimento
+- **Mapeamento RFB (Shelved):** Durante esta fase, foi testada a integração com o Plano de Contas Referencial da Receita Federal. Devido à complexidade de manutenção das tabelas dinâmicas, a funcionalidade foi engavetada para priorizar o motor analítico direto. A v1.5.0 consolida a versão estável sem este módulo.
+- **Suporte ao Registro I157:** Implementação mantida para assegurar a continuidade histórica em transferências de planos de contas.
+
 ## [1.3.0] - 2026-01-02
 ### Adicionado
 - **Continuidade Histórica (Forward Roll):** Implementação de transporte automático de saldo final para o inicial do mês seguinte. Isso garante a integridade da série temporal mesmo em arquivos com encerramentos mensais ou trimestrais.

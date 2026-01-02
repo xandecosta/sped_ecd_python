@@ -1,4 +1,4 @@
-# SPED-ECD Parser Pro (v1.1)
+# SPED-ECD Parser Pro (v1.5.0)
 
 ## Sobre o Projeto
 Este projeto consiste em um parser robusto para arquivos do SPED Contábil (ECD), desenvolvido em Python. O objetivo é processar e validar arquivos de escrituração contábil digital seguindo padrões de desenvolvimento sênior, garantindo precisão financeira absoluta e escalabilidade.

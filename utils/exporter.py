@@ -4,16 +4,13 @@ import logging
 from datetime import datetime
 from typing import Dict
 
-# Configuração de logs
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
-
 
 class ECDExporter:
     def __init__(self, path_saida: str):
         """
         Inicializa o exportador.
         Args:
-            path_saida: Caminho base onde os ficheiros serão salvos.
+            path_saida: Caminho base onde os arquivos serão salvos.
         """
         self.path_saida = path_saida
         self._preparar_pastas()
@@ -81,12 +78,12 @@ class ECDExporter:
         self._atualizar_log(log_gerados)
         logging.info(f"Exportação do lote '{nome_base}' concluída com sucesso.")
 
-    def _atualizar_log(self, lista_ficheiros: list) -> None:
-        """Atualiza o ficheiro de log de exportação, similar ao seu RDS_Gerados.txt."""
-        caminho_log = os.path.join(self.path_saida, "Ficheiros_Gerados.txt")
+    def _atualizar_log(self, lista_arquivos: list) -> None:
+        """Atualiza o arquivo de log de exportação, similar ao seu RDS_Gerados.txt."""
+        caminho_log = os.path.join(self.path_saida, "Arquivos_Gerados.txt")
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         with open(caminho_log, "a", encoding="utf-8") as f:
             f.write(f"\n--- Exportação em {timestamp} ---\n")
-            for item in lista_ficheiros:
+            for item in lista_arquivos:
                 f.write(f"{item}\n")

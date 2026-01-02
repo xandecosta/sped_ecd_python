@@ -2,19 +2,25 @@ import os
 import glob
 import logging
 import traceback
+import warnings
 from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
 from utils.exporter import ECDExporter
 
-# Configuração de Logs
-# Usamos ERROR para o console para manter o terminal limpo
-# Mas mantemos informações críticas via print ou logging manual
+# 1. Silenciar Avisos de Bibliotecas (Pandas, etc)
+warnings.filterwarnings("ignore")
+
+# 2. Silenciar Logs de Sistema e Módulos (Apenas Erros Críticos)
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+
 logging.basicConfig(level=logging.ERROR, format="%(levelname)s: %(message)s")
+logging.getLogger("core.reader_ecd").setLevel(logging.ERROR)
 
 
 def processar_um_arquivo(caminho_arquivo: str, output_base: str):
     """
-    Executa o ciclo completo de processamento para um único arquivo.
+    Executa o ciclo completo de processamento para um único arquivo ECD.
     """
     nome_arquivo = os.path.basename(caminho_arquivo)
     nome_projeto = nome_arquivo.replace(".txt", "")
@@ -25,41 +31,46 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
         # --- PASSO 1: LEITURA ---
         reader = ECDReader(caminho_arquivo)
         registros = list(reader.processar_arquivo())
+
         if not registros:
             print(f"      [AVISO] Arquivo vazio ou sem registros válidos.")
             return
 
-        # Captura o Período (YYYYMMDD) gerado pelo reader durante o processamento do reg 0000
-        # Se não encontrado (arquivo inválido), usa o nome do projeto como fallback
+        # Captura metadados críticos do Reader para o processamento de auditoria
         id_folder = reader.periodo_ecd if reader.periodo_ecd else nome_projeto
-
-        # Define pasta de saída específica para este arquivo (Estrutura Flat)
-        pasta_saida_arquivo = os.path.join(output_base, id_folder)
+        cnpj_contribuinte = getattr(reader, "cnpj", "")
 
         # --- PASSO 2: PROCESSAMENTO ---
-        processor = ECDProcessor(registros)
+        # Instancia o processador com os metadados para injeção e mapeamento RFB
+        processor = ECDProcessor(registros, cnpj=cnpj_contribuinte)
 
-        # Gerar Bases
-        demos = processor.processar_demonstracoes()
-        df_balancete = processor.gerar_balancetes()
         df_plano = processor.processar_plano_contas()
         df_lancamentos = processor.processar_lancamentos(df_plano)
-        df_saldos = processor.processar_saldos_mensais()
+
+        # O método gerar_balancetes agora retorna um dicionário (Empresa e baseRFB)
+        dict_balancetes = processor.gerar_balancetes()
+
+        # O método processar_demonstracoes retorna um dicionário (BP e DRE)
+        dict_demos = processor.processar_demonstracoes()
 
         # --- PASSO 3: EXPORTAÇÃO ---
+        pasta_saida_arquivo = os.path.join(output_base, id_folder)
         exporter = ECDExporter(pasta_saida_arquivo)
 
+        # Consolidamos todas as tabelas seguindo a hierarquia de prioridade de auditoria
+        # Reorganizado para manter as demonstrações no topo (01 e 02)
         tabelas = {
-            "01_BP": demos["BP"],
-            "02_DRE": demos["DRE"],
-            "03_Balancetes_Mensais": df_balancete,
-            "04_Plano_Contas": df_plano,
-            "05_Lancamentos_Contabeis": df_lancamentos,
-            "06_Saldos_Mensais": df_saldos,
+            "01_BP": dict_demos.get("BP"),
+            "02_DRE": dict_demos.get("DRE"),
+            "03_Balancetes_Mensais": dict_balancetes.get("04_Balancetes_Mensais"),
+            "05_Plano_Contas": df_plano,
+            "06_Lancamentos_Contabeis": df_lancamentos,
         }
 
+        # Exporta com o prefixo da data para permitir abertura simultânea no Excel
         exporter.exportar_lote(tabelas, nome_projeto, prefixo=id_folder)
-        print(f"      [OK] Finalizado com sucesso: {pasta_saida_arquivo}")
+
+        print(f"      [OK] Finalizado com sucesso: {id_folder}")
 
     except Exception as e:
         print(f"      [ERRO] Falha ao processar {nome_arquivo}: {str(e)}")
@@ -74,20 +85,21 @@ def executar_pipeline_batch():
     input_dir = os.path.join(base_dir, "data", "input")
     output_dir = os.path.join(base_dir, "data", "output")
 
-    # 1. Localizar todos os arquivos .txt
+    if not os.path.exists(input_dir):
+        os.makedirs(input_dir)
+        print(f"Pasta de entrada criada: {input_dir}. Adicione os arquivos .txt nela.")
+        return
+
     arquivos = glob.glob(os.path.join(input_dir, "*.txt"))
 
     if not arquivos:
-        print("Nenhum arquivo .txt encontrado em data/input.")
+        print("Nenhum arquivo .txt encontrado na pasta data/input.")
         return
 
-    print(f"=== INICIANDO LOTE: {len(arquivos)} ARQUIVOS ENCONTRADOS ===")
+    print(f"Iniciando processamento de {len(arquivos)} arquivo(s)...")
 
-    # 2. Processar cada arquivo individualmente
-    for caminho in arquivos:
-        processar_um_arquivo(caminho, output_dir)
-
-    print("\n=== LOTE FINALIZADO ===")
+    for arquivo in arquivos:
+        processar_um_arquivo(arquivo, output_dir)
 
 
 if __name__ == "__main__":

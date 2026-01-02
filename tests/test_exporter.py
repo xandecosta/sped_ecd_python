@@ -15,7 +15,7 @@ def pasta_teste(tmp_path):
 
 def test_criacao_de_pastas(pasta_teste):
     """Verifica se o exportador cria a estrutura de pastas correta."""
-    exporter = ECDExporter(pasta_teste)
+    ECDExporter(pasta_teste)
     assert os.path.exists(pasta_teste)
     assert os.path.exists(os.path.join(pasta_teste, "arquivos_PARQUET"))
 
@@ -49,13 +49,13 @@ def test_exportacao_parquet_e_excel(pasta_teste):
 
 
 def test_geracao_de_log(pasta_teste):
-    """Verifica se o ficheiro de log TXT está a ser atualizado."""
+    """Verifica se o arquivo de log TXT está a ser atualizado."""
     exporter = ECDExporter(pasta_teste)
     df = pd.DataFrame({"A": [1]})
 
     exporter.exportar_lote({"Tabela_Log": df}, "Teste_Log")
 
-    caminho_log = os.path.join(pasta_teste, "Ficheiros_Gerados.txt")
+    caminho_log = os.path.join(pasta_teste, "Arquivos_Gerados.txt")
     assert os.path.exists(caminho_log)
 
     with open(caminho_log, "r", encoding="utf-8") as f:

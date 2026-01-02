@@ -140,3 +140,4 @@ dmypy.json
 # Dados do projeto (Ignorar arquivos reais da empresa)
 data/input/
 data/output/
+data/temp/

@@ -6,8 +6,7 @@ from datetime import datetime, date
 from decimal import Decimal, InvalidOperation
 from typing import Generator, Dict, Any, Optional
 
-# Configuração de Logs
-logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+# Configuração de Logs (Configurado via main.py ou __main__)
 
 
 class ECDReader:
@@ -16,6 +15,7 @@ class ECDReader:
         self.layout_versao: Optional[str] = None
         self.schema: Optional[Dict[str, Any]] = None
         self.periodo_ecd: Optional[str] = None  # YYYYMMDD do registro 0000
+        self.cnpj: str = ""
         # Path dinâmico robusto (Pythonic)
         self.schemas_dir = os.path.normpath(
             os.path.join(os.path.dirname(__file__), "..", "schemas")
@@ -135,7 +135,7 @@ class ECDReader:
                 if registro.startswith("C"):
                     continue
 
-                if registro not in self.schema:
+                if not self.schema or registro not in self.schema:
                     continue
 
                 # Obter definição do schema
@@ -185,18 +185,23 @@ class ECDReader:
                     # Garantir que temos uma string YYYYMMDD para a PK
                     if isinstance(dt_fin, date):
                         self.periodo_ecd = dt_fin.strftime("%Y%m%d")
-                    elif isinstance(dt_fin, str):
-                        # Caso a conversão falhe mas tenhamos a string bruta
-                        if len(dt_fin) == 8 and dt_fin.isdigit():
-                            self.periodo_ecd = f"{dt_fin[4:]}{dt_fin[2:4]}{dt_fin[:2]}"
-                        else:
-                            self.periodo_ecd = dt_fin
-                    elif dt_fin is None:
-                        # Fallback crítico: sem data fim no registro 0000
-                        logging.critical(
-                            "Registro 0000 sem DT_FIN. Usando '00000000' como período."
-                        )
+                    elif (
+                        isinstance(dt_fin, str)
+                        and len(dt_fin) == 8
+                        and dt_fin.isdigit()
+                    ):
+                        # Converte DDMMYYYY para YYYYMMDD se necessário (o reader_ecd costuma converter para date, mas o fallback é bom)
+                        self.periodo_ecd = f"{dt_fin[4:]}{dt_fin[2:4]}{dt_fin[:2]}"
+                    else:
+                        # Fallback crítico: se não houver data válida
                         self.periodo_ecd = "00000000"
+
+                    # Captura CNPJ e Código do Plano Referencial (Tenta com e sem prefixo)
+                    self.cnpj = str(
+                        dados_registro.get("0000_CNPJ")
+                        or dados_registro.get("CNPJ")
+                        or ""
+                    )
 
                 # --- Geração de PK ---
                 pk_prefix = self.periodo_ecd if self.periodo_ecd else "00000000"
@@ -217,6 +222,8 @@ class ECDReader:
 
 
 if __name__ == "__main__":
+    # Configuração de log para execução direta do módulo
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     # Exemplo simples de uso do reader
     import glob
 
