@@ -40,22 +40,22 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
         processor = ECDProcessor(registros)
 
         # Gerar Bases
+        demos = processor.processar_demonstracoes()
+        df_balancete = processor.gerar_balancetes()
         df_plano = processor.processar_plano_contas()
         df_lancamentos = processor.processar_lancamentos(df_plano)
         df_saldos = processor.processar_saldos_mensais()
-        df_balancete = processor.gerar_balancetes()
-        demos = processor.processar_demonstracoes()
 
         # --- PASSO 3: EXPORTAÇÃO ---
         exporter = ECDExporter(pasta_saida_arquivo)
 
         tabelas = {
-            "01_Plano_Contas": df_plano,
-            "02_Lancamentos_Contabeis": df_lancamentos,
-            "03_Saldos_Mensais": df_saldos,
-            "04_Balancetes_Mensais": df_balancete,
-            "05_BP": demos["BP"],
-            "06_DRE": demos["DRE"],
+            "01_BP": demos["BP"],
+            "02_DRE": demos["DRE"],
+            "03_Balancetes_Mensais": df_balancete,
+            "04_Plano_Contas": df_plano,
+            "05_Lancamentos_Contabeis": df_lancamentos,
+            "06_Saldos_Mensais": df_saldos,
         }
 
         exporter.exportar_lote(tabelas, nome_projeto, prefixo=id_folder)

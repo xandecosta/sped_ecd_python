@@ -64,11 +64,12 @@ class ECDExporter:
             # Sugestão: exportar para Excel apenas tabelas de resumo ou se solicitado
             # Defina quais desses nomes devem gerar um arquivo Excel
             termos_excel = [
-                "Plano_Contas",
-                "Balancetes_Mensais",
                 "BP",
                 "DRE",
+                "Balancetes_Mensais",
+                "Plano_Contas",
                 "Lancamentos_Contabeis",
+                "Saldos_Mensais",
             ]
             if any(term in nome_tabela for term in termos_excel):
                 caminho_xlsx = os.path.join(

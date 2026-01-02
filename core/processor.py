@@ -251,6 +251,32 @@ class ECDProcessor:
                 )
         # ---------------------------------------------------------------------
 
+        # ---------------------------------------------------------------------
+        # NOVA INCLUSÃO: GARANTIR CONTINUIDADE HISTÓRICA (FORWARD ROLL)
+        # ---------------------------------------------------------------------
+        # Ordenamos por conta e data para garantir a sequência correta
+        df_saldos_base = df_saldos_base.sort_values(["COD_CTA", "DT_FIN"])
+
+        # Criamos uma coluna com o saldo final do mês anterior para cada conta
+        df_saldos_base["VL_SLD_FIN_ANT"] = df_saldos_base.groupby("COD_CTA")[
+            "VL_SLD_FIN_SIG"
+        ].shift(1)
+
+        # Aplicamos a regra: Se houver saldo anterior (mesma conta, mês anterior),
+        # o saldo inicial DEVE ser o final do mês passado.
+        # Isso resolve o encerramento trimestral e mensal.
+        df_saldos_base["VL_SLD_INI_SIG"] = df_saldos_base.apply(
+            lambda r: r["VL_SLD_FIN_ANT"]
+            if pd.notna(r["VL_SLD_FIN_ANT"])
+            else r["VL_SLD_INI_SIG"],
+            axis=1,
+        )
+
+        logging.info(
+            "Continuidade histórica aplicada: Saldos iniciais sincronizados com finais ajustados."
+        )
+        # ---------------------------------------------------------------------
+
         balancetes_lista = []
         for mes in df_saldos_base["DT_FIN"].unique():
             # Filtro do mês e colunas de valor

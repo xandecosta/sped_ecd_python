@@ -2,6 +2,15 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.3.0] - 2026-01-02
+### Adicionado
+- **Continuidade Histórica (Forward Roll):** Implementação de transporte automático de saldo final para o inicial do mês seguinte. Isso garante a integridade da série temporal mesmo em arquivos com encerramentos mensais ou trimestrais.
+- **Priorização de Relatórios:** Reorganização do pipeline de exportação para que as demonstrações contábeis (BP e DRE) sejam os primeiros arquivos da lista (`01_BP.xlsx`, `02_DRE.xlsx`).
+
+### Alterado
+- **Fluxo de Processamento:** Ajuste na ordem de execução do `main.py` para gerar demonstrações antes do processamento dos planos de contas e lançamentos, otimizando a disponibilidade de dados.
+- **Configuração de Exportação:** Reforço na lista de termos para exportação compulsória em Excel no `exporter.py`.
+
 ## [1.2.0] - 2026-01-01
 ### Adicionado
 - **Prefixo Temporal:** Inclusão de prefixo `YYYYMMDD_` nos arquivos exportados (Excel e Parquet). Isso resolve o bloqueio do Excel que impedia a abertura simultânea de múltiplos balancetes de diferentes períodos.
