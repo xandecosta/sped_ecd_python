@@ -7,8 +7,9 @@ Este projeto consiste em um parser robusto para arquivos do SPED Contábil (ECD)
 - **Processamento em Lote (Batch):** Processa automaticamente todos os arquivos `.txt` na pasta de entrada.
 - **Inteligência Contábil:** Baseado em schemas JSON hierárquicos, gera automaticamente chaves (PK/FK) e herança de saldos.
 - **Motor de Balancetes:** Algoritmo *Bottom-Up* que propaga saldos de contas analíticas para sintéticas em todos os níveis.
+- **Ajuste Pré-Fechamento:** Reversão inteligente de lançamentos de encerramento (tipo 'E') para análise de balancetes antes do zeramento, garantindo a integridade da equação $Inicial + Débitos - Créditos = Final$.
 - **Precisão Financeira:** Uso mandatório de `decimal.Decimal` para evitar erros de arredondamento em auditorias.
-- **Saídas Multiformato:** Exportação automática para **Parquet** (alta performance) e **Excel** (conferência humana).
+- **Saídas Multiformato:** Exportação para **Parquet** (alta performance) e **Excel** (com prefixo de data para permitir múltiplas instâncias abertas).
 
 ## Estrutura do Projeto
 - `/core`: Lógica principal (Reader, Processor).
@@ -34,7 +35,9 @@ pip install -r requirements.txt
    ```bash
    python main.py
    ```
-3. Confira os resultados na pasta `data/output`, onde cada período terá sua própria pasta contendo os arquivos Parquet e Excel.
+3. Confira os resultados na pasta `data/output`. Os arquivos serão organizados assim:
+   - Uma subpasta para cada data final (`YYYYMMDD`).
+   - Arquivos nomeados com prefixo temporal (ex: `20231231_02_Balancete.xlsx`) para facilitar a análise comparativa no Excel.
 
 ## Desenvolvimento
-Siga as regras definidas em `.cursorrules` para manter a consistência e qualidade do código.
+Siga as regras definidas em `.cursorrules` para manter a consistência e qualidade do código. O histórico de mudanças pode ser acompanhado no [CHANGELOG.md](./CHANGELOG.md).
