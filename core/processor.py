@@ -195,6 +195,62 @@ class ECDProcessor:
             lambda r: _aplicar_sinal(r["VL_SLD_FIN"], r["IND_DC_FIN"]), axis=1
         )
 
+        # ---------------------------------------------------------------------
+        # INCLUSÃO: AJUSTE PRÉ-FECHAMENTO (REVERSÃO DE ENCERRAMENTO 'E') - CORRIGIDO
+        # ---------------------------------------------------------------------
+        df_lctos = self.processar_lancamentos(df_plano)
+        if not df_lctos.empty and "IND_LCTO" in df_lctos.columns:
+            df_e = df_lctos[df_lctos["IND_LCTO"] == "E"].copy()
+            if not df_e.empty:
+                # Agrupamos Débitos, Créditos e o Sinal de encerramento por conta e data
+                # Precisamos de VL_D e VL_C para limpar as colunas de movimentação
+                ajustes = (
+                    df_e.groupby(["COD_CTA", "DT_LCTO"])
+                    .agg({"VL_SINAL": "sum", "VL_D": "sum", "VL_C": "sum"})
+                    .reset_index()
+                )
+
+                ajustes.rename(
+                    columns={
+                        "VL_SINAL": "VL_AJUSTE_E",
+                        "VL_D": "VL_D_E",
+                        "VL_C": "VL_C_E",
+                        "DT_LCTO": "DT_FIN",
+                    },
+                    inplace=True,
+                )
+
+                # Merge com a base de saldos
+                df_saldos_base = pd.merge(
+                    df_saldos_base, ajustes, on=["COD_CTA", "DT_FIN"], how="left"
+                )
+
+                # Preenchimento de nulos para garantir que contas sem lançamentos 'E' não fiquem NaN
+                cols_ajuste = ["VL_AJUSTE_E", "VL_D_E", "VL_C_E"]
+                for col in cols_ajuste:
+                    df_saldos_base[col] = df_saldos_base[col].apply(
+                        lambda x: x if isinstance(x, Decimal) else Decimal("0.00")
+                    )
+
+                # 1. Ajuste do Saldo Final: Reverte o zeramento
+                df_saldos_base["VL_SLD_FIN_SIG"] = (
+                    df_saldos_base["VL_SLD_FIN_SIG"] - df_saldos_base["VL_AJUSTE_E"]
+                )
+
+                # 2. Ajuste de Movimentação: Remove os lançamentos 'E' das colunas de Débito e Crédito
+                # Isso garante que a soma horizontal (Ini + Deb - Cred = Fin) continue válida
+                df_saldos_base["VL_DEB"] = (
+                    df_saldos_base["VL_DEB"] - df_saldos_base["VL_D_E"]
+                )
+                df_saldos_base["VL_CRED"] = (
+                    df_saldos_base["VL_CRED"] - df_saldos_base["VL_C_E"]
+                )
+
+                logging.info(
+                    "Lançamentos de encerramento 'E' removidos de VL_DEB/VL_CRED e revertidos em VL_SLD_FIN_SIG."
+                )
+        # ---------------------------------------------------------------------
+
         balancetes_lista = []
         for mes in df_saldos_base["DT_FIN"].unique():
             # Filtro do mês e colunas de valor

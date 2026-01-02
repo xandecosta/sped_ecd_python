@@ -58,7 +58,7 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
             "06_DRE": demos["DRE"],
         }
 
-        exporter.exportar_lote(tabelas, nome_projeto)
+        exporter.exportar_lote(tabelas, nome_projeto, prefixo=id_folder)
         print(f"      [OK] Finalizado com sucesso: {pasta_saida_arquivo}")
 
     except Exception as e:

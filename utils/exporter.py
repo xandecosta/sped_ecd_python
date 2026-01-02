@@ -25,11 +25,13 @@ class ECDExporter:
             logging.info(f"Pasta criada: {self.path_saida}")
 
     def exportar_lote(
-        self, dicionario_dfs: Dict[str, pd.DataFrame], nome_base: str
+        self,
+        dicionario_dfs: Dict[str, pd.DataFrame],
+        nome_base: str,
+        prefixo: str = "",  # <--- ALTERAÇÃO: Adicionado prefixo opcional
     ) -> None:
         """
         REPLICA O FLUXO R: Exporta múltiplos DataFrames para Parquet e Excel.
-
         Args:
             dicionario_dfs: Dicionário onde a chave é o nome da tabela e o valor é o DataFrame.
             nome_base: Nome do arquivo (ex: 'Dados_ECD_2023')
@@ -43,9 +45,18 @@ class ECDExporter:
                 )
                 continue
 
+            # -----------------------------------------------------------------
+            # NOVO: Lógica de Nome de Arquivo com Prefixo (Data)
+            # Isso permite abrir múltiplos arquivos no Excel simultaneamente
+            # -----------------------------------------------------------------
+            nome_final = f"{prefixo}_{nome_tabela}" if prefixo else nome_tabela
+            # -----------------------------------------------------------------
+
             # 1. Exportação para PARQUET (Substituto do .rds)
             # Ideal para bases pesadas como Lançamentos e Saldos
-            caminho_parquet = os.path.join(self.path_saida, f"{nome_tabela}.parquet")
+            caminho_parquet = os.path.join(
+                self.path_saida, f"{nome_final}.parquet"
+            )  # <--- ALTERAÇÃO: Usando nome_final
             df.to_parquet(caminho_parquet, index=False, engine="pyarrow")
             log_gerados.append(f"PARQUET: {os.path.basename(caminho_parquet)}")
 
@@ -60,8 +71,9 @@ class ECDExporter:
                 "Lancamentos_Contabeis",
             ]
             if any(term in nome_tabela for term in termos_excel):
-                caminho_xlsx = os.path.join(self.path_saida, f"{nome_tabela}.xlsx")
-                # Usamos o motor 'openpyxl' para suportar formatação
+                caminho_xlsx = os.path.join(
+                    self.path_saida, f"{nome_final}.xlsx"
+                )  # <--- ALTERAÇÃO: Usando nome_final
                 df.to_excel(caminho_xlsx, index=False, engine="openpyxl")
                 log_gerados.append(f"EXCEL:   {os.path.basename(caminho_xlsx)}")
 
