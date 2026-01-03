@@ -4,12 +4,15 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O 
 
 ## [1.6.1] - 2026-01-03
 ### Adicionado
-- **Integração I050/I051:** Plano de contas da empresa agora carrega automaticamente o `COD_CTA_REF` (mapeamento referencial) via left-join resiliente.
-- **DNA Contábil:** Inclusão do "Algoritmo de Funil" no contexto técnico para seleção automática de planos da RFB.
+- **Balancete baseRFB:** Geração automática do balancete na visão da Receita Federal com consolidação hierárquica *Bottom-Up*.
+- **Exportação RFB:** Inclusão da tabela `04_Balancete_baseRFB` nos formatos Excel e Parquet para auditoria.
+- **Detecção Híbrida:** Lógica inteligente para extrair o `COD_PLAN_REF` tanto de arquivos modernos (Registro 0000) quanto legados (Registro I051).
 
 ### Alterado
 - **Sincronização de Metadados:** Reconstrução total da biblioteca referencial CSV e do catálogo após atualização do arquivo mestre de planos.
-- **Refactoring:** Limpeza de avisos de lint e melhoria na tipagem interna do `ECDProcessor`.
+- **Pipeline de Exportação:** Ajuste no `exporter.py` para permitir exportação compulsória em Excel de balancetes referenciais.
+- **Refactoring:** Limpeza de avisos de lint e melhoria na tipagem interna do `ECDProcessor` para garantir precisão absoluta nos cálculos.
+- **Limpeza:** Remoção do script redundante `tests/test_detection.py` para evitar loops de processamento em ferramentas de diagnóstico.
 
 ## [1.6.0] - 2026-01-03
 ### Adicionado

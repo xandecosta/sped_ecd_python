@@ -2,8 +2,8 @@
 
 ## Estado Atual
 - **Data:** 03/01/2026
-- **Versão:** 1.6.1 (Integração Referencial I051 e Sincronização de Bases)
-- **Status:** Plano de contas integrado com mapeamento referencial. Bases CSV sincronizadas com novos códigos de instituição (10 e 20).
+- **Versão:** 1.6.1 (Integração Referencial I051 e Geração de Balancete RFB)
+- **Status:** Balancete baseRFB totalmente funcional. Mapeamento referencial integrado com consolidação hierárquica automática.
 
 ## O Que Foi Feito
 > Para o histórico detalhado de todas as versões, consulte o [CHANGELOG.md](./CHANGELOG.md).
@@ -41,13 +41,16 @@ O projeto segue um crescimento orgânico e estabilizado. Para manter a escalabil
 - **CLI/Interface Avançada:** Desenvolver uma interface mais robusta para seleção de arquivos e acompanhamento do progresso de processamento.
 
 ### 5. Algoritmo de Detecção do Plano Referencial (Funil de Metadados)
-O sistema utiliza um "Funil de Seleção" baseado no Registro `0000` para garantir que o plano de contas da Receita Federal (RFB) aplicado seja o correto para o período e instituição:
+O sistema utiliza um "Funil de Seleção" dinâmico para garantir que o plano de contas da Receita Federal (RFB) aplicado seja o correto, adaptando-se às mudanças de layout da ECD ao longo dos anos:
 
-1.  **Extração do DNA:** Captura `COD_PLAN_REF` (Instituição) e o Ano da `DT_FIN` (Vigência) do Registro `0000`.
-2.  **Filtragem por Instituição:** Busca a chave primária no `ref_catalog.json` correspondente ao código.
+1.  **Extração do DNA (Condicional por Versão):**
+    *   **Versões 8.00 e 9.00:** Captura o `COD_PLAN_REF` diretamente do Registro `0000`.
+    *   **Versões 1.00 a 7.00:** Localiza o **primeiro Registro `I051`** encontrado no arquivo para extrair o `COD_PLAN_REF`.
+    *   **Data de Vigência:** Captura o Ano da `DT_FIN` do Registro `0000` (comum a todas as versões).
+2.  **Filtragem por Instituição:** Busca a chave primária no `ref_catalog.json` correspondente ao código identificado.
 3.  **Filtragem por Vigência (Range):** Localiza a faixa de anos (`range: [min, max]`) que engloba o ano do arquivo.
 4.  **Seleção por Versão:** Dentro da faixa, identifica os planos disponíveis (`plans`), selecionando o `alias` desejado e priorizando a **maior versão** disponível.
-5.  **Resolução Física:** Mapeia o nome do arquivo CSV padronizado em `schemas/ref_plans/data/` para carregamento imediato via DuckDB/Pandas.
+5.  **Resolução Física:** Mapeia o nome do arquivo CSV padronizado em `schemas/ref_plans/data/` para carregamento imediato.
 
 ---
 *Este roadmap serve como bússola para futuras iterações, garantindo que o projeto evolua de uma ferramenta de processamento para uma plataforma de inteligência pericial contábil.*

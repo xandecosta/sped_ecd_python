@@ -67,6 +67,7 @@ class ECDExporter:
                 "Plano_Contas",
                 "Lancamentos_Contabeis",
                 "Saldos_Mensais",
+                "baseRFB",
             ]
             if any(term in nome_tabela for term in termos_excel):
                 caminho_xlsx = os.path.join(

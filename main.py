@@ -33,7 +33,7 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
         registros = list(reader.processar_arquivo())
 
         if not registros:
-            print(f"      [AVISO] Arquivo vazio ou sem registros válidos.")
+            print("      [AVISO] Arquivo vazio ou sem registros válidos.")
             return
 
         # Captura metadados críticos do Reader para o processamento de auditoria
@@ -42,7 +42,9 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
 
         # --- PASSO 2: PROCESSAMENTO ---
         # Instancia o processador com os metadados para injeção e mapeamento RFB
-        processor = ECDProcessor(registros, cnpj=cnpj_contribuinte)
+        processor = ECDProcessor(
+            registros, cnpj=cnpj_contribuinte, layout_versao=reader.layout_versao or ""
+        )
 
         df_plano = processor.processar_plano_contas()
         df_lancamentos = processor.processar_lancamentos(df_plano)
@@ -63,6 +65,7 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
             "01_BP": dict_demos.get("BP"),
             "02_DRE": dict_demos.get("DRE"),
             "03_Balancetes_Mensais": dict_balancetes.get("04_Balancetes_Mensais"),
+            "04_Balancete_baseRFB": dict_balancetes.get("04_Balancetes_RFB"),
             "05_Plano_Contas": df_plano,
             "06_Lancamentos_Contabeis": df_lancamentos,
         }

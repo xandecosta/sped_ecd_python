@@ -1,7 +1,9 @@
+import os
+import json
 import pandas as pd
 import logging
 
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 from decimal import Decimal
 
 # Logger local para uso interno do módulo (não configura nível globalmente)
@@ -13,13 +15,88 @@ class ECDProcessor:
     Motor de Processamento de Dados ECD (SPED-Contábil) com Auditoria Integrada.
     """
 
-    def __init__(self, registros: List[Dict[str, Any]], cnpj: str = ""):
+    def __init__(
+        self, registros: List[Dict[str, Any]], cnpj: str = "", layout_versao: str = ""
+    ):
         self.df_bruto = pd.DataFrame(registros) if registros else pd.DataFrame()
         self.cnpj = cnpj
+        self.layout_versao = layout_versao
         self.blocos: Dict[str, pd.DataFrame] = {}
+        self.cod_plan_ref: Optional[str] = None
+        self.ano_vigencia: Optional[int] = None
+
+        # Path para o catálogo de planos referenciais
+        self.catalog_path = os.path.normpath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "..",
+                "schemas",
+                "ref_plans",
+                "ref_catalog.json",
+            )
+        )
 
         if not self.df_bruto.empty:
             self._separar_blocos()
+            self._identificar_metadados_referenciais()
+
+    def _obter_caminho_referencial(
+        self, alias_preferencial: List[str]
+    ) -> Optional[str]:
+        """
+        Localiza o arquivo CSV no ref_catalog.json usando o funil de metadados.
+        Tenta os aliases na ordem fornecida (ex: ['L100_A', 'REF']).
+        """
+        if not self.cod_plan_ref or not self.ano_vigencia:
+            return None
+
+        if not os.path.exists(self.catalog_path):
+            logger.error(f"Catálogo não encontrado: {self.catalog_path}")
+            return None
+
+        try:
+            with open(self.catalog_path, "r", encoding="utf-8") as f:
+                catalog = json.load(f)
+
+            # 1. Filtro Instituição
+            inst = catalog.get(str(self.cod_plan_ref))
+            if not inst:
+                return None
+
+            # 2. Filtro Vigência (Range)
+            período_escolhido = None
+            for key, info in inst.items():
+                r_min, r_max = info.get("range", [0, 0])
+                if r_min <= self.ano_vigencia <= r_max:
+                    período_escolhido = info
+                    break
+
+            if not período_escolhido:
+                return None
+
+            # 3. Filtro Alias e Versão
+            plans = período_escolhido.get("plans", {})
+            for alias in alias_preferencial:
+                if alias in plans:
+                    # Pega a maior versão disponível para este alias
+                    versões = sorted(
+                        plans[alias].keys(), key=lambda v: int(v), reverse=True
+                    )
+                    if versões:
+                        v_top = versões[0]
+                        filename = plans[alias][v_top].get("file")
+                        if filename:
+                            return os.path.normpath(
+                                os.path.join(
+                                    os.path.dirname(self.catalog_path), "data", filename
+                                )
+                            )
+
+            return None
+
+        except Exception as e:
+            logger.error(f"Erro ao consultar catálogo: {e}")
+            return None
 
     def _separar_blocos(self) -> None:
         """Divide os registros por REG e limpa prefixos redundantes."""
@@ -42,6 +119,46 @@ class ECDProcessor:
             self.blocos[f"dfECD_{reg}"] = df_reg.loc[
                 :, ~pd.Index(df_reg.columns).duplicated()
             ].copy()
+
+    def _identificar_metadados_referenciais(self) -> None:
+        """Determina o Ano e o Código da Instituição (Funil de Metadados)."""
+        df_0000 = self.blocos.get("dfECD_0000")
+        if df_0000 is None or df_0000.empty:
+            return
+
+        # 1. Identificação do Ano (DT_FIN) - Comum a todas as versões
+        dt_fin = df_0000.iloc[0].get("DT_FIN")
+        if hasattr(dt_fin, "year"):
+            self.ano_vigencia = dt_fin.year
+        elif isinstance(dt_fin, str) and len(dt_fin) >= 8:
+            # Tenta DDMMYYYY ou YYYYMMDD
+            try:
+                self.ano_vigencia = (
+                    int(dt_fin[:4]) if int(dt_fin[:4]) > 1900 else int(dt_fin[-4:])
+                )
+            except (ValueError, IndexError):
+                pass
+
+        # 2. Identificação do COD_PLAN_REF (Condicional por Versão)
+        try:
+            versao_num = float(self.layout_versao) if self.layout_versao else 0.0
+        except ValueError:
+            versao_num = 0.0
+
+        if versao_num >= 8.0:
+            # Moderno: Está no 0000
+            self.cod_plan_ref = str(df_0000.iloc[0].get("COD_PLAN_REF", ""))
+        else:
+            # Legado: Está no primeiro I051
+            df_i051 = self.blocos.get("dfECD_I051")
+            if df_i051 is not None and not df_i051.empty:
+                self.cod_plan_ref = str(df_i051.iloc[0].get("COD_PLAN_REF", ""))
+
+        if not self.cod_plan_ref:
+            logger.warning(
+                f"COD_PLAN_REF não localizado (Versão: {self.layout_versao}). "
+                "O mapeamento RFB pode falhar."
+            )
 
     def _converter_decimal(self, valor) -> Decimal:
         """Garante precisão absoluta para cálculos financeiros."""
@@ -231,9 +348,108 @@ class ECDProcessor:
         # 5. Propagação Hierárquica (Plano da Empresa)
         balancete_empresa = self._propagar_hierarquia(df_base, df_plano)
 
+        # 6. Balancete Referencial (baseRFB)
+        balancete_rfb = self.gerar_balancete_referencial(df_base)
+
         return {
             "04_Balancetes_Mensais": balancete_empresa,
+            "04_Balancetes_RFB": balancete_rfb,
         }
+
+    def gerar_balancete_referencial(self, df_saldos: pd.DataFrame) -> pd.DataFrame:
+        """
+        Gera o balancete na visão do Plano Referencial da RFB.
+        """
+        # 1. Localiza o Plano Referencial adequado (Prioridade Balanço L100/REF)
+        caminho_csv = self._obter_caminho_referencial(
+            ["L100_A", "L100_B", "L100_C", "REF"]
+        )
+        if not caminho_csv or not os.path.exists(caminho_csv):
+            return pd.DataFrame()
+
+        try:
+            df_ref_schema = pd.read_csv(caminho_csv, sep="|", dtype=str)
+        except Exception as e:
+            logger.error(f"Erro ao carregar CSV referencial: {e}")
+            return pd.DataFrame()
+
+        # 2. Prepara os saldos analíticos da empresa mapeados para o referencial
+        df_plano = self.processar_plano_contas()
+        if "COD_CTA_REF" not in df_plano.columns:
+            return pd.DataFrame()
+
+        # Join dos saldos com o mapeamento referencial
+        cols_valores = ["VL_SLD_INI_SIG", "VL_DEB", "VL_CRED", "VL_SLD_FIN_SIG"]
+        df_mapeado = pd.merge(
+            df_saldos[cols_valores + ["COD_CTA", "DT_FIN"]],
+            df_plano[["COD_CTA", "COD_CTA_REF"]],
+            on="COD_CTA",
+            how="inner",
+        )
+
+        # Filtra apenas registros que possuem mapeamento referencial
+        df_mapeado = df_mapeado[
+            df_mapeado["COD_CTA_REF"].notna() & (df_mapeado["COD_CTA_REF"] != "")
+        ]
+
+        if df_mapeado.empty:
+            return pd.DataFrame()
+
+        # Agrupa por Conta Referencial e Data (pois várias contas da empresa podem mapear p/ uma referencial)
+        df_analitico_ref = (
+            df_mapeado.groupby(["COD_CTA_REF", "DT_FIN"])[cols_valores]
+            .sum()
+            .reset_index()
+        )
+
+        # 3. Consolidação Hierárquica no Plano Referencial
+        balancetes_rfb = []
+        for data in df_analitico_ref["DT_FIN"].unique():
+            df_mes = df_analitico_ref[df_analitico_ref["DT_FIN"] == data].copy()
+
+            # Prepara a tabela base do mês com TODAS as contas do plano referencial
+            tab = df_ref_schema.copy()
+            tab["DT_FIN"] = data
+            tab["CNPJ"] = self.cnpj
+
+            # Join com os saldos analíticos mapeados
+            tab = pd.merge(
+                tab, df_mes, left_on="CODIGO", right_on="COD_CTA_REF", how="left"
+            )
+
+            # Converte valores p/ Decimal
+            for col in cols_valores:
+                tab[col] = tab[col].apply(self._converter_decimal)
+
+            # Algoritmo Bottom-Up no Plano Referencial
+            tab["NIVEL"] = (
+                pd.to_numeric(tab["NIVEL"], errors="coerce").fillna(0).astype(int)
+            )
+            niveis = sorted(tab["NIVEL"].unique(), reverse=True)
+
+            for nivel in niveis:
+                if nivel <= 1:
+                    continue
+
+                agregados = (
+                    tab[tab["NIVEL"] == nivel]
+                    .groupby("COD_SUP")[cols_valores]
+                    .sum()
+                    .reset_index()
+                )
+
+                for _, row in agregados.iterrows():
+                    idx_pai = tab.index[tab["CODIGO"] == row["COD_SUP"]]
+                    if not idx_pai.empty:
+                        tab.loc[idx_pai, cols_valores] += row[cols_valores]
+
+            balancetes_rfb.append(tab)
+
+        return (
+            pd.concat(balancetes_rfb, ignore_index=True)
+            if balancetes_rfb
+            else pd.DataFrame()
+        )
 
     def _propagar_hierarquia(self, df_saldos, df_plano) -> pd.DataFrame:
         """Algoritmo Bottom-Up para consolidação de níveis sintéticos."""
