@@ -1,7 +1,7 @@
 import pandas as pd
 import logging
 
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any
 from decimal import Decimal
 
 # Logger local para uso interno do módulo (não configura nível globalmente)
@@ -49,17 +49,42 @@ class ECDProcessor:
             return Decimal("0.00")
         try:
             return Decimal(str(valor))
-        except:
+        except Exception:
             return Decimal("0.00")
 
     def processar_plano_contas(self) -> pd.DataFrame:
-        """Processa o Plano de Contas da Empresa (I050)."""
-        df = self.blocos.get("dfECD_I050")
-        if df is None:
+        """Processa o Plano de Contas da Empresa (I050) integrado com o Referencial (I051)."""
+        df_i050 = self.blocos.get("dfECD_I050")
+        df_i051 = self.blocos.get("dfECD_I051")
+
+        if df_i050 is None:
             return pd.DataFrame()
 
-        colunas = ["COD_NAT", "IND_CTA", "NIVEL", "COD_CTA", "COD_CTA_SUP", "CTA"]
-        df_res = df[[c for c in colunas if c in df.columns]].copy()
+        # Seleciona colunas básicas do I050
+        cols_i050 = [
+            "PK",
+            "COD_NAT",
+            "IND_CTA",
+            "NIVEL",
+            "COD_CTA",
+            "COD_CTA_SUP",
+            "CTA",
+        ]
+        df_res = df_i050[[c for c in cols_i050 if c in df_i050.columns]].copy()
+
+        # Integração com I051 (Mapeamento Referencial)
+        if df_i051 is not None and not df_i051.empty:
+            # Pegamos a FK_PAI (que liga ao PK do I050) e o Código Referencial
+            df_ref = df_i051[["FK_PAI", "COD_CTA_REF"]].copy()
+
+            # Left join para garantir que não perdemos contas sintéticas do I050
+            df_res = pd.merge(
+                df_res, df_ref, left_on="PK", right_on="FK_PAI", how="left"
+            )
+            df_res.drop(columns=["FK_PAI"], inplace=True, errors="ignore")
+        else:
+            df_res["COD_CTA_REF"] = None
+
         df_res["CNPJ"] = self.cnpj
 
         if "CTA" in df_res.columns:

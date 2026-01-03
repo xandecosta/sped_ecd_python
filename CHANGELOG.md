@@ -2,6 +2,15 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.6.1] - 2026-01-03
+### Adicionado
+- **Integração I050/I051:** Plano de contas da empresa agora carrega automaticamente o `COD_CTA_REF` (mapeamento referencial) via left-join resiliente.
+- **DNA Contábil:** Inclusão do "Algoritmo de Funil" no contexto técnico para seleção automática de planos da RFB.
+
+### Alterado
+- **Sincronização de Metadados:** Reconstrução total da biblioteca referencial CSV e do catálogo após atualização do arquivo mestre de planos.
+- **Refactoring:** Limpeza de avisos de lint e melhoria na tipagem interna do `ECDProcessor`.
+
 ## [1.6.0] - 2026-01-03
 ### Adicionado
 - **Suporte Nativo a CSV:** Planos referenciais agora são armazenados em CSV (UTF-8, delimitador pipe) para maior performance e facilidade de conferência.
