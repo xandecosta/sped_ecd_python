@@ -1,0 +1,26 @@
+{
+    "nome": "Plano Referencial Padrão",
+    "colunas": [
+        "CODIGO",
+        "DESCRICAO",
+        "DT_INI",
+        "DT_FIM",
+        "TIPO",
+        "COD_SUP",
+        "NIVEL",
+        "NATUREZA",
+        "UTILIZACAO"
+    ],
+    "separador": "|",
+    "encoding": "utf-8",
+    "required": [
+        "CODIGO",
+        "DESCRICAO",
+        "DT_INI",
+        "TIPO",
+        "COD_SUP",
+        "NIVEL",
+        "NATUREZA",
+        "UTILIZACAO"
+    ]
+}

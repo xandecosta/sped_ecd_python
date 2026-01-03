@@ -18,7 +18,7 @@ class ECDReader:
         self.cnpj: str = ""
         # Path dinâmico robusto (Pythonic)
         self.schemas_dir = os.path.normpath(
-            os.path.join(os.path.dirname(__file__), "..", "schemas")
+            os.path.join(os.path.dirname(__file__), "..", "schemas", "ecd_layouts")
         )
 
     def _detectar_layout(self) -> None:

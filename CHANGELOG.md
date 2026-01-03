@@ -2,6 +2,19 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.6.0] - 2026-01-03
+### Adicionado
+- **Suporte Nativo a CSV:** Planos referenciais agora são armazenados em CSV (UTF-8, delimitador pipe) para maior performance e facilidade de conferência.
+- **Estrutura de Schemas Categorizada:** Criação da subpasta `ecd_layouts` e `ref_plans` para separar definições da ECD de dados da RFB.
+
+### Alterado
+- **Padronização de Dados:** Correção do alinhamento de colunas em todos os planos referenciais (garantindo 9 colunas fixas).
+- **Refatoração Semântica:** Renomeação dos scripts utilitários em `utils/` para nomes descritivos: `ref_plan_standardizer.py`, `ref_plan_discovery.py` e `ecd_layout_compiler.py`.
+- **Motor Core:** Atualização do `ECDReader` para carregar definições da nova estrutura de pastas.
+
+### Removido
+- **Redundância:** Supressão do arquivo `ref_index.json` e do script `compile_ref_index.py`.
+
 ## [1.5.0] - 2026-01-02
 ### Alterado
 - **Estabilização do Motor Core:** Simplificação das classes `ECDReader` e `ECDProcessor`, removendo métodos experimentais de mapeamento referencial para garantir 100% de estabilidade nas análises periciais.

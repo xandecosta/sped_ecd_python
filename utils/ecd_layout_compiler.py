@@ -8,17 +8,17 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
 
 INPUT_CAMPOS = r"data/reference/campos_por_registros.csv"
 INPUT_REGISTROS = r"data/reference/registros_por_leiaute.csv"
-OUTPUT_DIR = r"schemas"
+OUTPUT_DIR = r"schemas/ecd_layouts"
 
 
-def gerar_schemas():
+def compile_ecd_layouts():
     """
     Lê os CSVs de parâmetros e gera arquivos JSON por versão de layout,
     incluindo a hierarquia (Nível) e validando se o registro pertence ao layout.
     """
 
     if not os.path.exists(INPUT_CAMPOS) or not os.path.exists(INPUT_REGISTROS):
-        logging.error(f"Arquivos de entrada não encontrados.")
+        logging.error("Arquivos de entrada não encontrados.")
         return
 
     try:
@@ -140,4 +140,4 @@ def gerar_schemas():
 
 
 if __name__ == "__main__":
-    gerar_schemas()
+    compile_ecd_layouts()

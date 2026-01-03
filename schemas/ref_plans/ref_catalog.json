@@ -1,0 +1,2019 @@
+{
+  "1": {
+    "<2014": {
+      "range": [
+        0,
+        2013
+      ],
+      "plans": {
+        "REF": {
+          "1": {
+            "file": "SPEDCONTABIL_CONTAS_REFERENCIAIS$SPEDCONTABIL_CONTASREF$1$198.csv",
+            "tipo_demo": "Balanço Patrimonial e Demonstração de Resultados",
+            "layout": "ref_standard"
+          }
+        }
+      }
+    },
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "L100_A": {
+          "15": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_L100_A$15$386.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_L300_A$6$395.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "L100_A": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_L100_A$4$599.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_L300_A$3$602.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "L100_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_L100_A$3$728.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_L300_A$5$731.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "L100_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_L100_A$2$870.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_L300_A$2$873.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "L100_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L100_A$1$1045.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L300_A$1$1048.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_R": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L300_R$1$1035.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "L100_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L100_A$2$1189.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L300_A$2$1192.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_R": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L300_R$1$1181.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "L100_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L100_A$2$1341.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L300_A$3$1344.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_R": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L300_R$2$1333.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "L100_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_A$3$1494.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_A$4$1494.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_A": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_A$4$1497.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_A$5$1497.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_R": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_R$3$1486.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_R$4$1486.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "3": {
+    "<2014": {
+      "range": [
+        0,
+        2013
+      ],
+      "plans": {
+        "REF_BACEN": {
+          "1": {
+            "file": "SPEDCONTABIL_CONTAS_REFERENCIAIS$SPEDCONTABIL_CONTASREF_BACEN$1$199.csv",
+            "tipo_demo": "Balanço Patrimonial e Demonstração de Resultados",
+            "layout": "ref_standard"
+          }
+        }
+      }
+    },
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "L100_B": {
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_L100_B$7$387.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_L300_B$5$396.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "L100_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_L100_B$3$600.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_L300_B$7$603.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "L100_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_L100_B$3$729.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_L300_B$4$732.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "L100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_L100_B$2$871.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_L300_B$3$874.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "L100_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L100_B$1$1046.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L300_B$1$1049.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "L100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L100_B$2$1190.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L300_B$1$1193.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "L100_B": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L100_B$5$1342.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L300_B$5$1345.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "L100_B": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_B$4$1495.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_B$5$1495.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_B$7$1495.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "14": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_B$14$1495.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "25": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_B$25$1495.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_B$3$1498.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_B$5$1498.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "10": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_B$10$1498.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "16": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_B$16$1498.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "4": {
+    "<2014": {
+      "range": [
+        0,
+        2013
+      ],
+      "plans": {
+        "REF_SUSEP": {
+          "1": {
+            "file": "SPEDCONTABIL_CONTAS_REFERENCIAIS$SPEDCONTABIL_CONTASREF_SUSEP$1$200.csv",
+            "tipo_demo": "Balanço Patrimonial e Demonstração de Resultados",
+            "layout": "ref_standard"
+          }
+        }
+      }
+    },
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "L100_C": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_L100_C$4$388.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_L300_C$2$397.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "L100_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_L100_C$2$601.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_L300_C$4$616.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "L100_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_L100_C$3$730.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_L300_C$3$745.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "L100_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_L100_C$1$872.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_L300_C$1$887.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "L100_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L100_C$1$1047.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_L300_C$1$1062.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "L100_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L100_C$1$1191.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_L300_C$1$1206.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "L100_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L100_C$2$1343.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_L300_C$2$1358.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "L100_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_C$3$1496.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L100_C$4$1496.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "L300_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_C$3$1511.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_L300_C$4$1511.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "9": {
+    "<2014": {
+      "range": [
+        0,
+        2013
+      ],
+      "plans": {
+        "REF_TSE": {
+          "1": {
+            "file": "SPEDCONTABIL_CONTAS_REFERENCIAIS$SPEDCONTABIL_CONTASREF_TSE$1$225.csv",
+            "tipo_demo": "Balanço Patrimonial e Demonstração de Resultados",
+            "layout": "ref_standard"
+          }
+        }
+      }
+    },
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "U100_E": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U100_E$3$394.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U150_E$3$403.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "U100_E": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U100_E$5$610.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U150_E$4$615.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "U100_E": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U100_E$3$739.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U150_E$3$744.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "U100_E": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U100_E$1$881.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U150_E$1$886.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "U100_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U100_E$2$1056.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U150_E$2$1061.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "U100_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U100_E$2$1200.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U150_E$1$1205.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "U100_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U100_E$2$1352.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U150_E$2$1357.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "U100_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_E$2$1505.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_E$5$1505.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_E$6$1505.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_E": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_E$2$1510.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_E$6$1510.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_E$7$1510.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "2": {
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "P100": {
+          "12": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_P100$12$389.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_P150$3$398.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "P100": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_P100$3$604.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_P150$2$605.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "P100": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_P100$3$733.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_P150$5$734.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "P100": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_P100$2$875.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_P150$1$876.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "P100": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_P100$1$1050.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_P150$1$1051.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_R": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_P150_R$1$1037.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "P100": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_P100$2$1194.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_P150$2$1195.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_R": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_P150_R$1$1183.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "P100": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_P100$2$1346.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_P150$2$1347.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_R": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_P150_R$2$1335.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "P100": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P100$4$1499.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P100$5$1499.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150$3$1500.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150$4$1500.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_R": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150_R$3$1488.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150_R$4$1488.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "5": {
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "U100_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U100_A$3$390.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U150_A$1$399.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "U100_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U100_A$3$606.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U150_A$2$611.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "U100_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U100_A$3$735.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U150_A$3$740.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "U100_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U100_A$1$877.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U150_A$1$882.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "U100_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U100_A$1$1052.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U150_A$1$1057.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "U100_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U100_A$1$1196.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U150_A$1$1201.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "U100_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U100_A$2$1348.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U150_A$2$1353.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "U100_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_A$3$1501.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_A$4$1501.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_A": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_A$3$1506.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_A$4$1506.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "6": {
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "U100_B": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U100_B$4$391.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U150_B$1$400.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "U100_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U100_B$3$607.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U150_B$7$612.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "U100_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U100_B$3$736.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U150_B$4$741.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "U100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U100_B$2$878.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U150_B$3$883.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "U100_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U100_B$1$1053.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U150_B$1$1058.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "U100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U100_B$2$1197.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U150_B$1$1202.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "U100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U100_B$2$1349.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U150_B$2$1354.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "U100_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_B$3$1502.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_B$6$1502.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "17": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_B$17$1502.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_B": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_B$4$1507.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "10": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_B$10$1507.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "7": {
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "U100_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U100_C$3$392.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U150_C$2$401.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "U100_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U100_C$3$608.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U150_C$5$613.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "U100_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U100_C$3$737.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U150_C$3$742.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "U100_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U100_C$1$879.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U150_C$1$884.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "U100_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U100_C$1$1054.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U150_C$1$1059.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "U100_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U100_C$1$1198.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U150_C$1$1203.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "U100_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U100_C$2$1350.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U150_C$2$1355.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "U100_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_C$3$1503.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_C$4$1503.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_C": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_C$3$1508.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_C$4$1508.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "8": {
+    "2014": {
+      "range": [
+        2014,
+        2014
+      ],
+      "plans": {
+        "U100_D": {
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U100_D$7$393.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2014$SPEDECF_DINAMICA_U150_D$3$402.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2015": {
+      "range": [
+        2015,
+        2015
+      ],
+      "plans": {
+        "U100_D": {
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U100_D$6$609.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2015$SPEDECF_DINAMICA_U150_D$3$614.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "U100_D": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U100_D$3$738.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_U150_D$3$743.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "U100_D": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U100_D$1$880.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_U150_D$1$885.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "U100_D": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U100_D$1$1055.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_U150_D$1$1060.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "U100_D": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U100_D$1$1199.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_U150_D$1$1204.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "U100_D": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U100_D$4$1351.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_U150_D$3$1356.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "U100_D": {
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_D$6$1504.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U100_D$7$1504.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "U150_D": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_D$4$1509.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_U150_D$5$1509.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  },
+  "10": {
+    "2016": {
+      "range": [
+        2016,
+        2016
+      ],
+      "plans": {
+        "P100_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_P100_B$1$846.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2016$SPEDECF_DINAMICA_P150_B$1$857.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2017": {
+      "range": [
+        2017,
+        2017
+      ],
+      "plans": {
+        "P100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_P100_B$2$977.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_B": {
+          "3": {
+            "file": "SPEDCONTABIL_DINAMICO_2017$SPEDECF_DINAMICA_P150_B$3$986.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2018": {
+      "range": [
+        2018,
+        2018
+      ],
+      "plans": {
+        "P100_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_P100_B$1$1152.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2018$SPEDECF_DINAMICA_P150_B$1$1161.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2019": {
+      "range": [
+        2019,
+        2019
+      ],
+      "plans": {
+        "P100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_P100_B$2$1296.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_B": {
+          "1": {
+            "file": "SPEDCONTABIL_DINAMICO_2019$SPEDECF_DINAMICA_P150_B$1$1305.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    "2020": {
+      "range": [
+        2020,
+        2020
+      ],
+      "plans": {
+        "P100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_P100_B$2$1448.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2020$SPEDECF_DINAMICA_P150_B$2$1457.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    },
+    ">=2021": {
+      "range": [
+        2021,
+        9999
+      ],
+      "plans": {
+        "P100_B": {
+          "2": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P100_B$2$1601.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "5": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P100_B$5$1601.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "7": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P100_B$7$1601.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          },
+          "18": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P100_B$18$1601.csv",
+            "tipo_demo": "Balanço Patrimonial",
+            "layout": "ref_dynamic"
+          }
+        },
+        "P150_B": {
+          "4": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150_B$4$1610.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "6": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150_B$6$1610.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          },
+          "12": {
+            "file": "SPEDCONTABIL_DINAMICO_2021$SPEDECF_DINAMICA_P150_B$12$1610.csv",
+            "tipo_demo": "Demonstração de Resultados",
+            "layout": "ref_dynamic"
+          }
+        }
+      }
+    }
+  }
+}
