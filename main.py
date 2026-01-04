@@ -6,6 +6,7 @@ import warnings
 from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
 from utils.exporter import ECDExporter
+from utils.consolidator import ECDConsolidator
 
 # 1. Silenciar Avisos de Bibliotecas (Pandas, etc)
 warnings.filterwarnings("ignore")
@@ -103,6 +104,10 @@ def executar_pipeline_batch():
 
     for arquivo in arquivos:
         processar_um_arquivo(arquivo, output_dir)
+
+    # --- PASSO 4: CONSOLIDAÇÃO ---
+    consolidator = ECDConsolidator(output_dir)
+    consolidator.consolidar()
 
 
 if __name__ == "__main__":

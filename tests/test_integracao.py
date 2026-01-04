@@ -32,15 +32,21 @@ def test_integracao():
     if not df_plano.empty:
         print(f"Exemplo: {df_plano.iloc[0].to_dict()}")
 
-    # 5. Validar Saldos Mensais
-    df_saldos = proc.processar_saldos_mensais()
-    print(f"Saldos Mensais (I150+I155): {len(df_saldos)} registros.")
+    # 5. Validar Balancetes (Mensal e RFB)
+    balancetes = proc.gerar_balancetes()
+    for nome, df in balancetes.items():
+        print(f"Balancete {nome}: {len(df)} registros.")
 
     # 6. Validar Lançamentos
     df_lctos = proc.processar_lancamentos(df_plano)
     print(f"Lançamentos (I200+I250): {len(df_lctos)} itens diários.")
     if not df_lctos.empty:
         print(f"Exemplo Lcto: {df_lctos.iloc[0].to_dict()}")
+
+    # 7. Validar Demonstrações (BP e DRE)
+    demos = proc.processar_demonstracoes()
+    for nome, df in demos.items():
+        print(f"Demonstração {nome}: {len(df)} registros.")
 
 
 if __name__ == "__main__":

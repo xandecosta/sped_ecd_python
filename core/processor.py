@@ -127,9 +127,10 @@ class ECDProcessor:
             return
 
         # 1. Identificação do Ano (DT_FIN) - Comum a todas as versões
-        dt_fin = df_0000.iloc[0].get("DT_FIN")
-        if hasattr(dt_fin, "year"):
-            self.ano_vigencia = dt_fin.year
+        val_0000 = df_0000.iloc[0]
+        dt_fin = val_0000.get("DT_FIN")
+        if hasattr(dt_fin, "year") and dt_fin is not None:
+            self.ano_vigencia = int(getattr(dt_fin, "year"))
         elif isinstance(dt_fin, str) and len(dt_fin) >= 8:
             # Tenta DDMMYYYY ou YYYYMMDD
             try:
@@ -160,9 +161,9 @@ class ECDProcessor:
                 "O mapeamento RFB pode falhar."
             )
 
-    def _converter_decimal(self, valor) -> Decimal:
+    def _converter_decimal(self, valor: Any) -> Decimal:
         """Garante precisão absoluta para cálculos financeiros."""
-        if pd.isna(valor) or valor == "":
+        if pd.isna(valor) or valor == "" or valor is None:
             return Decimal("0.00")
         try:
             return Decimal(str(valor))
@@ -208,7 +209,7 @@ class ECDProcessor:
             df_res["CONTA"] = (
                 df_res["COD_CTA"].astype(str)
                 + " - "
-                + df_res["CTA"].str.strip().str.upper()
+                + df_res["CTA"].astype(str).str.strip().str.upper()
             )
         return df_res
 
@@ -228,18 +229,22 @@ class ECDProcessor:
 
         df_lctos["CNPJ"] = self.cnpj
         df_lctos["VL_D"] = df_lctos.apply(
-            lambda r: self._converter_decimal(r["VL_DC"])
-            if r["IND_DC"] == "D"
+            lambda r: self._converter_decimal(r.get("VL_DC"))
+            if r.get("IND_DC") == "D"
             else Decimal("0.00"),
             axis=1,
         )
         df_lctos["VL_C"] = df_lctos.apply(
-            lambda r: self._converter_decimal(r["VL_DC"])
-            if r["IND_DC"] == "C"
+            lambda r: self._converter_decimal(r.get("VL_DC"))
+            if r.get("IND_DC") == "C"
             else Decimal("0.00"),
             axis=1,
         )
-        df_lctos["VL_SINAL"] = df_lctos.apply(lambda r: r["VL_D"] - r["VL_C"], axis=1)
+        df_lctos["VL_SINAL"] = df_lctos.apply(
+            lambda r: Decimal(str(r.get("VL_D", "0")))
+            - Decimal(str(r.get("VL_C", "0"))),
+            axis=1,
+        )
 
         if not df_plano.empty:
             df_lctos = pd.merge(
@@ -268,15 +273,15 @@ class ECDProcessor:
 
         # 2. Sinais e Tipagem
         df_base["VL_SLD_INI_SIG"] = df_base.apply(
-            lambda r: self._converter_decimal(r["VL_SLD_INI"])
-            if r["IND_DC_INI"] == "D"
-            else -self._converter_decimal(r["VL_SLD_INI"]),
+            lambda r: self._converter_decimal(r.get("VL_SLD_INI"))
+            if r.get("IND_DC_INI") == "D"
+            else -self._converter_decimal(r.get("VL_SLD_INI")),
             axis=1,
         )
         df_base["VL_SLD_FIN_SIG"] = df_base.apply(
-            lambda r: self._converter_decimal(r["VL_SLD_FIN"])
-            if r["IND_DC_FIN"] == "D"
-            else -self._converter_decimal(r["VL_SLD_FIN"]),
+            lambda r: self._converter_decimal(r.get("VL_SLD_FIN"))
+            if r.get("IND_DC_FIN") == "D"
+            else -self._converter_decimal(r.get("VL_SLD_FIN")),
             axis=1,
         )
         df_base["VL_DEB"] = df_base["VL_DEB"].apply(self._converter_decimal)
@@ -327,9 +332,9 @@ class ECDProcessor:
                 suffixes=("", "_I157"),
             )
             df_base["VL_I157_SIG"] = df_base.apply(
-                lambda r: self._converter_decimal(r["VL_SLD_INI_I157"])
-                if r["IND_DC_INI_I157"] == "D"
-                else -self._converter_decimal(r["VL_SLD_INI_I157"]),
+                lambda r: self._converter_decimal(r.get("VL_SLD_INI_I157"))
+                if r.get("IND_DC_INI_I157") == "D"
+                else -self._converter_decimal(r.get("VL_SLD_INI_I157")),
                 axis=1,
             )
             # Aplica o saldo do I157 apenas se não houver saldo anterior detectado (início da conta no novo plano)
@@ -339,9 +344,9 @@ class ECDProcessor:
             ] = df_base["VL_I157_SIG"]
 
         df_base["VL_SLD_INI_SIG"] = df_base.apply(
-            lambda r: r["VL_SLD_FIN_ANT"]
-            if pd.notna(r["VL_SLD_FIN_ANT"])
-            else r["VL_SLD_INI_SIG"],
+            lambda r: r.get("VL_SLD_FIN_ANT")
+            if pd.notna(r.get("VL_SLD_FIN_ANT"))
+            else r.get("VL_SLD_INI_SIG"),
             axis=1,
         )
 
