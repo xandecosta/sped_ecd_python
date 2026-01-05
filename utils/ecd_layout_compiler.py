@@ -2,6 +2,7 @@ import pandas as pd
 import json
 import os
 import logging
+from typing import cast, Dict, Any
 
 # Configuração de Logs
 logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
@@ -27,50 +28,70 @@ def compile_ecd_layouts():
         # Leitura dos Campos
         df_campos = pd.read_csv(INPUT_CAMPOS, sep=";", encoding="utf-8-sig", dtype=str)
         # Limpar colunas e dados
-        df_campos.columns = [c.strip() for c in df_campos.columns]
+        df_campos.columns = pd.Index([str(c).strip() for c in df_campos.columns])
         df_campos = df_campos.apply(
-            lambda x: x.str.strip() if x.dtype == "object" else x
+            lambda x: cast(pd.Series, x).str.strip() if x.dtype == "object" else x
         )
 
         # Tratamento de Tipos nos Campos
         df_campos["Decimal"] = (
-            df_campos["Decimal"].replace({"-": "0", "": "0"}).fillna("0").astype(int)
+            cast(
+                pd.Series,
+                cast(pd.Series, df_campos["Decimal"]).replace({"-": "0", "": "0"}),
+            )
+            .fillna("0")
+            .astype(int)
         )
         df_campos["Ordem"] = (
-            pd.to_numeric(df_campos["Ordem"], errors="coerce").fillna(0).astype(int)
+            cast(
+                pd.Series,
+                pd.to_numeric(cast(pd.Series, df_campos["Ordem"]), errors="coerce"),
+            )
+            .fillna(0)
+            .astype(int)
         )
         df_campos["Tamanho"] = (
-            pd.to_numeric(df_campos["Tamanho"], errors="coerce").fillna(0).astype(int)
+            cast(
+                pd.Series,
+                pd.to_numeric(cast(pd.Series, df_campos["Tamanho"]), errors="coerce"),
+            )
+            .fillna(0)
+            .astype(int)
         )
 
         # Leitura dos Registros (Hierarquia)
         df_registros = pd.read_csv(
             INPUT_REGISTROS, sep=";", encoding="utf-8-sig", dtype=str
         )
-        df_registros.columns = [c.strip() for c in df_registros.columns]
+        df_registros.columns = pd.Index([str(c).strip() for c in df_registros.columns])
         df_registros = df_registros.apply(
-            lambda x: x.str.strip() if x.dtype == "object" else x
+            lambda x: cast(pd.Series, x).str.strip() if x.dtype == "object" else x
         )
 
         # Converter Nivel para int
         df_registros["Nivel"] = (
-            pd.to_numeric(df_registros["Nivel"], errors="coerce").fillna(0).astype(int)
+            cast(
+                pd.Series,
+                pd.to_numeric(cast(pd.Series, df_registros["Nivel"]), errors="coerce"),
+            )
+            .fillna(0)
+            .astype(int)
         )
 
         # --- 2. Geração de Schemas ---
-        versoes = df_campos["Versao"].unique()
+        versoes = cast(pd.Series, df_campos["Versao"]).unique()
         logging.info(f"Versões encontradas em Campos: {versoes}")
 
         if not os.path.exists(OUTPUT_DIR):
             os.makedirs(OUTPUT_DIR)
 
         for versao in versoes:
-            if not versao:
+            if not versao or pd.isna(versao):
                 continue
 
             # Extrair número da versão para mapear com a coluna Leiaute_X do csv de registros
             # Ex: 9.00 -> 9
-            versao_num = int(float(versao))
+            versao_num = int(float(str(versao)))
             coluna_leiaute = f"Leiaute_{versao_num}"
 
             if coluna_leiaute not in df_registros.columns:
@@ -78,13 +99,14 @@ def compile_ecd_layouts():
                     f"Versão {versao} (Coluna {coluna_leiaute}) não encontrada no arquivo de registros. Pulando validação cruzada rigorosa."
                 )
                 # Fallback: assume que todos os registros da versão são válidos se a coluna não existir
-                registros_validos_map = {
-                    r: 0
-                    for r in df_campos[df_campos["Versao"] == versao]["REG"].unique()
+                # Usando .loc para garantir que o resultado da filtragem seja tratado como DataFrame
+                df_filtro_ver = df_campos.loc[df_campos["Versao"] == versao]
+                registros_validos_map: Dict[str, Any] = {
+                    str(r): 0 for r in cast(pd.Series, df_filtro_ver["REG"]).unique()
                 }
             else:
                 # Filtra apenas registros marcados com 'S' para este layout
-                df_reg_versao = df_registros[df_registros[coluna_leiaute] == "S"]
+                df_reg_versao = df_registros.loc[df_registros[coluna_leiaute] == "S"]
                 # Mapa de Registro -> Nivel
                 registros_validos_map = dict(
                     zip(df_reg_versao["Registro"], df_reg_versao["Nivel"])
@@ -94,8 +116,8 @@ def compile_ecd_layouts():
             schema_json = {}
 
             # Filtra campos desta versão
-            df_ver = df_campos[df_campos["Versao"] == versao]
-            registros_da_versao = df_ver["REG"].unique()
+            df_ver = df_campos.loc[df_campos["Versao"] == versao]
+            registros_da_versao = cast(pd.Series, df_ver["REG"]).unique()
 
             for reg in registros_da_versao:
                 # Cruzamento: Verifica se o registro é válido para este layout e pega o nível
@@ -107,7 +129,7 @@ def compile_ecd_layouts():
                 nivel = registros_validos_map[reg]
 
                 # Monta lista de campos
-                campos_df = df_ver[df_ver["REG"] == reg].sort_values("Ordem")
+                campos_df = df_ver.loc[df_ver["REG"] == reg].sort_values(by="Ordem")
                 lista_campos = []
                 for _, row in campos_df.iterrows():
                     campo = {
@@ -119,7 +141,7 @@ def compile_ecd_layouts():
                     lista_campos.append(campo)
 
                 # Nova Estrutura com 'nivel'
-                schema_json[reg] = {"nivel": int(nivel), "campos": lista_campos}
+                schema_json[str(reg)] = {"nivel": int(nivel), "campos": lista_campos}
 
             # Salvar JSON
             nome_arquivo = f"layout_{versao}.json"

@@ -1,8 +1,12 @@
+import sys
+import os
+
+# Adiciona a raiz do projeto ao sys.path para permitir importações de 'core'
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
-import os
 import glob
-import pandas as pd
 
 
 def test_integracao():
@@ -24,7 +28,9 @@ def test_integracao():
     print(f"Total de registros lidos: {len(registros)}")
 
     # 3. Processar para DataFrames
-    proc = ECDProcessor(registros)
+    proc = ECDProcessor(
+        registros, cnpj=reader.cnpj, layout_versao=reader.layout_versao or ""
+    )
 
     # 4. Validar Plano de Contas
     df_plano = proc.processar_plano_contas()

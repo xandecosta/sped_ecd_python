@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import logging
-from typing import Any
 
 
 class ECDConsolidator:

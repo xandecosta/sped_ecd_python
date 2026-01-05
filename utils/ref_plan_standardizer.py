@@ -2,9 +2,10 @@ import pandas as pd
 import json
 import os
 import io
+from typing import cast
 
 
-def parse_ano_range(ano_str):
+def parse_ano_range(ano_str: str):
     """Converte strings de ano em faixas numericas."""
     if ano_str == "<2014":
         return 0, 2013
@@ -37,12 +38,12 @@ def standardize_ref_plans():
     catalog = {}
 
     for _, row in df_meta.iterrows():
-        file_name = row["TabelaDinamica"]
-        alias = row["CodigoTabDinamica"]
+        file_name = str(row["TabelaDinamica"])
+        alias = str(row["CodigoTabDinamica"])
         versao = str(row["VersaoTabDinamica"])
         ano_str = str(row["Ano"])
         cod_plan_ref = str(row["COD_PLAN_REF"])
-        tipo_demo = row["TipoDemonstracao"]
+        tipo_demo = str(row["TipoDemonstracao"])
         estrutura = str(row["ESTRUTURA_COLUNAS"])
 
         # Define colunas baseado na estrutura
@@ -92,15 +93,19 @@ def standardize_ref_plans():
                 content = "".join(lines[1:])
 
             # Parse CSV do conteudo bruto
-            df_plan = pd.read_csv(
-                io.StringIO(content),
-                sep="|",
-                names=cols,
-                header=None,
-                dtype=str,
-                engine="python",
-                quoting=3,
-                index_col=False,
+            # cast(pd.DataFrame, ...) para garantir que o resultado seja tratado como DF
+            df_plan = cast(
+                pd.DataFrame,
+                pd.read_csv(
+                    io.StringIO(content),
+                    sep="|",
+                    names=cols,
+                    header=None,
+                    dtype=str,
+                    engine="python",
+                    quoting=3,
+                    index_col=False,
+                ),
             ).fillna("")
 
             # Salva Plano em CSV PADRONIZADO (UTF-8, com Cabecalho, Pipe)

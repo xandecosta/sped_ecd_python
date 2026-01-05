@@ -3,7 +3,7 @@ import json
 import pandas as pd
 import logging
 
-from typing import Dict, List, Any, Optional
+from typing import Dict, List, Any, Optional, cast
 from decimal import Decimal
 
 # Logger local para uso interno do módulo (não configura nível globalmente)
@@ -37,6 +37,12 @@ class ECDProcessor:
         )
 
         if not self.df_bruto.empty:
+            # Tenta descobrir a versão pelos registros se não houver sido informada
+            if not self.layout_versao and "LAYOUT_VERSAO" in self.df_bruto.columns:
+                val_ver = self.df_bruto["LAYOUT_VERSAO"].iloc[0]
+                if pd.notna(val_ver):
+                    self.layout_versao = str(val_ver)
+
             self._separar_blocos()
             self._identificar_metadados_referenciais()
 
@@ -100,7 +106,8 @@ class ECDProcessor:
 
     def _separar_blocos(self) -> None:
         """Divide os registros por REG e limpa prefixos redundantes."""
-        for reg in self.df_bruto["REG"].unique():
+        versoes_reg = cast(pd.Series, self.df_bruto["REG"]).unique()
+        for reg in versoes_reg:
             df_reg = (
                 self.df_bruto[self.df_bruto["REG"] == reg]
                 .dropna(axis=1, how="all")
@@ -110,10 +117,12 @@ class ECDProcessor:
                 df_reg = df_reg.drop(columns=["REG"])
 
             prefixo = f"{reg}_"
-            df_reg.columns = [
-                str(c).replace(prefixo, "") if str(c).startswith(prefixo) else c
-                for c in df_reg.columns
-            ]
+            df_reg.columns = pd.Index(
+                [
+                    str(c).replace(prefixo, "") if str(c).startswith(prefixo) else c
+                    for c in df_reg.columns
+                ]
+            )
 
             # Remove duplicatas de colunas que possam surgir na renomeação
             self.blocos[f"dfECD_{reg}"] = df_reg.loc[
@@ -142,7 +151,7 @@ class ECDProcessor:
 
         # 2. Identificação do COD_PLAN_REF (Condicional por Versão)
         try:
-            versao_num = float(self.layout_versao) if self.layout_versao else 0.0
+            versao_num = float(str(self.layout_versao)) if self.layout_versao else 0.0
         except ValueError:
             versao_num = 0.0
 
@@ -163,7 +172,7 @@ class ECDProcessor:
 
     def _converter_decimal(self, valor: Any) -> Decimal:
         """Garante precisão absoluta para cálculos financeiros."""
-        if pd.isna(valor) or valor == "" or valor is None:
+        if pd.isna(valor) or str(valor).strip() == "" or valor is None:
             return Decimal("0.00")
         try:
             return Decimal(str(valor))
@@ -207,11 +216,11 @@ class ECDProcessor:
 
         if "CTA" in df_res.columns:
             df_res["CONTA"] = (
-                df_res["COD_CTA"].astype(str)
+                cast(pd.Series, df_res["COD_CTA"]).astype(str)
                 + " - "
-                + df_res["CTA"].astype(str).str.strip().str.upper()
+                + cast(pd.Series, df_res["CTA"]).astype(str).str.strip().str.upper()
             )
-        return df_res
+        return cast(pd.DataFrame, df_res)
 
     def processar_lancamentos(self, df_plano: pd.DataFrame) -> pd.DataFrame:
         """Processa Lançamentos Contábeis (I200/I250)."""
@@ -284,8 +293,12 @@ class ECDProcessor:
             else -self._converter_decimal(r.get("VL_SLD_FIN")),
             axis=1,
         )
-        df_base["VL_DEB"] = df_base["VL_DEB"].apply(self._converter_decimal)
-        df_base["VL_CRED"] = df_base["VL_CRED"].apply(self._converter_decimal)
+        df_base["VL_DEB"] = cast(pd.Series, df_base["VL_DEB"]).apply(
+            self._converter_decimal
+        )
+        df_base["VL_CRED"] = cast(pd.Series, df_base["VL_CRED"]).apply(
+            self._converter_decimal
+        )
 
         # 3. Reversão de Encerramento (Indicator 'E')
         df_lctos = self.processar_lancamentos(df_plano)
@@ -310,11 +323,15 @@ class ECDProcessor:
                 df_base = pd.merge(
                     df_base, ajustes, on=["COD_CTA", "DT_FIN"], how="left"
                 ).fillna(Decimal("0.00"))
-                df_base["VL_SLD_FIN_SIG"] = (
-                    df_base["VL_SLD_FIN_SIG"] - df_base["VL_AJ_SINAL"]
+                df_base["VL_SLD_FIN_SIG"] = cast(
+                    pd.Series, df_base["VL_SLD_FIN_SIG"]
+                ) - cast(pd.Series, df_base["VL_AJ_SINAL"])
+                df_base["VL_DEB"] = cast(pd.Series, df_base["VL_DEB"]) - cast(
+                    pd.Series, df_base["VL_AJ_D"]
                 )
-                df_base["VL_DEB"] = df_base["VL_DEB"] - df_base["VL_AJ_D"]
-                df_base["VL_CRED"] = df_base["VL_CRED"] - df_base["VL_AJ_C"]
+                df_base["VL_CRED"] = cast(pd.Series, df_base["VL_CRED"]) - cast(
+                    pd.Series, df_base["VL_AJ_C"]
+                )
 
         # 4. Forward Roll (Continuidade Histórica) & I157
         df_base = df_base.sort_values(["COD_CTA", "DT_FIN"])
@@ -338,9 +355,10 @@ class ECDProcessor:
                 axis=1,
             )
             # Aplica o saldo do I157 apenas se não houver saldo anterior detectado (início da conta no novo plano)
-            mask_primeiro_mes = df_base["VL_SLD_FIN_ANT"].isna()
+            mask_primeiro_mes = cast(pd.Series, df_base["VL_SLD_FIN_ANT"]).isna()
             df_base.loc[
-                mask_primeiro_mes & df_base["VL_I157_SIG"].notna(), "VL_SLD_INI_SIG"
+                mask_primeiro_mes & cast(pd.Series, df_base["VL_I157_SIG"]).notna(),
+                "VL_SLD_INI_SIG",
             ] = df_base["VL_I157_SIG"]
 
         df_base["VL_SLD_INI_SIG"] = df_base.apply(
@@ -394,7 +412,8 @@ class ECDProcessor:
 
         # Filtra apenas registros que possuem mapeamento referencial
         df_mapeado = df_mapeado[
-            df_mapeado["COD_CTA_REF"].notna() & (df_mapeado["COD_CTA_REF"] != "")
+            cast(pd.Series, df_mapeado["COD_CTA_REF"]).notna()
+            & (cast(pd.Series, df_mapeado["COD_CTA_REF"]) != "")
         ]
 
         if df_mapeado.empty:
@@ -409,28 +428,34 @@ class ECDProcessor:
 
         # 3. Consolidação Hierárquica no Plano Referencial
         balancetes_rfb = []
-        for data in df_analitico_ref["DT_FIN"].unique():
+        versoes_data = cast(pd.Series, df_analitico_ref["DT_FIN"]).unique()
+        for data in versoes_data:
             df_mes = df_analitico_ref[df_analitico_ref["DT_FIN"] == data].copy()
 
             # Prepara a tabela base do mês com TODAS as contas do plano referencial
             tab = df_ref_schema.copy()
-            tab["DT_FIN"] = data
-            tab["CNPJ"] = self.cnpj
-
-            # Join com os saldos analíticos mapeados
             tab = pd.merge(
-                tab, df_mes, left_on="CODIGO", right_on="COD_CTA_REF", how="left"
+                tab,
+                cast(pd.DataFrame, df_mes),
+                left_on="CODIGO",
+                right_on="COD_CTA_REF",
+                how="left",
             )
 
             # Converte valores p/ Decimal
             for col in cols_valores:
-                tab[col] = tab[col].apply(self._converter_decimal)
+                tab[col] = cast(pd.Series, tab[col]).apply(self._converter_decimal)
 
             # Algoritmo Bottom-Up no Plano Referencial
             tab["NIVEL"] = (
-                pd.to_numeric(tab["NIVEL"], errors="coerce").fillna(0).astype(int)
+                cast(
+                    pd.Series,
+                    pd.to_numeric(cast(pd.Series, tab["NIVEL"]), errors="coerce"),
+                )
+                .fillna(0)
+                .astype(int)
             )
-            niveis = sorted(tab["NIVEL"].unique(), reverse=True)
+            niveis = sorted(cast(pd.Series, tab["NIVEL"]).unique(), reverse=True)
 
             for nivel in niveis:
                 if nivel <= 1:
@@ -451,25 +476,31 @@ class ECDProcessor:
             balancetes_rfb.append(tab)
 
         return (
-            pd.concat(balancetes_rfb, ignore_index=True)
+            cast(pd.DataFrame, pd.concat(balancetes_rfb, ignore_index=True))
             if balancetes_rfb
             else pd.DataFrame()
         )
 
-    def _propagar_hierarquia(self, df_saldos, df_plano) -> pd.DataFrame:
+    def _propagar_hierarquia(
+        self, df_saldos: pd.DataFrame, df_plano: pd.DataFrame
+    ) -> pd.DataFrame:
         """Algoritmo Bottom-Up para consolidação de níveis sintéticos."""
         balancetes = []
         cols_valores = ["VL_SLD_INI_SIG", "VL_DEB", "VL_CRED", "VL_SLD_FIN_SIG"]
 
-        for data in df_saldos["DT_FIN"].unique():
+        versoes_data = cast(pd.Series, df_saldos["DT_FIN"]).unique()
+        for data in versoes_data:
             df_mes = df_saldos[df_saldos["DT_FIN"] == data].copy()
             tab = pd.merge(
-                df_plano, df_mes[cols_valores + ["COD_CTA"]], on="COD_CTA", how="left"
+                df_plano,
+                cast(pd.DataFrame, df_mes)[cols_valores + ["COD_CTA"]],
+                on="COD_CTA",
+                how="left",
             )
             for col in cols_valores:
-                tab[col] = tab[col].apply(self._converter_decimal)
+                tab[col] = cast(pd.Series, tab[col]).apply(self._converter_decimal)
 
-            niveis = sorted(tab["NIVEL"].unique(), reverse=True)
+            niveis = sorted(cast(pd.Series, tab["NIVEL"]).unique(), reverse=True)
             for nivel in niveis:
                 if nivel == 1:
                     continue

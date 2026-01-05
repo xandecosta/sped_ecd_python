@@ -2,7 +2,6 @@ from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
 import os
 import glob
-import pandas as pd
 
 
 def diagnosticar():
@@ -36,15 +35,15 @@ def diagnosticar():
     df_lctos = processor.processar_lancamentos(df_plano)
     check_dupes("Lancamentos", df_lctos)
 
-    df_saldos = processor.processar_saldos_mensais()
-    check_dupes("Saldos", df_saldos)
+    # Nota: processar_saldos_mensais não existe mais como método público independente,
+    # ele foi integrado ao gerar_balancetes().
+    res_balancetes = processor.gerar_balancetes()
+    for nome, df in res_balancetes.items():
+        check_dupes(f"Balancete_{nome}", df)
 
-    df_balancete = processor.gerar_balancetes()
-    check_dupes("Balancete", df_balancete)
-
-    demos = processor.processar_demonstracoes()
-    check_dupes("BP", demos["BP"])
-    check_dupes("DRE", demos["DRE"])
+    res_demos = processor.processar_demonstracoes()
+    for nome, df in res_demos.items():
+        check_dupes(f"Demo_{nome}", df)
 
 
 if __name__ == "__main__":
