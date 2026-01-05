@@ -37,12 +37,6 @@ class ECDProcessor:
         )
 
         if not self.df_bruto.empty:
-            # Tenta descobrir a versão pelos registros se não houver sido informada
-            if not self.layout_versao and "LAYOUT_VERSAO" in self.df_bruto.columns:
-                val_ver = self.df_bruto["LAYOUT_VERSAO"].iloc[0]
-                if pd.notna(val_ver):
-                    self.layout_versao = str(val_ver)
-
             self._separar_blocos()
             self._identificar_metadados_referenciais()
 

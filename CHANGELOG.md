@@ -2,6 +2,16 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.7.0] - 2026-01-05
+### Adicionado
+- **Tipagem Estática (Pyright):** Refatoração extensiva em `core/processor.py` e utilitários para conformidade com Pyright, garantindo inferência correta de tipos via `typing.cast`.
+- **Robustez Decimal:** Função `_converter_decimal` agora trata strings vazias e espaços em branco com segurança, mantendo a precisão financeira.
+
+### Alterado
+- **Infraestrutura de Testes:** Correção de `ModuleNotFoundError` no `test_integracao.py` permitindo execução a partir de qualquer diretório.
+- **Inicialização de Testes:** Atualização da classe `ECDProcessor` nos testes para incluir metadados obrigatórios (CNPJ e Layout).
+- **Consolidação Hierárquica:** Refinamento dos loops no algoritmo *Bottom-Up* para maior estabilidade de tipos durante o processamento.
+
 ## [1.6.1] - 2026-01-03
 ### Adicionado
 - **Balancete baseRFB:** Geração automática do balancete na visão da Receita Federal com consolidação hierárquica *Bottom-Up*.

@@ -28,9 +28,7 @@ def test_integracao():
     print(f"Total de registros lidos: {len(registros)}")
 
     # 3. Processar para DataFrames
-    proc = ECDProcessor(
-        registros, cnpj=reader.cnpj, layout_versao=reader.layout_versao or ""
-    )
+    proc = ECDProcessor(registros)
 
     # 4. Validar Plano de Contas
     df_plano = proc.processar_plano_contas()
