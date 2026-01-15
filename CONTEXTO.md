@@ -1,27 +1,23 @@
 # Contexto do Projeto: SPED-ECD Parser Pro
 
 ## Estado Atual
-- **Data:** 05/01/2026
-- **Versão:** 1.7.0 (Tipagem Estática e Estabilização de Testes)
-- **Status:** Balancete baseRFB totalmente funcional. Código refatorado para conformidade com Pyright e infraestrutura de testes corrigida.
+- **Data:** 14/01/2026
+- **Versão:** 1.8.0 (Arquitetura Unificada de Planos Referenciais)
+- **Status:** Gestão de planos referenciais consolidada. Auditoria de evolução e integridade totalmente integrada ao `RefPlanManager`.
 
 ## O Que Foi Feito
 > Para o histórico detalhado de todas as versões, consulte o [CHANGELOG.md](./CHANGELOG.md).
 
-1.  **Modernização da Biblioteca Referencial:**
-    *   Migração de JSON para CSV (UTF-8, pipe-separated) para todos os planos da RFB.
-    *   Correção de alinhamento de colunas (fixo em 9 colunas) eliminando erros de deslocamento de dados.
-2.  **Arquitetura de Schemas Organizada:**
-    *   Separação física entre Leiautes da ECD (`/schemas/ecd_layouts`) e Planos Referenciais (`/schemas/ref_plans`).
-    *   Remoção de índices redundantes e consolidação no catálogo hierárquico único.
-3.  **Refatoração de Utilitários:**
-    *   Renomeação de scripts na pasta `utils` para nomes semânticos (Standardizer, Discovery, Compiler).
-    *   Atualização do `ECDReader` para suportar a nova estrutura de diretórios.
-4.  **Estabilização Forense:**
-    *   Reversão de lógica experimental no motor core para manter foco na estabilidade analítica v1.5.
-5.  **Robustez Técnica e Tipagem:**
-    *   Refatoração profunda para conformidade com **Pyright**, elevando a segurança do código contra erros de tipo em tempo de execução.
-    *   Estabilização do ambiente de testes de integração com correção de caminhos e mocks.
+1.  **Unificação de Gestão Referencial:**
+    *   Fim da fragmentação de scripts em `utils/`. O `RefPlanManager.py` agora centraliza padronização, auditoria e descoberta de layouts.
+    *   Eliminação de 3 scripts redundantes facilitando a manutenção e reduzindo débitos técnicos.
+2.  **Novo Motor de Auditoria e Integridade:**
+    *   Implementação de pipeline multitarefa que gera relatórios de evolução histórica e detecta conflitos estruturais em um único processamento.
+    *   Output de dados rigorosamente padronizado em pipe (`|`) para consumo direto pelo motor de auditoria core.
+3.  **Refatoração para Tipagem Forte:**
+    *   Adoção sistêmica de `typing.cast` no tratamento de dataframes Pandas, zerando avisos do Pyright no módulo de planos.
+4.  **Saneamento de Pastas:**
+    *   Limpeza de arquivos CSV obsoletos e automação da regeração de schemas para garantir que o catálogo (`ref_catalog.json`) esteja sempre sincronizado com as versões mais recentes das tabelas dinâmicas.
 
 
 ## Roadmap e Evolução Arquitetônica (v2.0 - Visão Forense)

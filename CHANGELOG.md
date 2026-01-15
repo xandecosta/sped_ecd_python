@@ -2,6 +2,17 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.8.0] - 2026-01-14
+### Adicionado
+- **Auditoria Consolidada:** Implementação dos métodos `audit_plans`, `_check_integrity_row` e `_generate_evolution_report` no `RefPlanManager` para realizar análise de evolução e integridade estrutural em um único passo.
+- **Relatórios de Evolução:** Geração automática de matrizes históricas (`comparativo_evolucao_plano_*.csv`) na pasta `data/analysis`.
+
+### Alterado
+- **Arquitetura de Gestão Referencial:** Consolidação total dos scripts `audit_ref_plan_consolidation.py`, `check_integrity.py` e `ref_plan_auditor.py` dentro do `RefPlanManager`.
+- **Padronização de Dados:** Enquadramento estrito de colunas (`CODIGO`, `DESCRICAO`, `TIPO`, `COD_SUP`, `NIVEL`, `NATUREZA`) e uso mandatório de separador pipe (`|`) em todos os outputs referenciais.
+- **Excelência em Tipagem:** Refatoração para 100% de conformidade com Pyright no módulo de gestão de planos, utilizando `typing.cast` e anotações rigorosas.
+- **Limpeza de Utilitários:** Remoção de arquivos obsoletos em `utils/` para simplificar a manutenção do projeto.
+
 ## [1.7.0] - 2026-01-05
 ### Adicionado
 - **Tipagem Estática (Pyright):** Refatoração extensiva em `core/processor.py` e utilitários para conformidade com Pyright, garantindo inferência correta de tipos via `typing.cast`.

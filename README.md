@@ -1,10 +1,11 @@
-# SPED-ECD Parser Pro (v1.7.0)
+# SPED-ECD Parser Pro (v1.8.0)
 
 
 ## Sobre o Projeto
 Este projeto consiste em um parser robusto para arquivos do SPED Contábil (ECD), desenvolvido em Python. O objetivo é processar e validar arquivos de escrituração contábil digital seguindo padrões de desenvolvimento sênior, garantindo precisão financeira absoluta e escalabilidade.
 
 ## Principais Funcionalidades
+- **Gestão Referencial Integrada:** Motor completo para padronização e auditoria (evolução e integridade) dos planos de contas da Receita Federal.
 - **Processamento em Lote (Batch):** Processa automaticamente todos os arquivos `.txt` na pasta de entrada.
 - **Inteligência Contábil:** Baseado em schemas JSON hierárquicos, gera automaticamente chaves (PK/FK) e herança de saldos.
 - **Motor de Balancetes:** Algoritmo *Bottom-Up* que propaga saldos de contas analíticas para sintéticas em todos os níveis.
@@ -15,8 +16,8 @@ Este projeto consiste em um parser robusto para arquivos do SPED Contábil (ECD)
 
 ## Estrutura do Projeto
 - `/core`: Lógica principal (Reader, Processor).
-- `/schemas`: Definições de layouts SPED por versão.
-- `/utils`: Exportador e ferramentas de geração de schemas.
+- `/schemas`: Definições de layouts SPED e Planos Referenciais padronizados.
+- `/utils`: Gestão referencial, exportador e ferramentas de consolidação.
 - `/tests`: Testes unitários e de integração.
 - `/data/input`: Local para colocar os arquivos ECD (.txt).
 - `/data/output`: Resultados organizados por período (YYYYMMDD).
@@ -33,8 +34,13 @@ pip install -r requirements.txt
 ```
 
 ### 2. Executando o Pipeline
-1. Coloque seus arquivos ECD `.txt` na pasta `data/input`.
-2. Execute o script principal:
+1. **Prepare os Planos Referenciais:** Antes de processar seus arquivos ECD, você deve preparar a biblioteca de planos da RFB executando o gestor:
+   ```bash
+   python utils/ref_plan_manager.py
+   ```
+   *Isso irá baixar/converter os planos, gerar o catálogo e realizar a auditoria de integridade.*
+
+2. **Processamento ECD:** Coloque seus arquivos ECD `.txt` na pasta `data/input` e execute o script principal:
    ```bash
    python main.py
    ```
