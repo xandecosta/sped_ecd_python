@@ -60,9 +60,9 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.01.02.02.02|Duplicatas a Receber - Operações com Partes Não Relacionadas - no Exterior|01012018|31122018|60|A|1.01.02.02|5|01
 1.01.02.02.03|Duplicatas a Receber - Operações com Partes Relacionadas - no País|01012018|31122018|61|A|1.01.02.02|5|01
 1.01.02.02.04|Duplicatas a Receber - Operações com Partes Relacionadas - no Exterior|01012018|31122018|62|A|1.01.02.02|5|01
-1.01.02.02.50|(-) Juros a Apropriar Decorrentes de Ajuste da Valor Presente (AVP)   Duplicatas a Receber |01012018|31122018|63|A|1.01.02.02|5|01
-1.01.02.02.52|(-) Perdas Estimadas em Créditos de Liquidação Duvidosa - Duplicatas a Receber |01012018|31122018|64|A|1.01.02.02|5|01
-1.01.02.02.55|(-) Perdas por Redução ao Valor Recuperável (Impairment) - Duplicatas a Receber |01012018|31122018|65|A|1.01.02.02|5|01
+1.01.02.02.50|(-) Juros a Apropriar Decorrentes de Ajuste da Valor Presente (AVP)   Duplicatas a Receber|01012018|31122018|63|A|1.01.02.02|5|01
+1.01.02.02.52|(-) Perdas Estimadas em Créditos de Liquidação Duvidosa - Duplicatas a Receber|01012018|31122018|64|A|1.01.02.02|5|01
+1.01.02.02.55|(-) Perdas por Redução ao Valor Recuperável (Impairment) - Duplicatas a Receber|01012018|31122018|65|A|1.01.02.02|5|01
 1.01.02.02.90|Subconta  Adoção Inicial -  Duplicatas a Receber|01012018|31122018|66|A|1.01.02.02|5|01
 1.01.02.03|TRIBUTOS A RECUPERAR|01012018|31122018|67|S|1.01.02|4|01
 1.01.02.03.01|IPI a Recuperar|01012018|31122018|68|A|1.01.02.03|5|01
@@ -104,7 +104,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.01.02.09.04|Dividendos a Receber - Circulante - No Exterior|01012018|31122018|104|A|1.01.02.09|5|01
 1.01.02.09.05|Juros Sobre o Capital Próprio a Receber  - Circulante|01012018|31122018|105|A|1.01.02.09|5|01
 1.01.02.09.06|Adiantamento para Futuro Aumento de Capital Ativo - Circulante|01012018|31122018|106|A|1.01.02.09|5|01
-1.01.02.09.07| Outros Juros a Receber - Circulante|01012018|31122018|107|A|1.01.02.09|5|01
+1.01.02.09.07|Outros Juros a Receber - Circulante|01012018|31122018|107|A|1.01.02.09|5|01
 1.01.02.09.09|Contraprestação Contingente Ativa  - Combinação de Negócios - Circulante|01012018|31122018|108|A|1.01.02.09|5|01
 1.01.02.09.10|Demais Créditos a Receber - Circulante|01012018|31122018|109|A|1.01.02.09|5|01
 1.01.02.09.11|Depósitos em Contencioso - Circulante|01012018|31122018|110|A|1.01.02.09|5|01
@@ -285,14 +285,14 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.01.15.60|CPC 47 - Ativos de Contrato - Longo Prazo|01012018|31122018|285|A|1.02.01.15|5|01
 1.02.02|INVESTIMENTOS|01012018|31122018|286|S|1.02|3|01
 1.02.02.01|PARTICIPAÇÕES PERMANENTES EM SOCIEDADES - NO PAÍS|01012018|31122018|287|S|1.02.02|4|01
-1.02.02.01.01|Participações Permanentes em Controladas - no País |01012018|31122018|288|A|1.02.02.01|5|01
-1.02.02.01.04|Participações Permanentes em Coligadas -  no País |01012018|31122018|289|A|1.02.02.01|5|01
-1.02.02.01.05|Participações Permanentes em Joint Ventures e Sociedades de Propósito Específico (SPE) - no País |01012018|31122018|290|A|1.02.02.01|5|01
+1.02.02.01.01|Participações Permanentes em Controladas - no País|01012018|31122018|288|A|1.02.02.01|5|01
+1.02.02.01.04|Participações Permanentes em Coligadas -  no País|01012018|31122018|289|A|1.02.02.01|5|01
+1.02.02.01.05|Participações Permanentes em Joint Ventures e Sociedades de Propósito Específico (SPE) - no País|01012018|31122018|290|A|1.02.02.01|5|01
 1.02.02.01.06|Participações Permanentes em Outras Sociedades do Mesmo Grupo ou Controle Comum - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no País|01012018|31122018|291|A|1.02.02.01|5|01
-1.02.02.01.07|Participações em Sociedades em Conta de Participação (SCP) - Sócio Ostensivo - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no País |01012018|31122018|292|A|1.02.02.01|5|01
-1.02.02.01.08|Participações em Sociedades em Conta de Participação (SCP) - Sócio Participante -  no País |01012018|31122018|293|A|1.02.02.01|5|01
+1.02.02.01.07|Participações em Sociedades em Conta de Participação (SCP) - Sócio Ostensivo - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no País|01012018|31122018|292|A|1.02.02.01|5|01
+1.02.02.01.08|Participações em Sociedades em Conta de Participação (SCP) - Sócio Participante -  no País|01012018|31122018|293|A|1.02.02.01|5|01
 1.02.02.01.10|Goodwill em Investimentos - no País|01012018|31122018|294|A|1.02.02.01|5|01
-1.02.02.01.11|Mais Valia em Investimentos - no País |01012018|31122018|295|A|1.02.02.01|5|01
+1.02.02.01.11|Mais Valia em Investimentos - no País|01012018|31122018|295|A|1.02.02.01|5|01
 1.02.02.01.12|(-) Menos Valia em Investimentos  - no País|01012018|31122018|296|A|1.02.02.01|5|01
 1.02.02.01.20|Ágios em Investimentos Gerados até 31/12/2009 - no País|01012018|31122018|297|A|1.02.02.01|5|01
 1.02.02.01.21|(-) Deságios em Investimentos Gerados até 31/12/2009  - no País|01012018|31122018|298|A|1.02.02.01|5|01
@@ -303,31 +303,31 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.02.01.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) de Participações Permanentes Avaliadas pelo Método de Equivalência Patrimonial - no País|01012018|31122018|303|A|1.02.02.01|5|01
 1.02.02.01.56|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) do Goodwill em Investimentos - no País|01012018|31122018|304|A|1.02.02.01|5|01
 1.02.02.01.60|Subconta - Ajuste a Valor Justo (AVJ) Reflexo - Ganho ou Perda na Investida|01012018|31122018|305|A|1.02.02.01|5|01
-1.02.02.01.65|Subconta - Ajuste a Valor Justo (AVJ) de Subscrição de Capital - Ganho ou Perda de Capital |01012018|31122018|306|A|1.02.02.01|5|01
-1.02.02.01.75|(-) Subconta - Ajuste a Valor Presente (AVP) de Participação Societária |01012018|31122018|307|A|1.02.02.01|5|01
-1.02.02.01.80|Subconta - Mais Valia da Participação Anterior - Estágios |01012018|31122018|308|A|1.02.02.01|5|01
-1.02.02.01.81|(-) Subconta - Menos Valia da Participação Anterior - Estágios |01012018|31122018|309|A|1.02.02.01|5|01
-1.02.02.01.82|Subconta - Goodwill da Participação Anterior - Estágios |01012018|31122018|310|A|1.02.02.01|5|01
-1.02.02.01.84|Subconta - Variação de Mais Valia da Participação Anterior - Estágios |01012018|31122018|311|A|1.02.02.01|5|01
-1.02.02.01.85|(-) Subconta - Variação de Menos Valia da Participação Anterior - Estágios |01012018|31122018|312|A|1.02.02.01|5|01
-1.02.02.01.86|Subconta - Variação de Goodwill da Participação Anterior - Estágios |01012018|31122018|313|A|1.02.02.01|5|01
+1.02.02.01.65|Subconta - Ajuste a Valor Justo (AVJ) de Subscrição de Capital - Ganho ou Perda de Capital|01012018|31122018|306|A|1.02.02.01|5|01
+1.02.02.01.75|(-) Subconta - Ajuste a Valor Presente (AVP) de Participação Societária|01012018|31122018|307|A|1.02.02.01|5|01
+1.02.02.01.80|Subconta - Mais Valia da Participação Anterior - Estágios|01012018|31122018|308|A|1.02.02.01|5|01
+1.02.02.01.81|(-) Subconta - Menos Valia da Participação Anterior - Estágios|01012018|31122018|309|A|1.02.02.01|5|01
+1.02.02.01.82|Subconta - Goodwill da Participação Anterior - Estágios|01012018|31122018|310|A|1.02.02.01|5|01
+1.02.02.01.84|Subconta - Variação de Mais Valia da Participação Anterior - Estágios|01012018|31122018|311|A|1.02.02.01|5|01
+1.02.02.01.85|(-) Subconta - Variação de Menos Valia da Participação Anterior - Estágios|01012018|31122018|312|A|1.02.02.01|5|01
+1.02.02.01.86|Subconta - Variação de Goodwill da Participação Anterior - Estágios|01012018|31122018|313|A|1.02.02.01|5|01
 1.02.02.02|PARTICIPAÇÕES PERMANENTES EM SOCIEDADES - NO EXTERIOR|01012018|31122018|314|S|1.02.02|4|01
-1.02.02.02.01|Participações Permanentes em Controladas -  no Exterior  |01012018|31122018|315|A|1.02.02.02|5|01
+1.02.02.02.01|Participações Permanentes em Controladas -  no Exterior|01012018|31122018|315|A|1.02.02.02|5|01
 1.02.02.02.02|Subconta - Tributação em Base Universais (TBU) - Controladas Diretas - No Exterior|01012018|31122018|316|A|1.02.02.02|5|01
 1.02.02.02.03|Subconta - Tributação em Base Universais (TBU) - Controladas Indiretas - no Exterior|01012018|31122018|317|A|1.02.02.02|5|01
-1.02.02.02.04|Participações Permanentes em Coligadas - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior |01012018|31122018|318|A|1.02.02.02|5|01
-1.02.02.02.05|Participações Permanentes em Joint Ventures - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior |01012018|31122018|319|A|1.02.02.02|5|01
-1.02.02.02.06|Participações Permamentes em Outras Sociedades do Mesmo Grupo ou Controle Comum - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior |01012018|31122018|320|A|1.02.02.02|5|01
-1.02.02.02.10|Goodwill em Investimentos -  no Exterior |01012018|31122018|321|A|1.02.02.02|5|01
-1.02.02.02.11|Mais Valia em Investimentos -  no Exterior |01012018|31122018|322|A|1.02.02.02|5|01
-1.02.02.02.12|(-) Menos Valia em Investimentos  -  no Exterior |01012018|31122018|323|A|1.02.02.02|5|01
-1.02.02.02.20|Ágios em Investimentos Gerados até 31/12/2009 - no Exterior |01012018|31122018|324|A|1.02.02.02|5|01
-1.02.02.02.21|(-) Deságios em Investimentos Gerados até 31/12/2009  - no Exterior |01012018|31122018|325|A|1.02.02.02|5|01
-1.02.02.02.40|(-) Lucros a Apropriar em Vendas com Controladas - no Exterior |01012018|31122018|326|A|1.02.02.02|5|01
-1.02.02.02.41|(-) Lucros a Apropriar em Vendas com Coligadas - no Exterior |01012018|31122018|327|A|1.02.02.02|5|01
-1.02.02.02.42|(-) Lucros a Apropriar em Vendas com Joint Ventures - no Exterior |01012018|31122018|328|A|1.02.02.02|5|01
+1.02.02.02.04|Participações Permanentes em Coligadas - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012018|31122018|318|A|1.02.02.02|5|01
+1.02.02.02.05|Participações Permanentes em Joint Ventures - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012018|31122018|319|A|1.02.02.02|5|01
+1.02.02.02.06|Participações Permamentes em Outras Sociedades do Mesmo Grupo ou Controle Comum - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012018|31122018|320|A|1.02.02.02|5|01
+1.02.02.02.10|Goodwill em Investimentos -  no Exterior|01012018|31122018|321|A|1.02.02.02|5|01
+1.02.02.02.11|Mais Valia em Investimentos -  no Exterior|01012018|31122018|322|A|1.02.02.02|5|01
+1.02.02.02.12|(-) Menos Valia em Investimentos  -  no Exterior|01012018|31122018|323|A|1.02.02.02|5|01
+1.02.02.02.20|Ágios em Investimentos Gerados até 31/12/2009 - no Exterior|01012018|31122018|324|A|1.02.02.02|5|01
+1.02.02.02.21|(-) Deságios em Investimentos Gerados até 31/12/2009  - no Exterior|01012018|31122018|325|A|1.02.02.02|5|01
+1.02.02.02.40|(-) Lucros a Apropriar em Vendas com Controladas - no Exterior|01012018|31122018|326|A|1.02.02.02|5|01
+1.02.02.02.41|(-) Lucros a Apropriar em Vendas com Coligadas - no Exterior|01012018|31122018|327|A|1.02.02.02|5|01
+1.02.02.02.42|(-) Lucros a Apropriar em Vendas com Joint Ventures - no Exterior|01012018|31122018|328|A|1.02.02.02|5|01
 1.02.02.02.43|(-) Lucros a Apropriar em Vendas com outras sociedades - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012018|31122018|329|A|1.02.02.02|5|01
-1.02.02.02.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) em Participações Permanentes Avaliadas pelo Método de Equivalência Patrimonial (MEP) -  no Exterior |01012018|31122018|330|A|1.02.02.02|5|01
+1.02.02.02.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) em Participações Permanentes Avaliadas pelo Método de Equivalência Patrimonial (MEP) -  no Exterior|01012018|31122018|330|A|1.02.02.02|5|01
 1.02.02.02.56|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) do Goodwill em Investimentos - no Exterior|01012018|31122018|331|A|1.02.02.02|5|01
 1.02.02.02.60|Subconta - Ajuste a Valor Justo (AVJ) Reflexo - Ganho ou Perda na Investida  no Exterior|01012018|31122018|332|A|1.02.02.02|5|01
 1.02.02.02.65|Subconta - Ajuste a Valor Justo (AVJ) de Subscrição de Capital - Ganho ou Perda de Capital  no Exterior|01012018|31122018|333|A|1.02.02.02|5|01
@@ -373,11 +373,11 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.03.01.09|Embarcações|01012018|31122018|373|A|1.02.03.01|5|01
 1.02.03.01.10|Aeronaves|01012018|31122018|374|A|1.02.03.01|5|01
 1.02.03.01.11|Recursos Minerais|01012018|31122018|375|A|1.02.03.01|5|01
-1.02.03.01.12|Dutos e Tubulações |01012018|31122018|376|A|1.02.03.01|5|01
-1.02.03.01.13|Linhas de Transmissão Elétrica |01012018|31122018|377|A|1.02.03.01|5|01
-1.02.03.01.14|Antenas e Torres de Transmissão |01012018|31122018|378|A|1.02.03.01|5|01
-1.02.03.01.15|Máquinas Empregadas na Atividade Rural |01012018|31122018|379|A|1.02.03.01|5|01
-1.02.03.01.16|Tratores e Demais Veículos Empregados na Atividade Rural |01012018|31122018|380|A|1.02.03.01|5|01
+1.02.03.01.12|Dutos e Tubulações|01012018|31122018|376|A|1.02.03.01|5|01
+1.02.03.01.13|Linhas de Transmissão Elétrica|01012018|31122018|377|A|1.02.03.01|5|01
+1.02.03.01.14|Antenas e Torres de Transmissão|01012018|31122018|378|A|1.02.03.01|5|01
+1.02.03.01.15|Máquinas Empregadas na Atividade Rural|01012018|31122018|379|A|1.02.03.01|5|01
+1.02.03.01.16|Tratores e Demais Veículos Empregados na Atividade Rural|01012018|31122018|380|A|1.02.03.01|5|01
 1.02.03.01.28|Outras Imobilizações por Aquisição|01012018|31122018|381|A|1.02.03.01|5|01
 1.02.03.01.30|(-) Depreciação Acumulada - Imobilizado|01012018|31122018|382|A|1.02.03.01|5|01
 1.02.03.01.31|(-) Amortização Acumulada - Imobilizado|01012018|31122018|383|A|1.02.03.01|5|01
@@ -405,8 +405,8 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.03.02.32|(-) Exaustão Acumulada - Imobilizado -Leasing Financeiro|01012018|31122018|405|A|1.02.03.02|5|01
 1.02.03.02.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) - Imobilizado - Leasing Financeiro|01012018|31122018|406|A|1.02.03.02|5|01
 1.02.03.04|ATIVO BIOLÓGICO - DE PRODUÇÃO|01012018|31122018|407|S|1.02.03|4|01
-1.02.03.04.01|Ativo Biológico de Produção - Origem Animal  Pelo Valor Justo |01012018|31122018|408|A|1.02.03.04|5|01
-1.02.03.04.02|Ativo Biológico de Produção - Origem Vegetal  Pelo Valor Justo |01012018|31122018|409|A|1.02.03.04|5|01
+1.02.03.04.01|Ativo Biológico de Produção - Origem Animal  Pelo Valor Justo|01012018|31122018|408|A|1.02.03.04|5|01
+1.02.03.04.02|Ativo Biológico de Produção - Origem Vegetal  Pelo Valor Justo|01012018|31122018|409|A|1.02.03.04|5|01
 1.02.03.04.03|Ativo Biológico de Produção - Origem Animal  Pelo Custo|01012018|31122018|410|A|1.02.03.04|5|01
 1.02.03.04.04|Ativo Biológico de Produção - Origem Vegetal -  Pelo Custo|01012018|31122018|411|A|1.02.03.04|5|01
 1.02.03.04.30|(-) Depreciação Acumulada Ativos Biológicos de Produção|01012018|31122018|412|A|1.02.03.04|5|01
@@ -567,8 +567,8 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 2.01.01.17.11|Faturamento para Entrega Futura - Circulante|01012018|31122018|567|A|2.01.01.17|5|02
 2.01.01.17.12|Juros sobre o Capital Próprio a Pagar - Circulante|01012018|31122018|568|A|2.01.01.17|5|02
 2.01.01.17.13|Dividendos a Pagar  Circulante|01012018|31122018|569|A|2.01.01.17|5|02
-2.01.01.17.15| Conta de Controle de Custo Contratado - Circulante|01012018|31122018|570|A|2.01.01.17|5|02
-2.01.01.17.16| Conta de Controle de Custo Orçado - Circulante|01012018|31122018|571|A|2.01.01.17|5|02
+2.01.01.17.15|Conta de Controle de Custo Contratado - Circulante|01012018|31122018|570|A|2.01.01.17|5|02
+2.01.01.17.16|Conta de Controle de Custo Orçado - Circulante|01012018|31122018|571|A|2.01.01.17|5|02
 2.01.01.17.25|Direitos Creditórios a Pagar - Circulante|01012018|31122018|572|A|2.01.01.17|5|02
 2.01.01.17.28|Outras Obrigações  Circulante|01012018|31122018|573|A|2.01.01.17|5|02
 2.01.01.17.50|(-)Juros a Apropriar Decorrentes de Ajuste a Valor Presente (AVP)   Outras Contas a Pagar - Circulante|01012018|31122018|574|A|2.01.01.17|5|02
@@ -597,9 +597,9 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 2.02.01.01.70|Subconta - Ajuste a Valor Justo - Empréstimos e Financiamentos - Longo Prazo|01012018|31122018|597|A|2.02.01.01|5|02
 2.02.01.01.90|Subconta  Adoção Inicial -  Empréstimos e Financiamentos - Longo Prazo|01012018|31122018|598|A|2.02.01.01|5|02
 2.02.01.02|BENEFÍCIOS A EMPREGADOS - LONGO PRAZO|01012018|31122018|599|S|2.02.01|4|02
-2.02.01.02.01|Benefícios Pós Emprego - Longo Prazo |01012018|31122018|600|A|2.02.01.02|5|02
-2.02.01.02.02|Outro Benefícios de Longo Prazo - Longo Prazo |01012018|31122018|601|A|2.02.01.02|5|02
-2.02.01.02.03|Benefícios Rescisórios - Longo Prazo |01012018|31122018|602|A|2.02.01.02|5|02
+2.02.01.02.01|Benefícios Pós Emprego - Longo Prazo|01012018|31122018|600|A|2.02.01.02|5|02
+2.02.01.02.02|Outro Benefícios de Longo Prazo - Longo Prazo|01012018|31122018|601|A|2.02.01.02|5|02
+2.02.01.02.03|Benefícios Rescisórios - Longo Prazo|01012018|31122018|602|A|2.02.01.02|5|02
 2.02.01.03|OBRIGAÇÕES FISCAIS - LONGO PRAZO|01012018|31122018|603|S|2.02.01|4|02
 2.02.01.03.01|Parcelamentos Especiais e Ordinários a Recolher - Tributos Federais - Longo Prazo|01012018|31122018|604|A|2.02.01.03|5|02
 2.02.01.03.02|Parcelamentos Especiais e Ordinários a Recolher - Tributos Estaduais e Municipais - Longo Prazo|01012018|31122018|605|A|2.02.01.03|5|02
@@ -644,8 +644,8 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 2.02.01.11.04|Mútuos - Partes Relacionadas  No Exterior - Longo Prazo|01012018|31122018|644|A|2.02.01.11|5|02
 2.02.01.11.10|Passivo Contingente Assumido em Combinação de Negócios - Longo Prazo|01012018|31122018|645|A|2.02.01.11|5|02
 2.02.01.11.13|Adiantamento para Futuro Aumento de Capital - Passivo - Longo Prazo|01012018|31122018|646|A|2.02.01.11|5|02
-2.02.01.11.15| Conta de Controle de Custo Contratado - Longo Prazo|01012018|31122018|647|A|2.02.01.11|5|02
-2.02.01.11.16| Conta de Controle de Custo Orçado - Longo Prazo|01012018|31122018|648|A|2.02.01.11|5|02
+2.02.01.11.15|Conta de Controle de Custo Contratado - Longo Prazo|01012018|31122018|647|A|2.02.01.11|5|02
+2.02.01.11.16|Conta de Controle de Custo Orçado - Longo Prazo|01012018|31122018|648|A|2.02.01.11|5|02
 2.02.01.11.22|(-) Ajuste a Valor Presente  Outras Contas a Pagar  Longo Prazo|01012018|31122018|649|A|2.02.01.11|5|02
 2.02.01.11.28|Outras Obrigações - Longo Prazo|01012018|31122018|650|A|2.02.01.11|5|02
 2.02.01.11.50|(-) Juros a Apropriar Decorrentes de Ajuste a Valor Presente (AVP) Outras Obrigações - Longo Prazo|01012018|31122018|651|A|2.02.01.11|5|02

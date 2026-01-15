@@ -60,9 +60,9 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.01.02.02.02|Duplicatas a Receber - Operações com Partes Não Relacionadas - no Exterior|01012015||58|A|1.01.02.02|5|01
 1.01.02.02.03|Duplicatas a Receber - Operações com Partes Relacionadas - no País|01012015||59|A|1.01.02.02|5|01
 1.01.02.02.04|Duplicatas a Receber - Operações com Partes Relacionadas - no Exterior|01012015||60|A|1.01.02.02|5|01
-1.01.02.02.50|(-) Juros a Apropriar Decorrentes de Ajuste da Valor Presente (AVP)   Duplicatas a Receber |01012015||61|A|1.01.02.02|5|01
-1.01.02.02.52|(-) Perdas Estimadas em Créditos de Liquidação Duvidosa - Duplicatas a Receber |01012015||62|A|1.01.02.02|5|01
-1.01.02.02.55|(-) Perdas por Redução ao Valor Recuperável (Impairment) - Duplicatas a Receber |01012015||63|A|1.01.02.02|5|01
+1.01.02.02.50|(-) Juros a Apropriar Decorrentes de Ajuste da Valor Presente (AVP)   Duplicatas a Receber|01012015||61|A|1.01.02.02|5|01
+1.01.02.02.52|(-) Perdas Estimadas em Créditos de Liquidação Duvidosa - Duplicatas a Receber|01012015||62|A|1.01.02.02|5|01
+1.01.02.02.55|(-) Perdas por Redução ao Valor Recuperável (Impairment) - Duplicatas a Receber|01012015||63|A|1.01.02.02|5|01
 1.01.02.02.90|Subconta  Adoção Inicial -  Duplicatas a Receber|01012015||64|A|1.01.02.02|5|01
 1.01.02.03|TRIBUTOS A RECUPERAR|01012015||65|S|1.01.02|4|01
 1.01.02.03.01|IPI a Recuperar|01012015||66|A|1.01.02.03|5|01
@@ -104,7 +104,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.01.02.09.04|Dividendos a Receber - Circulante - No Exterior|01012015||102|A|1.01.02.09|5|01
 1.01.02.09.05|Juros Sobre o Capital Próprio a Receber  - Circulante|01012015||103|A|1.01.02.09|5|01
 1.01.02.09.06|Adiantamento para Futuro Aumento de Capital Ativo - Circulante|01012015||104|A|1.01.02.09|5|01
-1.01.02.09.07| Outros Juros a Receber - Circulante|01012015||105|A|1.01.02.09|5|01
+1.01.02.09.07|Outros Juros a Receber - Circulante|01012015||105|A|1.01.02.09|5|01
 1.01.02.09.09|Contraprestação Contingente Ativa  - Combinação de Negócios - Circulante|01012015||106|A|1.01.02.09|5|01
 1.01.02.09.10|Demais Créditos a Receber - Circulante|01012015||107|A|1.01.02.09|5|01
 1.01.02.09.11|Depósitos em Contencioso - Circulante|01012015||107|A|1.01.02.09|5|01
@@ -283,14 +283,14 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.01.15.01|Outros Créditos - Longo Prazo|01012015||268|A|1.02.01.15|5|01
 1.02.02|INVESTIMENTOS|01012015||269|S|1.02|3|01
 1.02.02.01|PARTICIPAÇÕES PERMANENTES EM SOCIEDADES - NO PAÍS|01012015||270|S|1.02.02|4|01
-1.02.02.01.01|Participações Permanentes em Controladas - no País |01012015||271|A|1.02.02.01|5|01
-1.02.02.01.04|Participações Permanentes em Coligadas -  no País |01012015||272|A|1.02.02.01|5|01
-1.02.02.01.05|Participações Permanentes em Joint Ventures e Sociedades de Propósito Específico (SPE) - no País |01012015||273|A|1.02.02.01|5|01
+1.02.02.01.01|Participações Permanentes em Controladas - no País|01012015||271|A|1.02.02.01|5|01
+1.02.02.01.04|Participações Permanentes em Coligadas -  no País|01012015||272|A|1.02.02.01|5|01
+1.02.02.01.05|Participações Permanentes em Joint Ventures e Sociedades de Propósito Específico (SPE) - no País|01012015||273|A|1.02.02.01|5|01
 1.02.02.01.06|Participações Permanentes em Outras Sociedades do Mesmo Grupo ou Controle Comum - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no País|01012015||274|A|1.02.02.01|5|01
-1.02.02.01.07|Participações em Sociedades em Conta de Participação (SCP) - Sócio Ostensivo - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no País |01012015||275|A|1.02.02.01|5|01
-1.02.02.01.08|Participações em Sociedades em Conta de Participação (SCP) - Sócio Participante -  no País |01012015||276|A|1.02.02.01|5|01
+1.02.02.01.07|Participações em Sociedades em Conta de Participação (SCP) - Sócio Ostensivo - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no País|01012015||275|A|1.02.02.01|5|01
+1.02.02.01.08|Participações em Sociedades em Conta de Participação (SCP) - Sócio Participante -  no País|01012015||276|A|1.02.02.01|5|01
 1.02.02.01.10|Goodwill em Investimentos - no País|01012015||277|A|1.02.02.01|5|01
-1.02.02.01.11|Mais Valia em Investimentos - no País |01012015||278|A|1.02.02.01|5|01
+1.02.02.01.11|Mais Valia em Investimentos - no País|01012015||278|A|1.02.02.01|5|01
 1.02.02.01.12|(-) Menos Valia em Investimentos  - no País|01012015||279|A|1.02.02.01|5|01
 1.02.02.01.20|Ágios em Investimentos Gerados até 31/12/2009 - no País|01012015||280|A|1.02.02.01|5|01
 1.02.02.01.21|(-) Deságios em Investimentos Gerados até 31/12/2009  - no País|01012015||281|A|1.02.02.01|5|01
@@ -301,31 +301,31 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.02.01.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) de Participações Permanentes Avaliadas pelo Método de Equivalência Patrimonial - no País|01012015||286|A|1.02.02.01|5|01
 1.02.02.01.56|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) do Goodwill em Investimentos - no País|01012015||287|A|1.02.02.01|5|01
 1.02.02.01.60|Subconta - Ajuste a Valor Justo (AVJ) Reflexo - Ganho ou Perda na Investida|01012015||288|A|1.02.02.01|5|01
-1.02.02.01.65|Subconta - Ajuste a Valor Justo (AVJ) de Subscrição de Capital - Ganho ou Perda de Capital |01012015||289|A|1.02.02.01|5|01
-1.02.02.01.75|(-) Subconta - Ajuste a Valor Presente (AVP) de Participação Societária |01012015||290|A|1.02.02.01|5|01
-1.02.02.01.80|Subconta - Mais Valia da Participação Anterior - Estágios |01012015||291|A|1.02.02.01|5|01
-1.02.02.01.81|(-) Subconta - Menos Valia da Participação Anterior - Estágios |01012015||292|A|1.02.02.01|5|01
-1.02.02.01.82|Subconta - Goodwill da Participação Anterior - Estágios |01012015||293|A|1.02.02.01|5|01
-1.02.02.01.84|Subconta - Variação de Mais Valia da Participação Anterior - Estágios |01012015||294|A|1.02.02.01|5|01
-1.02.02.01.85|(-) Subconta - Variação de Menos Valia da Participação Anterior - Estágios |01012015||295|A|1.02.02.01|5|01
-1.02.02.01.86|Subconta - Variação de Goodwill da Participação Anterior - Estágios |01012015||296|A|1.02.02.01|5|01
+1.02.02.01.65|Subconta - Ajuste a Valor Justo (AVJ) de Subscrição de Capital - Ganho ou Perda de Capital|01012015||289|A|1.02.02.01|5|01
+1.02.02.01.75|(-) Subconta - Ajuste a Valor Presente (AVP) de Participação Societária|01012015||290|A|1.02.02.01|5|01
+1.02.02.01.80|Subconta - Mais Valia da Participação Anterior - Estágios|01012015||291|A|1.02.02.01|5|01
+1.02.02.01.81|(-) Subconta - Menos Valia da Participação Anterior - Estágios|01012015||292|A|1.02.02.01|5|01
+1.02.02.01.82|Subconta - Goodwill da Participação Anterior - Estágios|01012015||293|A|1.02.02.01|5|01
+1.02.02.01.84|Subconta - Variação de Mais Valia da Participação Anterior - Estágios|01012015||294|A|1.02.02.01|5|01
+1.02.02.01.85|(-) Subconta - Variação de Menos Valia da Participação Anterior - Estágios|01012015||295|A|1.02.02.01|5|01
+1.02.02.01.86|Subconta - Variação de Goodwill da Participação Anterior - Estágios|01012015||296|A|1.02.02.01|5|01
 1.02.02.02|PARTICIPAÇÕES PERMANENTES EM SOCIEDADES - NO EXTERIOR|01012015||297|S|1.02.02|4|01
-1.02.02.02.01|Participações Permanentes em Controladas -  no Exterior  |01012015||298|A|1.02.02.02|5|01
+1.02.02.02.01|Participações Permanentes em Controladas -  no Exterior|01012015||298|A|1.02.02.02|5|01
 1.02.02.02.02|Subconta - Tributação em Base Universais (TBU) - Controladas Diretas - No Exterior|01012015||299|A|1.02.02.02|5|01
 1.02.02.02.03|Subconta - Tributação em Base Universais (TBU) - Controladas Indiretas - no Exterior|01012015||300|A|1.02.02.02|5|01
-1.02.02.02.04|Participações Permanentes em Coligadas - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior |01012015||301|A|1.02.02.02|5|01
-1.02.02.02.05|Participações Permanentes em Joint Ventures - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior |01012015||302|A|1.02.02.02|5|01
-1.02.02.02.06|Participações Permamentes em Outras Sociedades do Mesmo Grupo ou Controle Comum - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior |01012015||303|A|1.02.02.02|5|01
-1.02.02.02.10|Goodwill em Investimentos -  no Exterior |01012015||304|A|1.02.02.02|5|01
-1.02.02.02.11|Mais Valia em Investimentos -  no Exterior |01012015||305|A|1.02.02.02|5|01
-1.02.02.02.12|(-) Menos Valia em Investimentos  -  no Exterior |01012015||306|A|1.02.02.02|5|01
-1.02.02.02.20|Ágios em Investimentos Gerados até 31/12/2009 - no Exterior |01012015||307|A|1.02.02.02|5|01
-1.02.02.02.21|(-) Deságios em Investimentos Gerados até 31/12/2009  - no Exterior |01012015||308|A|1.02.02.02|5|01
-1.02.02.02.40|(-) Lucros a Apropriar em Vendas com Controladas - no Exterior |01012015||309|A|1.02.02.02|5|01
-1.02.02.02.41|(-) Lucros a Apropriar em Vendas com Coligadas - no Exterior |01012015||310|A|1.02.02.02|5|01
-1.02.02.02.42|(-) Lucros a Apropriar em Vendas com Joint Ventures - no Exterior |01012015||311|A|1.02.02.02|5|01
+1.02.02.02.04|Participações Permanentes em Coligadas - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012015||301|A|1.02.02.02|5|01
+1.02.02.02.05|Participações Permanentes em Joint Ventures - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012015||302|A|1.02.02.02|5|01
+1.02.02.02.06|Participações Permamentes em Outras Sociedades do Mesmo Grupo ou Controle Comum - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012015||303|A|1.02.02.02|5|01
+1.02.02.02.10|Goodwill em Investimentos -  no Exterior|01012015||304|A|1.02.02.02|5|01
+1.02.02.02.11|Mais Valia em Investimentos -  no Exterior|01012015||305|A|1.02.02.02|5|01
+1.02.02.02.12|(-) Menos Valia em Investimentos  -  no Exterior|01012015||306|A|1.02.02.02|5|01
+1.02.02.02.20|Ágios em Investimentos Gerados até 31/12/2009 - no Exterior|01012015||307|A|1.02.02.02|5|01
+1.02.02.02.21|(-) Deságios em Investimentos Gerados até 31/12/2009  - no Exterior|01012015||308|A|1.02.02.02|5|01
+1.02.02.02.40|(-) Lucros a Apropriar em Vendas com Controladas - no Exterior|01012015||309|A|1.02.02.02|5|01
+1.02.02.02.41|(-) Lucros a Apropriar em Vendas com Coligadas - no Exterior|01012015||310|A|1.02.02.02|5|01
+1.02.02.02.42|(-) Lucros a Apropriar em Vendas com Joint Ventures - no Exterior|01012015||311|A|1.02.02.02|5|01
 1.02.02.02.43|(-) Lucros a Apropriar em Vendas com outras sociedades - Avaliadas pelo Método de Equivalência Patrimonial (MEP) - no Exterior|01012015||312|A|1.02.02.02|5|01
-1.02.02.02.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) em Participações Permanentes Avaliadas pelo Método de Equivalência Patrimonial (MEP) -  no Exterior |01012015||313|A|1.02.02.02|5|01
+1.02.02.02.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) em Participações Permanentes Avaliadas pelo Método de Equivalência Patrimonial (MEP) -  no Exterior|01012015||313|A|1.02.02.02|5|01
 1.02.02.02.56|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) do Goodwill em Investimentos - no Exterior|01012015||314|A|1.02.02.02|5|01
 1.02.02.02.60|Subconta - Ajuste a Valor Justo (AVJ) Reflexo - Ganho ou Perda na Investida  no Exterior|01012015||314|A|1.02.02.02|5|01
 1.02.02.02.65|Subconta - Ajuste a Valor Justo (AVJ) de Subscrição de Capital - Ganho ou Perda de Capital  no Exterior|01012015||314|A|1.02.02.02|5|01
@@ -371,11 +371,11 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.03.01.09|Embarcações|01012015||347|A|1.02.03.01|5|01
 1.02.03.01.10|Aeronaves|01012015||348|A|1.02.03.01|5|01
 1.02.03.01.11|Recursos Minerais|01012015||349|A|1.02.03.01|5|01
-1.02.03.01.12|Dutos e Tubulações |01012015||350|A|1.02.03.01|5|01
-1.02.03.01.13|Linhas de Transmissão Elétrica |01012015||351|A|1.02.03.01|5|01
-1.02.03.01.14|Antenas e Torres de Transmissão |01012015||352|A|1.02.03.01|5|01
-1.02.03.01.15|Máquinas Empregadas na Atividade Rural |01012015||353|A|1.02.03.01|5|01
-1.02.03.01.16|Tratores e Demais Veículos Empregados na Atividade Rural |01012015||354|A|1.02.03.01|5|01
+1.02.03.01.12|Dutos e Tubulações|01012015||350|A|1.02.03.01|5|01
+1.02.03.01.13|Linhas de Transmissão Elétrica|01012015||351|A|1.02.03.01|5|01
+1.02.03.01.14|Antenas e Torres de Transmissão|01012015||352|A|1.02.03.01|5|01
+1.02.03.01.15|Máquinas Empregadas na Atividade Rural|01012015||353|A|1.02.03.01|5|01
+1.02.03.01.16|Tratores e Demais Veículos Empregados na Atividade Rural|01012015||354|A|1.02.03.01|5|01
 1.02.03.01.28|Outras Imobilizações por Aquisição|01012015||355|A|1.02.03.01|5|01
 1.02.03.01.30|(-) Depreciação Acumulada - Imobilizado|01012015||356|A|1.02.03.01|5|01
 1.02.03.01.31|(-) Amortização Acumulada - Imobilizado|01012015||357|A|1.02.03.01|5|01
@@ -403,8 +403,8 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.02.03.02.32|(-) Exaustão Acumulada - Imobilizado -Leasing Financeiro|01012015||379|A|1.02.03.02|5|01
 1.02.03.02.55|(-) Perdas Estimadas por Redução ao Valor Recuperável (Impairment) - Imobilizado - Leasing Financeiro|01012015||380|A|1.02.03.02|5|01
 1.02.03.04|ATIVO BIOLÓGICO - DE PRODUÇÃO|01012015||381|S|1.02.03|4|01
-1.02.03.04.01|Ativo Biológico de Produção - Origem Animal  Pelo Valor Justo |01012015||382|A|1.02.03.04|5|01
-1.02.03.04.02|Ativo Biológico de Produção - Origem Vegetal  Pelo Valor Justo |01012015||383|A|1.02.03.04|5|01
+1.02.03.04.01|Ativo Biológico de Produção - Origem Animal  Pelo Valor Justo|01012015||382|A|1.02.03.04|5|01
+1.02.03.04.02|Ativo Biológico de Produção - Origem Vegetal  Pelo Valor Justo|01012015||383|A|1.02.03.04|5|01
 1.02.03.04.03|Ativo Biológico de Produção - Origem Animal  Pelo Custo|01012015||384|A|1.02.03.04|5|01
 1.02.03.04.04|Ativo Biológico de Produção - Origem Vegetal -  Pelo Custo|01012015||385|A|1.02.03.04|5|01
 1.02.03.04.30|(-) Depreciação Acumulada Ativos Biológicos de Produção|01012015||386|A|1.02.03.04|5|01
@@ -565,8 +565,8 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 2.01.01.17.11|Faturamento para Entrega Futura - Circulante|01012015||537|A|2.01.01.17|5|02
 2.01.01.17.12|Juros sobre o Capital Próprio a Pagar - Circulante|01012015||538|A|2.01.01.17|5|02
 2.01.01.17.13|Dividendos a Pagar  Circulante|01012015||539|A|2.01.01.17|5|02
-2.01.01.17.15| Conta de Controle de Custo Contratado - Circulante|01012015||540|A|2.01.01.17|5|02
-2.01.01.17.16| Conta de Controle de Custo Orçado - Circulante|01012015||541|A|2.01.01.17|5|02
+2.01.01.17.15|Conta de Controle de Custo Contratado - Circulante|01012015||540|A|2.01.01.17|5|02
+2.01.01.17.16|Conta de Controle de Custo Orçado - Circulante|01012015||541|A|2.01.01.17|5|02
 2.01.01.17.25|Direitos Creditórios a Pagar - Circulante|01012015||542|A|2.01.01.17|5|02
 2.01.01.17.28|Outras Obrigações  Circulante|01012015||543|A|2.01.01.17|5|02
 2.01.01.17.50|(-)Juros a Apropriar Decorrentes de Ajuste a Valor Presente (AVP)   Outras Contas a Pagar - Circulante|01012015||544|A|2.01.01.17|5|02
@@ -594,9 +594,9 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 2.02.01.01.70|Subconta - Ajuste a Valor Justo - Empréstimos e Financiamentos - Longo Prazo|01012015||564|A|2.02.01.01|5|02
 2.02.01.01.90|Subconta  Adoção Inicial -  Empréstimos e Financiamentos - Longo Prazo|01012015||565|A|2.02.01.01|5|02
 2.02.01.02|BENEFÍCIOS A EMPREGADOS - LONGO PRAZO|01012015||566|S|2.02.01|4|02
-2.02.01.02.01|Benefícios Pós Emprego - Longo Prazo |01012015||567|A|2.02.01.02|5|02
-2.02.01.02.02|Outro Benefícios de Longo Prazo - Longo Prazo |01012015||568|A|2.02.01.02|5|02
-2.02.01.02.03|Benefícios Rescisórios - Longo Prazo |01012015||569|A|2.02.01.02|5|02
+2.02.01.02.01|Benefícios Pós Emprego - Longo Prazo|01012015||567|A|2.02.01.02|5|02
+2.02.01.02.02|Outro Benefícios de Longo Prazo - Longo Prazo|01012015||568|A|2.02.01.02|5|02
+2.02.01.02.03|Benefícios Rescisórios - Longo Prazo|01012015||569|A|2.02.01.02|5|02
 2.02.01.03|OBRIGAÇÕES FISCAIS - LONGO PRAZO|01012015||570|S|2.02.01|4|02
 2.02.01.03.01|Parcelamentos Especiais e Ordinários a Recolher - Tributos Federais - Longo Prazo|01012015||571|A|2.02.01.03|5|02
 2.02.01.03.02|Parcelamentos Especiais e Ordinários a Recolher - Tributos Estaduais e Municipais - Longo Prazo|01012015||572|A|2.02.01.03|5|02
@@ -641,8 +641,8 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 2.02.01.11.04|Mútuos - Partes Relacionadas  No Exterior - Longo Prazo|01012015||611|A|2.02.01.11|5|02
 2.02.01.11.10|Passivo Contingente Assumido em Combinação de Negócios - Longo Prazo|01012015||612|A|2.02.01.11|5|02
 2.02.01.11.13|Adiantamento para Futuro Aumento de Capital - Passivo - Longo Prazo|01012015||613|A|2.02.01.11|5|02
-2.02.01.11.15| Conta de Controle de Custo Contratado - Longo Prazo|01012015||614|A|2.02.01.11|5|02
-2.02.01.11.16| Conta de Controle de Custo Orçado - Longo Prazo|01012015||615|A|2.02.01.11|5|02
+2.02.01.11.15|Conta de Controle de Custo Contratado - Longo Prazo|01012015||614|A|2.02.01.11|5|02
+2.02.01.11.16|Conta de Controle de Custo Orçado - Longo Prazo|01012015||615|A|2.02.01.11|5|02
 2.02.01.11.22|(-) Ajuste a Valor Presente  Outras Contas a Pagar  Longo Prazo|01012015||616|A|2.02.01.11|5|02
 2.02.01.11.28|Outras Obrigações - Longo Prazo|01012015||617|A|2.02.01.11|5|02
 2.02.01.11.50|(-) Juros a Apropriar Decorrentes de Ajuste a Valor Presente (AVP) Outras Obrigações - Longo Prazo|01012015||618|A|2.02.01.11|5|02

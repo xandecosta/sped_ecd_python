@@ -2,9 +2,9 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1|ATIVO|01012021||2|S||1|01
 1.01|CIRCULANTE|01012021||3|S|1|2|01
 1.01.01|DISPONÍVEL|01012021||4|S|1.01|3|01
-1.01.01.01| Caixa|01012021||5|A|1.01.01|4|01
-1.01.01.02| Valores em Trânsito|01012021||6|A|1.01.01|4|01
-1.01.01.03| Bancos Conta Depósitos|01012021||7|A|1.01.01|4|01
+1.01.01.01|Caixa|01012021||5|A|1.01.01|4|01
+1.01.01.02|Valores em Trânsito|01012021||6|A|1.01.01|4|01
+1.01.01.03|Bancos Conta Depósitos|01012021||7|A|1.01.01|4|01
 1.01.01.04|Aplicações no Mercado Aberto|01012021||8|A|1.01.01|4|01
 1.01.02|APLICAÇÕES|01012021||9|S|1.01|3|01
 1.01.02.01|Títulos de Renda Fixa Vinculados à Cobertura de Provisões Técnicas|01012021||10|A|1.01.02|4|01
@@ -13,10 +13,10 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.01.02.04|Títulos de Renda Variável Não Vinculados à Cobertura de Provisões Técnicas|01012021||13|A|1.01.02|4|01
 1.01.02.05|Quotas de Fundos de Investimentos Vinculadas à Cobertura de Provisões Técnicas|01012021||14|A|1.01.02|4|01
 1.01.02.06|Quotas de Fundos de Investimentos Não Vinculadas à Cobertura de Provisões Técnicas|01012021||15|A|1.01.02|4|01
-1.01.02.07| Aplicações no Exterior Vinculadas à Cobertura de Provisões Técnicas|01012021||16|A|1.01.02|4|01
+1.01.02.07|Aplicações no Exterior Vinculadas à Cobertura de Provisões Técnicas|01012021||16|A|1.01.02|4|01
 1.01.02.08|Aplicações no Exterior Não Vinculadas à Cobertura de Provisões Técnicas|01012021||17|A|1.01.02|4|01
 1.01.02.09|Outras Aplicações Vinculadas à Cobertura de Provisões Técnicas|01012021||18|A|1.01.02|4|01
-1.01.02.10| Outras Aplicações Não Vinculadas à Cobertura de Reservas|01012021||19|A|1.01.02|4|01
+1.01.02.10|Outras Aplicações Não Vinculadas à Cobertura de Reservas|01012021||19|A|1.01.02|4|01
 1.01.03|CRÉDITO DAS OPERAÇÕES|01012021||20|S|1.01|3|01
 1.01.03.01|Crédito das Operações - Prêmios a Receber|01012021||21|A|1.01.03|4|01
 1.01.03.02|Crédito das Operações - Seguradoras|01012021||22|A|1.01.03|4|01
@@ -32,7 +32,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 1.01.04.05|PIS a Compensar|01012021||32|A|1.01.04|4|01
 1.01.04.06|Outros Créditos Tributários e Previdenciários|01012021||33|A|1.01.04|4|01
 1.01.04.07|Depósitos Judiciais e Fiscais - Tributos|01012021||34|A|1.01.04|4|01
-1.01.04.08| Outros Títulos e Créditos a Receber|01012021||35|A|1.01.04|4|01
+1.01.04.08|Outros Títulos e Créditos a Receber|01012021||35|A|1.01.04|4|01
 1.01.05|OUTRAS CONTAS|01012021||36|S|1.01|3|01
 1.01.05.01|Outros Valores e Bens|01012021||37|A|1.01.05|4|01
 1.01.05.02|Empréstimos e Depósitos Compulsórios|01012021||38|A|1.01.05|4|01

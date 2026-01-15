@@ -69,7 +69,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 3.1.1.01.09.04|FP - Despesas com Manutenção, conservação e reparos de bens|01012018||68|A|3.1.1.01.09|6|04
 3.1.1.01.09.05|FP - Despesas judiciais|01012018||69|A|3.1.1.01.09|6|04
 3.1.1.01.09.06|FP - Outras despesas gerais|01012018||70|A|3.1.1.01.09|6|04
-3.1.1.01.09.07|FP - Despesas com mensalidades, anuidades e congêneres devidos a organismos internacionais |01012018||71|A|3.1.1.01.09|6|04
+3.1.1.01.09.07|FP - Despesas com mensalidades, anuidades e congêneres devidos a organismos internacionais|01012018||71|A|3.1.1.01.09|6|04
 3.1.1.01.09.08|FP - Despesas com alimentação, restaurantes e lanchonetes|01012018||72|A|3.1.1.01.09|6|04
 3.1.1.01.10|FP - DESPESAS COM TRANSFERÊNCIAS EFETUADAS - RECURSOS FINANCEIROS|01012018||73|S|3.1.1.01|5|04
 3.1.1.01.10.01|FP - Transferências efetuadas para direção nacional|01012018||74|A|3.1.1.01.10|6|04
@@ -303,7 +303,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 3.1.2.01.09.04|OR - Despesas com Manutenção, conservação e reparos de bens|01012018||302|A|3.1.2.01.09|6|04
 3.1.2.01.09.05|OR - Despesas judiciais|01012018||303|A|3.1.2.01.09|6|04
 3.1.2.01.09.06|OR - Outras despesas gerais|01012018||304|A|3.1.2.01.09|6|04
-3.1.2.01.09.07|OR - Despesas com mensalidades, anuidades e congêneres devidos a organismos internacionais |01012018||305|A|3.1.2.01.09|6|04
+3.1.2.01.09.07|OR - Despesas com mensalidades, anuidades e congêneres devidos a organismos internacionais|01012018||305|A|3.1.2.01.09|6|04
 3.1.2.01.09.08|OR - Despesas com alimentação, restaurantes e lanchonetes|01012018||306|A|3.1.2.01.09|6|04
 3.1.2.01.10|OR - DESPESAS COM TRANSFERÊNCIAS EFETUADAS - RECURSOS FINANCEIROS|01012018||307|S|3.1.2.01|5|04
 3.1.2.01.10.01|OR - Transferências efetuadas para direção nacional|01012018||308|A|3.1.2.01.10|6|04

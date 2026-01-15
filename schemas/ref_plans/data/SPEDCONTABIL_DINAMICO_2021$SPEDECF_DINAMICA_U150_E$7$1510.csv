@@ -69,7 +69,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 3.1.1.01.09.04|FP - Despesas com Manutencao, conservacao e reparos de bens|01012021||867|A|3.1.1.01.09|6|04
 3.1.1.01.09.05|FP - Despesas judiciais|01012021||868|A|3.1.1.01.09|6|04
 3.1.1.01.09.06|FP - Outras despesas gerais|01012021||869|A|3.1.1.01.09|6|04
-3.1.1.01.09.07|FP - Despesas com mensalidades, anuidades e congeneres devidos a organismos internacionaisÂ |01012021||870|A|3.1.1.01.09|6|04
+3.1.1.01.09.07|FP - Despesas com mensalidades, anuidades e congeneres devidos a organismos internacionaisÂ|01012021||870|A|3.1.1.01.09|6|04
 3.1.1.01.09.08|FP - Despesas com alimentacao, restaurantes e lanchonetes|01012021||871|A|3.1.1.01.09|6|04
 3.1.1.01.10|FP - DESPESAS COM TRANSFERENCIAS EFETUADAS - RECURSOS FINANCEIROS|01012021||872|S|3.1.1.01|5|04
 3.1.1.01.10.01|FP - Transferencias efetuadas para direcao nacional|01012021||873|A|3.1.1.01.10|6|04
@@ -313,7 +313,7 @@ CODIGO|DESCRICAO|DT_INI|DT_FIM|ORDEM|TIPO|COD_SUP|NIVEL|NATUREZA
 3.1.2.01.09.04|OR - Despesas com Manutencao, conservacao e reparos de bens|01012021||1111|A|3.1.2.01.09|6|04
 3.1.2.01.09.05|OR - Despesas judiciais|01012021||1112|A|3.1.2.01.09|6|04
 3.1.2.01.09.06|OR - Outras despesas gerais|01012021||1113|A|3.1.2.01.09|6|04
-3.1.2.01.09.07|OR - Despesas com mensalidades, anuidades e congeneres devidos a organismos internacionaisÂ |01012021||1114|A|3.1.2.01.09|6|04
+3.1.2.01.09.07|OR - Despesas com mensalidades, anuidades e congeneres devidos a organismos internacionaisÂ|01012021||1114|A|3.1.2.01.09|6|04
 3.1.2.01.09.08|OR - Despesas com alimentacao, restaurantes e lanchonetes|01012021||1115|A|3.1.2.01.09|6|04
 3.1.2.01.10|OR - DESPESAS COM TRANSFERENCIAS EFETUADAS - RECURSOS FINANCEIROS|01012021||1116|S|3.1.2.01|5|04
 3.1.2.01.10.01|OR - Transferencias efetuadas para direcao nacional|01012021||1117|A|3.1.2.01.10|6|04
