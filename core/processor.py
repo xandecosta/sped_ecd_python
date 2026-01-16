@@ -16,11 +16,16 @@ class ECDProcessor:
     """
 
     def __init__(
-        self, registros: List[Dict[str, Any]], cnpj: str = "", layout_versao: str = ""
+        self,
+        registros: List[Dict[str, Any]],
+        cnpj: str = "",
+        layout_versao: str = "",
+        knowledge_base: Optional[Any] = None,
     ):
         self.df_bruto = pd.DataFrame(registros) if registros else pd.DataFrame()
         self.cnpj = cnpj
         self.layout_versao = layout_versao
+        self.knowledge_base = knowledge_base
         self.blocos: Dict[str, pd.DataFrame] = {}
         self.cod_plan_ref: Optional[str] = None
         self.ano_vigencia: Optional[int] = None
@@ -40,19 +45,17 @@ class ECDProcessor:
             self._separar_blocos()
             self._identificar_metadados_referenciais()
 
-    def _obter_caminho_referencial(
-        self, alias_preferencial: List[str]
-    ) -> Optional[str]:
+    def _obter_arquivos_referenciais(self) -> List[str]:
         """
-        Localiza o arquivo CSV no ref_catalog.json usando o funil de metadados.
-        Tenta os aliases na ordem fornecida (ex: ['L100_A', 'REF']).
+        Localiza todos os arquivos CSV (Balanço, DRE, etc) no ref_catalog.json
+        para a instituição e ano vigentes.
         """
         if not self.cod_plan_ref or not self.ano_vigencia:
-            return None
+            return []
 
         if not os.path.exists(self.catalog_path):
             logger.error(f"Catálogo não encontrado: {self.catalog_path}")
-            return None
+            return []
 
         try:
             with open(self.catalog_path, "r", encoding="utf-8") as f:
@@ -61,42 +64,56 @@ class ECDProcessor:
             # 1. Filtro Instituição
             inst = catalog.get(str(self.cod_plan_ref))
             if not inst:
-                return None
+                return []
 
             # 2. Filtro Vigência (Range)
             período_escolhido = None
+            períodos_disponíveis = []
+
             for key, info in inst.items():
                 r_min, r_max = info.get("range", [0, 0])
+                períodos_disponíveis.append((r_min, r_max, info))
                 if r_min <= self.ano_vigencia <= r_max:
                     período_escolhido = info
                     break
 
+            # Se não achou vigência exata, busca o período mais próximo (abordagem cross-temporal)
+            if not período_escolhido and períodos_disponíveis:
+                logger.info(
+                    f"Ano {self.ano_vigencia} não mapeado para plano {self.cod_plan_ref}. "
+                    "Buscando período referencial compatível..."
+                )
+                períodos_disponíveis.sort(key=lambda x: abs(x[1] - self.ano_vigencia))
+                período_escolhido = períodos_disponíveis[0][2]
+
             if not período_escolhido:
-                return None
+                return []
 
-            # 3. Filtro Alias e Versão
+            # 3. Coleta todos os arquivos de planos disponíveis para o período
+            arquivos = []
             plans = período_escolhido.get("plans", {})
-            for alias in alias_preferencial:
-                if alias in plans:
-                    # Pega a maior versão disponível para este alias
-                    versões = sorted(
-                        plans[alias].keys(), key=lambda v: int(v), reverse=True
-                    )
-                    if versões:
-                        v_top = versões[0]
-                        filename = plans[alias][v_top].get("file")
-                        if filename:
-                            return os.path.normpath(
-                                os.path.join(
-                                    os.path.dirname(self.catalog_path), "data", filename
-                                )
+            for alias in plans:
+                # Pega a maior versão disponível para cada alias (L100, L300, etc)
+                versões = sorted(
+                    plans[alias].keys(), key=lambda v: int(v), reverse=True
+                )
+                if versões:
+                    v_top = versões[0]
+                    filename = plans[alias][v_top].get("file")
+                    if filename:
+                        caminho = os.path.normpath(
+                            os.path.join(
+                                os.path.dirname(self.catalog_path), "data", filename
                             )
+                        )
+                        if os.path.exists(caminho):
+                            arquivos.append(caminho)
 
-            return None
+            return arquivos
 
         except Exception as e:
             logger.error(f"Erro ao consultar catálogo: {e}")
-            return None
+            return []
 
     def _separar_blocos(self) -> None:
         """Divide os registros por REG e limpa prefixos redundantes."""
@@ -159,6 +176,18 @@ class ECDProcessor:
                 self.cod_plan_ref = str(df_i051.iloc[0].get("COD_PLAN_REF", ""))
 
         if not self.cod_plan_ref:
+            # --- NÍVEL 1.5: Inferência de Instituição ---
+            if self.knowledge_base is not None:
+                inferred = self.knowledge_base.get_inferred_plan(
+                    self.cnpj, ano_alvo=str(self.ano_vigencia)
+                )
+                if inferred:
+                    self.cod_plan_ref = str(inferred)
+                    logger.info(
+                        f"COD_PLAN_REF inferido via histórico: {self.cod_plan_ref}"
+                    )
+
+        if not self.cod_plan_ref:
             logger.warning(
                 f"COD_PLAN_REF não localizado (Versão: {self.layout_versao}). "
                 "O mapeamento RFB pode falhar."
@@ -181,8 +210,11 @@ class ECDProcessor:
         if df_i050 is None:
             return pd.DataFrame()
 
-        # Seleciona colunas básicas do I050
-        cols_i050 = [
+        # Seleciona colunas básicas do I050 e NORMALIZA (remove prefixos se houver)
+        map_cols = {c: c.replace("I050_", "") for c in df_i050.columns}
+        df_res = df_i050.rename(columns=map_cols).copy()
+
+        cols_essenciais = [
             "PK",
             "COD_NAT",
             "IND_CTA",
@@ -191,12 +223,13 @@ class ECDProcessor:
             "COD_CTA_SUP",
             "CTA",
         ]
-        df_res = df_i050[[c for c in cols_i050 if c in df_i050.columns]].copy()
+        df_res = df_res[[c for c in cols_essenciais if c in df_res.columns]]
 
         # Integração com I051 (Mapeamento Referencial)
         if df_i051 is not None and not df_i051.empty:
-            # Pegamos a FK_PAI (que liga ao PK do I050) e o Código Referencial
-            df_ref = df_i051[["FK_PAI", "COD_CTA_REF"]].copy()
+            # Normaliza colunas do I051 também
+            df_ref = df_i051.rename(columns=lambda x: x.replace("I051_", "")).copy()
+            df_ref = df_ref[["FK_PAI", "COD_CTA_REF"]]
 
             # Left join para garantir que não perdemos contas sintéticas do I050
             df_res = pd.merge(
@@ -207,6 +240,50 @@ class ECDProcessor:
             df_res["COD_CTA_REF"] = None
 
         df_res["CNPJ"] = self.cnpj
+
+        # --- NOVO FLUXO DE ROTULAGEM (Anti-NaN) ---
+        # 1. Inicializamos a coluna para evitar nulos em arquivos híbridos
+        df_res["ORIGEM_MAP"] = "SEM_MAPEAMENTO"
+
+        # 2. Marcamos quem já veio declarado via I051 no arquivo atual
+        mask_declarado_original = cast(pd.Series, df_res["COD_CTA_REF"]).notna() & (
+            cast(pd.Series, df_res["COD_CTA_REF"]).astype(str).str.strip() != ""
+        )
+        df_res.loc[mask_declarado_original, "ORIGEM_MAP"] = "I051"
+
+        # 3. Executamos a Inferência Histórica apenas para as lacunas remanescentes
+        if self.knowledge_base is not None:
+            mask_vazio = cast(pd.Series, df_res["COD_CTA_REF"]).isna() | (
+                cast(pd.Series, df_res["COD_CTA_REF"]).astype(str).str.strip() == ""
+            )
+            mask_analitica = df_res["IND_CTA"].astype(str).str.upper() == "A"
+            mask_alvo = mask_vazio & mask_analitica
+
+            if mask_alvo.any():
+                ano_str = str(self.ano_vigencia) if self.ano_vigencia else ""
+
+                def inferir_ref(row: pd.Series) -> pd.Series:
+                    cod_cta = str(row.get("COD_CTA", ""))
+                    cod_sup = str(row.get("COD_CTA_SUP", ""))
+                    if not cod_cta:
+                        return pd.Series([None, "SEM_COD_CTA"])
+
+                    mapper = cast(Any, self.knowledge_base)
+                    vinculo = mapper.get_mapping(
+                        self.cnpj, cod_cta, ano_str, cod_sup=cod_sup
+                    )
+                    return pd.Series(
+                        [vinculo.get("COD_CTA_REF"), vinculo.get("ORIGEM_MAP")]
+                    )
+
+                novos_dados = df_res.loc[mask_alvo].apply(inferir_ref, axis=1)
+                if not novos_dados.empty:
+                    df_res.loc[mask_alvo, "COD_CTA_REF"] = novos_dados[0]
+                    df_res.loc[mask_alvo, "ORIGEM_MAP"] = novos_dados[1]
+
+        # 4. Limpeza final: ORIGEM_MAP deve ser vazio para contas SINTÉTICAS
+        mask_sintetica = df_res["IND_CTA"].astype(str).str.upper() != "A"
+        df_res.loc[mask_sintetica, "ORIGEM_MAP"] = ""
 
         if "CTA" in df_res.columns:
             df_res["CONTA"] = (
@@ -377,18 +454,25 @@ class ECDProcessor:
         """
         Gera o balancete na visão do Plano Referencial da RFB.
         """
-        # 1. Localiza o Plano Referencial adequado (Prioridade Balanço L100/REF)
-        caminho_csv = self._obter_caminho_referencial(
-            ["L100_A", "L100_B", "L100_C", "REF"]
-        )
-        if not caminho_csv or not os.path.exists(caminho_csv):
+        # 1. Localiza e unifica todos os blocos do Plano Referencial (Balanço + Resultado)
+        caminhos = self._obter_arquivos_referenciais()
+        if not caminhos:
+            logger.warning(
+                "Nenhum arquivo de plano referencial localizado no catálogo."
+            )
             return pd.DataFrame()
 
-        try:
-            df_ref_schema = pd.read_csv(caminho_csv, sep="|", dtype=str)
-        except Exception as e:
-            logger.error(f"Erro ao carregar CSV referencial: {e}")
+        dfs_schemas = []
+        for p in caminhos:
+            try:
+                dfs_schemas.append(pd.read_csv(p, sep="|", dtype=str))
+            except Exception as e:
+                logger.error(f"Erro ao carregar CSV referencial {p}: {e}")
+
+        if not dfs_schemas:
             return pd.DataFrame()
+
+        df_ref_schema = pd.concat(dfs_schemas, ignore_index=True)
 
         # 2. Prepara os saldos analíticos da empresa mapeados para o referencial
         df_plano = self.processar_plano_contas()
@@ -467,6 +551,9 @@ class ECDProcessor:
                     if not idx_pai.empty:
                         tab.loc[idx_pai, cols_valores] += row[cols_valores]
 
+            tab["DT_FIN"] = data
+            if "COD_CTA_REF" in tab.columns:
+                tab.drop(columns=["COD_CTA_REF"], inplace=True)
             balancetes_rfb.append(tab)
 
         return (

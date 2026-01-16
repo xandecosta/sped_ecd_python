@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import glob
 from datetime import datetime, date
 from decimal import Decimal, InvalidOperation
 from typing import Generator, Dict, Any, Optional
@@ -20,6 +19,16 @@ class ECDReader:
         self.schemas_dir = os.path.normpath(
             os.path.join(os.path.dirname(__file__), "..", "schemas", "ecd_layouts")
         )
+
+    @property
+    def ano_vigencia(self) -> Optional[int]:
+        """Extrai o ano do periodo_ecd (YYYYMMDD)."""
+        if self.periodo_ecd and len(self.periodo_ecd) >= 4:
+            try:
+                return int(self.periodo_ecd[:4])
+            except ValueError:
+                return None
+        return None
 
     def _detectar_layout(self) -> None:
         """
@@ -213,6 +222,7 @@ class ECDReader:
                     fk_pai = contexto_pais.get(nivel - 1)
                     dados_registro["FK_PAI"] = fk_pai
                 else:
+                    fk_pai = None
                     dados_registro["FK_PAI"] = None
 
                 # Atualizar o contexto de pais para o nível atual

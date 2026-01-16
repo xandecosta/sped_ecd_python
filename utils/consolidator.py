@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import logging
+from utils.exporter import ECDExporter
 
 
 class ECDConsolidator:
@@ -19,7 +20,12 @@ class ECDConsolidator:
             "05_Plano_Contas",
             "06_Lancamentos_Contabeis",
         ]
-        self.excel_tables = ["01_BP", "02_DRE", "03_Balancetes_Mensais"]
+        self.excel_tables = [
+            "01_BP",
+            "02_DRE",
+            "03_Balancetes_Mensais",
+            "04_Balancete_baseRFB",
+        ]
 
     def _preparar_pasta(self):
         if not os.path.exists(self.consolidated_dir):
@@ -76,7 +82,9 @@ class ECDConsolidator:
                     )
                     # Proteção simples contra limite de linhas do Excel
                     if len(df_final) < 1048576:
-                        df_final.to_excel(path_excel, index=False, engine="openpyxl")
+                        # Aplicar formatação regional (PT-BR) antes de salvar
+                        df_xlsx = ECDExporter.aplicar_formatacao_regional(df_final)
+                        df_xlsx.to_excel(path_excel, index=False, engine="openpyxl")
                     else:
                         logging.warning(
                             f"Tabela {tabela} excedeu limite do Excel ({len(df_final)} linhas). Excel não gerado."

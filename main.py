@@ -3,10 +3,14 @@ import glob
 import logging
 import traceback
 import warnings
+from typing import Optional, cast
+import pandas as pd
 from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
 from utils.exporter import ECDExporter
 from utils.consolidator import ECDConsolidator
+from utils.historical_mapper import HistoricalMapper
+
 
 # 1. Silenciar Avisos de Bibliotecas (Pandas, etc)
 warnings.filterwarnings("ignore")
@@ -19,7 +23,9 @@ logging.basicConfig(level=logging.ERROR, format="%(levelname)s: %(message)s")
 logging.getLogger("core.reader_ecd").setLevel(logging.ERROR)
 
 
-def processar_um_arquivo(caminho_arquivo: str, output_base: str):
+def processar_um_arquivo(
+    caminho_arquivo: str, output_base: str, mapper: Optional[HistoricalMapper] = None
+):
     """
     Executa o ciclo completo de processamento para um único arquivo ECD.
     """
@@ -44,7 +50,10 @@ def processar_um_arquivo(caminho_arquivo: str, output_base: str):
         # --- PASSO 2: PROCESSAMENTO ---
         # Instancia o processador com os metadados para injeção e mapeamento RFB
         processor = ECDProcessor(
-            registros, cnpj=cnpj_contribuinte, layout_versao=reader.layout_versao or ""
+            registros,
+            cnpj=cnpj_contribuinte,
+            layout_versao=reader.layout_versao or "",
+            knowledge_base=mapper,
         )
 
         df_plano = processor.processar_plano_contas()
@@ -100,10 +109,115 @@ def executar_pipeline_batch():
         print("Nenhum arquivo .txt encontrado na pasta data/input.")
         return
 
+    # --- PASSO NOVO: LIMPEZA DA PASTA DE SAÍDA ---
+    import shutil
+
+    print(">>> LIMPANDO PASTA DE SAÍDA (PRESERVANDO LOGS)...")
+    for item in os.listdir(output_dir):
+        caminho_item = os.path.join(output_dir, item)
+        # Deleta tudo exceto a pasta de logs
+        if item != "file_logs":
+            if os.path.isdir(caminho_item):
+                shutil.rmtree(caminho_item)
+            else:
+                os.remove(caminho_item)
+
+    # Garante que a pasta de log existe
+    os.makedirs(os.path.join(output_dir, "file_logs"), exist_ok=True)
+
     print(f"Iniciando processamento de {len(arquivos)} arquivo(s)...")
 
+    # --- PASSO 0: LEARNING PASS (Cross-Temporal) ---
+    print(">>> FASE DE APRENDIZADO HISTÓRICO...")
+    mapper = HistoricalMapper()
     for arquivo in arquivos:
-        processar_um_arquivo(arquivo, output_dir)
+        try:
+            reader = ECDReader(arquivo)
+            # Lê os registros para o mapa de conhecimento
+            all_regs = list(reader.processar_arquivo())
+            if not all_regs:
+                continue
+
+            df_all = cast(pd.DataFrame, pd.DataFrame(all_regs))
+
+            # 1. Identificação do COD_PLAN_REF para aprendizado
+            cod_plan_ref = None
+            df_0000 = df_all[df_all["REG"] == "0000"]
+            if not df_0000.empty:
+                # Normaliza colunas 0000
+                df_0000_norm = df_0000.copy()
+                df_0000_norm.columns = df_0000_norm.columns.str.replace(
+                    "0000_", "", regex=False
+                )
+                cod_plan_ref = df_0000_norm.iloc[0].get("COD_PLAN_REF")
+
+            # 2. Extrai e Normaliza I050 (Estrutura de Contas)
+            df_i050 = df_all[df_all["REG"] == "I050"]
+            if not df_i050.empty:
+                df_i050_norm = df_i050.copy()
+                df_i050_norm.columns = df_i050_norm.columns.str.replace(
+                    "I050_", "", regex=False
+                )
+            else:
+                df_i050_norm = pd.DataFrame()
+
+            accounting_ctas: set[str] = set()
+            if not df_i050_norm.empty and "COD_CTA" in df_i050_norm.columns:
+                # Simplificado: assume que df_i050_norm["COD_CTA"] é sempre uma Series
+                # ou que o cast é suficiente para o type checker.
+                col_cta_series = cast(pd.Series, df_i050_norm["COD_CTA"])
+                accounting_ctas = set(col_cta_series.dropna().astype(str).str.strip())
+
+            # 3. Prepara Mapeamento (I051) unindo com I050 para obter COD_SUP
+            df_i051 = df_all[df_all["REG"] == "I051"]
+            df_mapping_to_learn = pd.DataFrame()
+
+            if not df_i051.empty and not df_i050_norm.empty:
+                df_i051_norm = df_i051.copy()
+                df_i051_norm.columns = df_i051_norm.columns.str.replace(
+                    "I051_", "", regex=False
+                )
+                # Join I051(FK_PAI) -> I050(PK) para capturar a relação hierárquica
+                # Importante para a Rodada 2 do Bridging (mapeamento via grupo)
+                right_side = cast(
+                    pd.DataFrame, df_i050_norm[["PK", "COD_CTA", "COD_CTA_SUP"]]
+                )
+                df_mapping_to_learn = pd.merge(
+                    df_i051_norm,
+                    right_side,
+                    left_on="FK_PAI",
+                    right_on="PK",
+                    how="inner",
+                )
+                # Normaliza nome para o HistoricalMapper
+                df_mapping_to_learn.rename(
+                    columns={"COD_CTA_SUP": "COD_SUP"}, inplace=True
+                )
+
+                # Se ainda não achou cod_plan_ref, tenta no I051
+                if not cod_plan_ref:
+                    cod_plan_ref = df_i051_norm.iloc[0].get("COD_PLAN_REF")
+
+            # 4. Alimenta o Mapper
+            if not df_mapping_to_learn.empty or cod_plan_ref or accounting_ctas:
+                mapper.learn(
+                    reader.cnpj or "",
+                    str(reader.ano_vigencia or ""),
+                    df_mapping_to_learn,
+                    cod_plan_ref=str(cod_plan_ref) if cod_plan_ref else None,
+                    accounting_ctas=accounting_ctas,
+                )
+
+        except Exception as e:
+            print(
+                f"      [AVISO] Falha no aprendizado de {os.path.basename(arquivo)}: {e}"
+            )
+
+    mapper.build_consensus()
+    print("      [OK] Consenso histórico construído.")
+
+    for arquivo in arquivos:
+        processar_um_arquivo(arquivo, output_dir, mapper)
 
     # --- PASSO 4: CONSOLIDAÇÃO ---
     consolidator = ECDConsolidator(output_dir)

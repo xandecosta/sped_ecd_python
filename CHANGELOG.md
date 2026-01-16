@@ -2,6 +2,21 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo. O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [1.9.0] - 2026-01-15
+### Adicionado
+- **Ponte Virtual (Virtual I051):** Motor de inferência cross-temporal que permite a geração de balancetes baseRFB para arquivos ECD omissos (comum no ano de 2014). Veja [detalhes técnicos aqui](./docs/architecture/bridging_logic.md).
+- **Módulo HistoricalMapper:** Implementação de classe de gestão de conhecimento histórico, capaz de aprender com anos adjacentes e construir consensos estatísticos de mapeamento.
+- **Funil de 3 Rodadas:** Lógica de decisão hierárquica para preenchimento de `COD_CTA_REF` baseada em Identidade literal, Grupo Superior (`COD_SUP`) e Consenso Global.
+- **Auditoria Dinâmica:** Novo roteiro em `tests/test_bridging.py` que permite auditar qualquer arquivo da pasta input selecionando vizinhos cronológicos interativamente.
+- **Rótulo CONSENSO_HISTORICO:** Novo identificador de origem de mapeamento para auditoria de contas raras recuperadas da memória global.
+
+### Alterado
+- **Robustez de Rotulagem (Anti-NaN):** Refatoração da lógica de preenchimento da coluna `ORIGEM_MAP` no `ECDProcessor` para garantir rótulos consistentes em arquivos híbridos (mistura de I051 e Inferência).
+- **Learning Pass Integrado:** O `main.py` agora realiza uma fase de aprendizado completa em todo o lote de arquivos antes de iniciar o processamento individual, enriquecendo o `HistoricalMapper`.
+- **Equivalência 2014+:** Implementação de suporte histórico para a mudança de codificação da RFB (Código 10 pré-2014 agora é mapeado corretamente para os regimes 1/10 modernos).
+- **Estabilidade de Tipagem:** Correção de erro de sobrecarga em `pd.DataFrame.rename` e aplicação de `typing.cast` para conformidade estrita com Pyright.
+- **Automação de Limpeza:** Implementação de limpeza automática da pasta `data/output` a cada execução, preservando apenas logs.
+
 ## [1.8.0] - 2026-01-14
 ### Adicionado
 - **Auditoria Consolidada:** Implementação dos métodos `audit_plans`, `_check_integrity_row` e `_generate_evolution_report` no `RefPlanManager` para realizar análise de evolução e integridade estrutural em um único passo.

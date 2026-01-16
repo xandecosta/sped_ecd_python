@@ -14,9 +14,7 @@ class RefPlanManager:
 
         # Define key directories/files
         self.reference_dir = os.path.join(self.base_dir, "data", "reference")
-        self.raw_data_dir = os.path.join(
-            self.base_dir, "data", "plano_contas_referencial"
-        )
+        self.raw_data_dir = os.path.join(self.base_dir, "data", "raw_ref_plans")
         self.schemas_dir = os.path.join(self.base_dir, "schemas", "ref_plans", "data")
         self.analysis_dir = os.path.join(self.base_dir, "data", "analysis")
         self.catalog_path = os.path.join(
@@ -24,17 +22,15 @@ class RefPlanManager:
         )
 
         # Files
-        self.full_meta_path = os.path.join(
-            self.reference_dir, "plano_contas_referencial_full.csv"
-        )
+        self.full_meta_path = os.path.join(self.reference_dir, "ref_plan_full.csv")
         self.filtered_meta_path = os.path.join(
-            self.reference_dir, "plano_contas_referencial_filtered.csv"
+            self.reference_dir, "ref_plan_filtered.csv"
         )
         self.discovery_report_path = os.path.join(
-            self.reference_dir, "leiaute_plano_contas_referencial.xlsx"
+            self.reference_dir, "ref_plan_layout.xlsx"
         )
         self.conflicts_report_path = os.path.join(
-            self.analysis_dir, "relatorio_conflitos_estruturais.csv"
+            self.analysis_dir, "structural_conflicts_report.csv"
         )
 
         # State for auditing
@@ -121,79 +117,88 @@ class RefPlanManager:
 
     def standardize_plans(self):
         """
-        Consumes the filtered metadata to process raw TXT files into standardized CSVs
-        and builds the reference catalog JSON.
+        Lê os metadados filtrados, agrupa por COD_PLAN_REF + Ano,
+        concatena os arquivos TXT correspondentes (Balanço, DRE, etc)
+        e gera um CSV unificado por Instituição/Ano.
         """
         # Ensure latest metadata is active
         df_meta = self.filter_metadata()
 
-        print("Starting standardization...")
+        print("\n>>> INICIANDO PADRONIZAÇÃO UNIFICADA...")
 
-        # Clean output directory to remove obsolete versions
+        # 1. Limpeza da pasta de schemas/data
         if os.path.exists(self.schemas_dir):
+            print(f"Limpando pasta de schemas: {self.schemas_dir}")
             shutil.rmtree(self.schemas_dir)
         os.makedirs(self.schemas_dir, exist_ok=True)
 
         catalog: Dict[str, Any] = {}
 
-        for _, row in df_meta.iterrows():
-            file_name = str(row["TabelaDinamica"])
-            alias = str(row["CodigoTabDinamica"])
-            versao = str(row["VersaoTabDinamica"])
-            ano_str = str(row["Ano"])
-            cod_plan_ref = str(row["DESC_COD_PLAN_REF"])
-            tipo_demo = str(row["TipoDemonstracao"])
-            estrutura = str(row["ESTRUTURA_COLUNAS"])
+        # Agrupamos por Instituição e Ano para criar arquivos únicos
+        grouped = df_meta.groupby(["COD_PLAN_REF", "Ano"])
 
-            # Determine columns based on structure type
-            has_ordem = "ORDEM" in estrutura
-            if has_ordem:
-                cols = [
-                    "CODIGO",
-                    "DESCRICAO",
-                    "DT_INI",
-                    "DT_FIM",
-                    "ORDEM",
-                    "TIPO",
-                    "COD_SUP",
-                    "NIVEL",
-                    "NATUREZA",
-                ]
-            else:
-                cols = [
-                    "CODIGO",
-                    "DESCRICAO",
-                    "DT_INI",
-                    "DT_FIM",
-                    "TIPO",
-                    "COD_SUP",
-                    "NIVEL",
-                    "NATUREZA",
-                    "UTILIZACAO",
-                ]
+        for keys, group in grouped:
+            cod_ref_raw, ano_str_raw = cast(tuple, keys)
+            cod_ref = str(cod_ref_raw)
+            ano_str = str(ano_str_raw)
 
-            file_path = os.path.join(self.raw_data_dir, file_name)
+            print(f"Unificando Planos: Instituição {cod_ref} | Ano {ano_str}")
 
-            # Handle potential .txt extension issues
-            if not os.path.exists(file_path):
-                if os.path.exists(file_path + ".txt"):
-                    file_path += ".txt"
+            dfs_unificados = []
+            info_versao = ""
+            layout_type = "ref_standard"
+
+            for _, row in group.iterrows():
+                file_name = str(row["TabelaDinamica"])
+                versao = str(row["VersaoTabDinamica"])
+                estrutura = str(row["ESTRUTURA_COLUNAS"])
+
+                # Snapshot da última versão/layout encontrada no grupo
+                info_versao = versao
+                if "ORDEM" in estrutura:
+                    layout_type = "ref_dynamic"
+
+                # Define colunas
+                if "ORDEM" in estrutura:
+                    cols = [
+                        "CODIGO",
+                        "DESCRICAO",
+                        "DT_INI",
+                        "DT_FIM",
+                        "ORDEM",
+                        "TIPO",
+                        "COD_SUP",
+                        "NIVEL",
+                        "NATUREZA",
+                    ]
                 else:
-                    print(f"Warning: Raw file {file_name} not found.")
+                    cols = [
+                        "CODIGO",
+                        "DESCRICAO",
+                        "DT_INI",
+                        "DT_FIM",
+                        "TIPO",
+                        "COD_SUP",
+                        "NIVEL",
+                        "NATUREZA",
+                        "UTILIZACAO",
+                    ]
+
+                file_path = os.path.join(self.raw_data_dir, file_name)
+                if not os.path.exists(file_path) and os.path.exists(file_path + ".txt"):
+                    file_path += ".txt"
+
+                if not os.path.exists(file_path):
                     continue
 
-            try:
-                # Read raw TXT (Latin1), skip first line
-                with open(file_path, "r", encoding="latin1") as f:
-                    lines = f.readlines()
-                    if not lines:
-                        continue
-                    content = "".join(lines[1:])
+                try:
+                    with open(file_path, "r", encoding="latin1") as f:
+                        lines = f.readlines()
+                        if not lines:
+                            continue
+                        content = "".join(lines[1:])
 
-                # Parse CSV from content
-                df_plan = cast(
-                    pd.DataFrame,
-                    pd.read_csv(
+                    df_part = pd.read_csv(
                         io.StringIO(content),
                         sep="|",
                         names=cols,
@@ -202,50 +207,57 @@ class RefPlanManager:
                         engine="python",
                         quoting=3,
                         index_col=False,
-                    ),
-                ).fillna("")
+                    ).fillna("")
 
-                # Clean Data
-                if "NATUREZA" in df_plan.columns:
-                    df_plan["NATUREZA"] = df_plan["NATUREZA"].apply(
+                    dfs_unificados.append(df_part)
+                except Exception as e:
+                    print(f"      Erro ao ler {file_name}: {e}")
+
+            if dfs_unificados:
+                df_final = pd.concat(dfs_unificados, ignore_index=True)
+                # Remove duplicidade de códigos que possam existir entre planos
+                df_final.drop_duplicates(subset=["CODIGO"], keep="first", inplace=True)
+
+                # Limpeza Padrão
+                if "NATUREZA" in df_final.columns:
+                    df_final["NATUREZA"] = df_final["NATUREZA"].apply(
                         lambda x: str(x).zfill(2) if x and str(x).strip() else ""
                     )
+                if "DESCRICAO" in df_final.columns:
+                    df_final["DESCRICAO"] = df_final["DESCRICAO"].str.strip()
 
-                if "DESCRICAO" in df_plan.columns:
-                    df_plan["DESCRICAO"] = df_plan["DESCRICAO"].str.strip()
+                # Nome unificado: REF_{Instituicao}_{Ano}.csv
+                output_filename = f"REF_{cod_ref}_{ano_str}.csv".replace(
+                    ">=", "GE"
+                ).replace("<", "LT")
+                output_path = os.path.join(self.schemas_dir, output_filename)
 
-                # Save Standardized CSV (UTF-8)
-                csv_output_name = f"{file_name}.csv"
-                csv_output_path = os.path.join(self.schemas_dir, csv_output_name)
-                df_plan.to_csv(csv_output_path, sep="|", index=False, encoding="utf-8")
+                df_final.to_csv(output_path, sep="|", index=False, encoding="utf-8")
 
-                # Update Catalog
+                # Atualiza Catálogo
                 ano_min, ano_max = self.parse_ano_range(ano_str)
 
-                if cod_plan_ref not in catalog:
-                    catalog[cod_plan_ref] = {}
-                if ano_str not in catalog[cod_plan_ref]:
-                    catalog[cod_plan_ref][ano_str] = {
-                        "range": [ano_min, ano_max],
-                        "plans": {},
-                    }
-                if alias not in catalog[cod_plan_ref][ano_str]["plans"]:
-                    catalog[cod_plan_ref][ano_str]["plans"][alias] = {}
+                if cod_ref not in catalog:
+                    catalog[cod_ref] = {}
 
-                catalog[cod_plan_ref][ano_str]["plans"][alias][versao] = {
-                    "file": csv_output_name,
-                    "tipo_demo": tipo_demo,
-                    "layout": "ref_dynamic" if has_ordem else "ref_standard",
+                catalog[cod_ref][ano_str] = {
+                    "range": [ano_min, ano_max],
+                    "plans": {
+                        "REF": {
+                            info_versao: {
+                                "file": output_filename,
+                                "tipo_demo": "Unificado (Balanço + Resultado)",
+                                "layout": layout_type,
+                            }
+                        }
+                    },
                 }
-
-            except Exception as e:
-                print(f"Error processing {file_name}: {e}")
 
         # Save Catalog JSON
         with open(self.catalog_path, "w", encoding="utf-8") as f:
             json.dump(catalog, f, indent=2, ensure_ascii=False)
 
-        print(f"Standardization complete. Catalog saved to {self.catalog_path}")
+        print(f"\nStandardization complete. Catalog saved to {self.catalog_path}")
 
     def audit_plans(self):
         """
@@ -299,56 +311,49 @@ class RefPlanManager:
                 if y_val < 2014:
                     continue
 
-                group = grouped.get_group(year_key)
-                dfs_year: List[pd.DataFrame] = []
+                ano_str = str(year_key)
+                # Reconstrói o nome do arquivo unificado conforme lógica do standardize_plans
+                unified_filename = f"REF_{cod_ref}_{ano_str}.csv".replace(
+                    ">=", "GE"
+                ).replace("<", "LT")
+                file_path = os.path.join(self.schemas_dir, unified_filename)
 
-                for _, row in group.iterrows():
-                    raw_filename = str(row["TabelaDinamica"])
-                    file_path = os.path.join(self.schemas_dir, f"{raw_filename}.csv")
-
-                    if not os.path.exists(file_path):
-                        continue
-
-                    try:
-                        # Read CSV - Use pipe separator as generated by standardize_plans
-                        df = cast(
-                            pd.DataFrame,
-                            pd.read_csv(file_path, sep="|", dtype=str),
-                        )
-
-                        cols_to_keep = [
-                            "CODIGO",
-                            "DESCRICAO",
-                            "NATUREZA",
-                            "NIVEL",
-                            "COD_SUP",
-                            "TIPO",
-                        ]
-                        # Keep available columns
-                        existing_cols = [c for c in cols_to_keep if c in df.columns]
-                        df = cast(pd.DataFrame, df[existing_cols])
-
-                        dfs_year.append(df)
-
-                    except Exception as e:
-                        print(f"  Error reading {file_path}: {e}")
-
-                if not dfs_year:
+                if not os.path.exists(file_path):
                     continue
 
-                # Consolidate DataFrame for this year (Plan Ref + Year)
-                df_full_year = cast(
-                    pd.DataFrame, pd.concat(dfs_year, ignore_index=True)
-                )
-                df_full_year.drop_duplicates(subset=["CODIGO"], inplace=True)
+                print(f"  Lendo plano para auditoria: {unified_filename}")
+                try:
+                    # Read CSV - Use pipe separator as generated by standardize_plans
+                    df_full_year = cast(
+                        pd.DataFrame,
+                        pd.read_csv(file_path, sep="|", dtype=str),
+                    )
 
-                # 1. Integrity Check (On-the-fly)
-                self._check_integrity_row(
-                    cod_ref, year_key, df_full_year, knowledge_base
-                )
+                    cols_to_keep = [
+                        "CODIGO",
+                        "DESCRICAO",
+                        "NATUREZA",
+                        "NIVEL",
+                        "COD_SUP",
+                        "TIPO",
+                    ]
+                    # Keep available columns
+                    existing_cols = [
+                        c for c in cols_to_keep if c in df_full_year.columns
+                    ]
+                    df_full_year = cast(pd.DataFrame, df_full_year[existing_cols])
+                    df_full_year.drop_duplicates(subset=["CODIGO"], inplace=True)
 
-                # 2. Store for Evolution Report
-                yearly_data[str(year_key)] = df_full_year.set_index("CODIGO")
+                    # 1. Integrity Check (On-the-fly)
+                    self._check_integrity_row(
+                        cod_ref, year_key, df_full_year, knowledge_base
+                    )
+
+                    # 2. Store for Evolution Report
+                    yearly_data[str(year_key)] = df_full_year.set_index("CODIGO")
+
+                except Exception as e:
+                    print(f"  Error reading {file_path}: {e}")
 
             # After processing all years for this Plan Ref, generate the Evolution Report
             self._generate_evolution_report(cod_ref, yearly_data)
@@ -515,7 +520,7 @@ class RefPlanManager:
 
         safe_cod = str(cod_ref).strip()
         output_path = os.path.join(
-            self.analysis_dir, f"comparativo_evolucao_plano_{safe_cod}.csv"
+            self.analysis_dir, f"ref_plan_evolution_{safe_cod}.csv"
         )
 
         # Using pipe separator as requested

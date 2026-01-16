@@ -13,43 +13,37 @@ def pasta_teste(tmp_path):
     return str(d)
 
 
-def test_criacao_de_pastas(pasta_teste):
-    """Verifica se o exportador cria a estrutura de pastas correta."""
+def test_criacao_de_pasta_base(pasta_teste):
+    """Verifica se o exportador garante a existência da pasta base."""
     ECDExporter(pasta_teste)
     assert os.path.exists(pasta_teste)
-    assert os.path.exists(os.path.join(pasta_teste, "arquivos_PARQUET"))
 
 
-def test_exportacao_parquet_e_excel(pasta_teste):
-    """Garante que Parquet e Excel são gerados conforme a regra de negócio."""
+def test_exportacao_parquet_e_excel_na_raiz(pasta_teste):
+    """Garante que Parquet e Excel são gerados na raiz conforme a nova preferência."""
     exporter = ECDExporter(pasta_teste)
 
-    # Criamos dados fictícios (Mock)
+    # Dados Mock
     df_teste = pd.DataFrame(
         {"COD_CTA": ["1", "1.1"], "VL_SINAL": [Decimal("100.00"), Decimal("100.00")]}
     )
 
-    # Caso 1: Tabela que DEVE gerar Excel (Balancete)
-    # Caso 2: Tabela que NÃO deve gerar Excel (Lancamentos)
+    # Dicionário de teste
     dicionario_teste = {"Balancete_Mensal": df_teste, "Lancamentos_Gerais": df_teste}
 
     exporter.exportar_lote(dicionario_teste, "Teste_Unitario")
 
-    # Verificações Parquet (Ambos devem existir)
-    assert os.path.exists(
-        os.path.join(pasta_teste, "arquivos_PARQUET", "Balancete_Mensal.parquet")
-    )
-    assert os.path.exists(
-        os.path.join(pasta_teste, "arquivos_PARQUET", "Lancamentos_Gerais.parquet")
-    )
+    # Verificações Parquet (Devem estar na raiz)
+    assert os.path.exists(os.path.join(pasta_teste, "Balancete_Mensal.parquet"))
+    assert os.path.exists(os.path.join(pasta_teste, "Lancamentos_Gerais.parquet"))
 
-    # Verificações Excel (Apenas o Balancete deve existir)
+    # Verificações Excel (Apenas Balancete na raiz)
     assert os.path.exists(os.path.join(pasta_teste, "Balancete_Mensal.xlsx"))
     assert not os.path.exists(os.path.join(pasta_teste, "Lancamentos_Gerais.xlsx"))
 
 
 def test_geracao_de_log(pasta_teste):
-    """Verifica se o arquivo de log TXT está a ser atualizado."""
+    """Verifica se o arquivo de log TXT está sendo atualizado."""
     exporter = ECDExporter(pasta_teste)
     df = pd.DataFrame({"A": [1]})
 

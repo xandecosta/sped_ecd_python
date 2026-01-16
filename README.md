@@ -1,4 +1,4 @@
-# SPED-ECD Parser Pro (v1.8.0)
+# SPED-ECD Parser Pro (v1.9.0)
 
 
 ## Sobre o Projeto
@@ -12,6 +12,7 @@ Este projeto consiste em um parser robusto para arquivos do SPED Contábil (ECD)
 - **Ajuste Pré-Fechamento:** Reversão inteligente de lançamentos de encerramento (tipo 'E') para análise de balancetes antes do zeramento, garantindo a integridade da equação $Inicial + Débitos - Créditos = Final$.
 - **Precisão Financeira:** Uso mandatório de `decimal.Decimal` para evitar erros de arredondamento em auditorias.
 - **Saídas Multiformato:** Exportação para **Parquet** (alta performance) e **Excel** (com prefixo de data para permitir múltiplas instâncias abertas).
+- **Ponte Virtual (Cross-Temporal Bridging):** Motor de inferência forense que recupera mapeamentos de anos adjacentes para gerar balancetes RFB em exercícios omissos (ex: 2014).
 - **Robustez Técnica:** Código 100% tipado e validado via **Pyright**, garantindo estabilidade contra erros de tipo e maior facilidade de manutenção.
 
 ## Estrutura do Projeto

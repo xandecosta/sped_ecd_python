@@ -3,12 +3,16 @@ import os
 import pandas as pd
 
 
-def test_load_plan(cod_plan_ref, ano, tipo_demo="Balanço Patrimonial"):
+def utility_load_plan(cod_plan_ref, ano, tipo_demo="Balanço Patrimonial"):
     # Caminhos relativos a partir da raiz do projeto
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     index_path = os.path.join(base_dir, "schemas", "ref_plans", "ref_index.json")
     schemas_dir = os.path.join(base_dir, "schemas", "ref_plans")
     data_dir = os.path.join(base_dir, "data", "plano_contas_referencial")
+
+    if not os.path.exists(index_path):
+        print(f"Index não encontrado: {index_path}")
+        return
 
     with open(index_path, "r", encoding="utf-8") as f:
         index = json.load(f)
@@ -61,7 +65,7 @@ def test_load_plan(cod_plan_ref, ano, tipo_demo="Balanço Patrimonial"):
 
 if __name__ == "__main__":
     print("--- Teste 1: Plano Padrao (8 colunas) ---")
-    test_load_plan(1, 2013, "Balanço Patrimonial e Demonstração de Resultados")
+    utility_load_plan(1, 2013, "Balanço Patrimonial e Demonstração de Resultados")
 
     print("\n--- Teste 2: Plano Dinamico (9 colunas) ---")
-    test_load_plan(1, 2021, "Balanço Patrimonial")
+    utility_load_plan(1, 2021, "Balanço Patrimonial")
