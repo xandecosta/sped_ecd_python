@@ -60,6 +60,7 @@ class ECDExporter:
         dicionario_dfs: Dict[str, pd.DataFrame],
         nome_base: str,
         prefixo: str = "",
+        itens_adicionais: list = [],
     ) -> None:
         """
         Exporta DataFrames para Parquet e Excel e centraliza logs.
@@ -95,7 +96,7 @@ class ECDExporter:
                 df_xlsx.to_excel(caminho_xlsx, index=False, engine="openpyxl")
                 log_gerados.append(f"EXCEL:   {os.path.basename(caminho_xlsx)}")
 
-        self._atualizar_log_centralizado(log_gerados)
+        self._atualizar_log_centralizado(log_gerados + itens_adicionais)
         logging.info(f"Exportação concluída: {self.id_folder}")
 
     def _atualizar_log_centralizado(self, lista_arquivos: list) -> None:

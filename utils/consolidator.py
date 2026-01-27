@@ -19,12 +19,14 @@ class ECDConsolidator:
             "04_Balancete_baseRFB",
             "05_Plano_Contas",
             "06_Lancamentos_Contabeis",
+            "07_Auditoria_Scorecard",
         ]
         self.excel_tables = [
             "01_BP",
             "02_DRE",
             "03_Balancetes_Mensais",
             "04_Balancete_baseRFB",
+            "07_Auditoria_Scorecard",
         ]
 
     def _preparar_pasta(self):

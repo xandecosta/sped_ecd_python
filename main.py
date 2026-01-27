@@ -3,14 +3,25 @@ import glob
 import logging
 import traceback
 import warnings
-from typing import Optional, cast
+from typing import Optional, cast, Any
 import pandas as pd
 from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
 from utils.exporter import ECDExporter
 from utils.consolidator import ECDConsolidator
 from utils.historical_mapper import HistoricalMapper
+from core.auditor import ECDAuditor
+from utils.audit_exporter import AuditExporter
 
+
+import sys
+
+if sys.platform == "win32":
+    # Garante que o terminal aceite UTF-8 mesmo sem variável de ambiente
+    if hasattr(sys.stdout, "reconfigure"):
+        cast(Any, sys.stdout).reconfigure(encoding="utf-8")
+    if hasattr(sys.stderr, "reconfigure"):
+        cast(Any, sys.stderr).reconfigure(encoding="utf-8")
 
 # 1. Silenciar Avisos de Bibliotecas (Pandas, etc)
 warnings.filterwarnings("ignore")
@@ -65,9 +76,46 @@ def processar_um_arquivo(
         # O método processar_demonstracoes retorna um dicionário (BP e DRE)
         dict_demos = processor.processar_demonstracoes()
 
+        # --- PASSO 2.5: AUDITORIA FORENSE ---
+        print("      [AUDITORIA] Executando bateria de testes forenses...")
+
+        # Preparação dos dados para o Auditor
+        df_balancete_mensal = dict_balancetes.get("04_Balancetes_Mensais")
+
+        # Acesso aos dataframes brutos internos do processor (I050, I051)
+        # Nota: O processor armazena em self.blocos
+        raw_i050 = processor.blocos.get("dfECD_I050")
+        raw_i051 = processor.blocos.get("dfECD_I051")
+
+        auditor = ECDAuditor(
+            df_diario=df_lancamentos,
+            df_balancete=df_balancete_mensal
+            if df_balancete_mensal is not None
+            else pd.DataFrame(),
+            df_plano=df_plano,
+            df_naturezas=raw_i050,
+            df_mapeamento=raw_i051,
+        )
+
+        resultados_audit = auditor.executar_auditoria_completa()
+
         # --- PASSO 3: EXPORTAÇÃO ---
         pasta_saida_arquivo = os.path.join(output_base, id_folder)
         exporter = ECDExporter(pasta_saida_arquivo)
+        itens_audit_log = []
+
+        # Exportador de Auditoria (Isolado para resiliência)
+        try:
+            audit_exporter = AuditExporter(pasta_saida_arquivo)
+            # Passa id_folder como prefixo para seguir máscara DATA_07_...
+            itens_audit_log += audit_exporter.exportar_dashboard(
+                resultados_audit, nome_projeto, prefixo=id_folder
+            )
+            itens_audit_log += audit_exporter.exportar_detalhes_parquet(
+                resultados_audit, prefixo=id_folder
+            )
+        except Exception as e:
+            print(f"      [AVISO] Falha na exportação de auditoria: {str(e)}")
 
         # Consolidamos todas as tabelas seguindo a hierarquia de prioridade de auditoria
         # Reorganizado para manter as demonstrações no topo (01 e 02)
@@ -81,7 +129,9 @@ def processar_um_arquivo(
         }
 
         # Exporta com o prefixo da data para permitir abertura simultânea no Excel
-        exporter.exportar_lote(tabelas, nome_projeto, prefixo=id_folder)
+        exporter.exportar_lote(
+            tabelas, nome_projeto, prefixo=id_folder, itens_adicionais=itens_audit_log
+        )
 
         print(f"      [OK] Finalizado com sucesso: {id_folder}")
 

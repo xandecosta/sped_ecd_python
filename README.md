@@ -1,63 +1,65 @@
-# SPED-ECD Parser Pro (v1.9.0)
+# SPED-ECD Parser Pro 🚀
 
-## Sobre o Projeto
+## O que é este projeto?
 
-Este projeto consiste em um parser robusto para arquivos do SPED Contábil (ECD), desenvolvido em Python. O objetivo é processar e validar arquivos de escrituração contábil digital seguindo padrões de desenvolvimento sênior, garantindo precisão financeira absoluta e escalabilidade.
+Este programa é um "tradutor" inteligente de arquivos do **SPED Contábil (ECD)**.
 
-## Principais Funcionalidades
+Arquivos ECD são documentos complexos que as empresas enviam ao governo (Receita Federal) contendo toda a sua contabilidade. Nosso software lê esses arquivos (em formato `.txt`), entende a lógica contábil por trás deles e gera relatórios organizados em **Excel** e **Parquet**, prontos para auditoria e análise financeira.
 
-- **Mapeamento e Consolidação RFB:** Implementação de processos para conversão e consolidação de balancetes comerciais no formato do plano referencial da RFB.
-- **Ponte Virtual (Cross-Temporal Bridging):** Motor de inferência forense que recupera mapeamentos de anos adjacentes para gerar balancetes RFB em exercícios omissos (ex: 2014).
-- **Gestão Referencial Integrada:** Motor completo para padronização e auditoria (evolução e integridade) dos planos de contas da Receita Federal.
-- **Processamento em Lote (Batch):** Processa automaticamente todos os arquivos `.txt` na pasta de entrada.
-- **Inteligência Contábil:** Baseado em schemas JSON hierárquicos, gera automaticamente chaves (PK/FK) e herança de saldos.
-- **Motor de Balancetes:** Algoritmo *Bottom-Up* que propaga saldos de contas analíticas para sintéticas em todos os níveis.
-- **Ajuste Pré-Fechamento:** Reversão inteligente de lançamentos de encerramento (tipo 'E') para análise de balancetes antes do zeramento, garantindo a integridade da equação $Inicial + Débitos - Créditos = Final$.
-- **Precisão Financeira:** Uso mandatório de `decimal.Decimal` para evitar erros de arredondamento em auditorias.
-- **Saídas Multiformato:** Exportação para **Parquet** (alta performance) e **Excel** (com prefixo de data para permitir múltiplas instâncias abertas).
-- **Robustez Técnica:** Código 100% tipado e validado via **Pyright**, garantindo estabilidade contra erros de tipo e maior facilidade de manutenção.
+### ✨ O que ele faz de especial?
 
-## Estrutura do Projeto
+1. **Auditoria Forense Automática**: Procura erros, fraudes e inconsistências nos lançamentos.
+2. **Ponte Virtual**: Recupera informações de anos vizinhos para completar dados que faltam em arquivos antigos (como o ano de 2014).
+3. **Visão da Receita Federal**: Transforma a contabilidade da empresa no formato que o governo exige (Plano Referencial).
+4. **Consolidação Inteligente**: Junta vários anos em um único resumo para você ver a "saúde" da empresa ao longo do tempo.
 
-- `/core`: Lógica principal (Reader, Processor).
-- `/schemas`: Definições de layouts SPED e Planos Referenciais padronizados.
-- `/utils`: Gestão referencial, exportador e ferramentas de consolidação.
-- `/tests`: Testes unitários e de integração.
-- `/data/input`: Local para colocar os arquivos ECD (.txt).
-- `/data/output`: Resultados organizados por período (YYYYMMDD).
+---
 
-## Como Usar
+## 🚀 Como Começar (Início Rápido)
 
-### 1. Configurando o Ambiente
+### 1. Preparar o Ambiente
+
+Se você está no Windows, abra o terminal na pasta do projeto e use:
 
 ```bash
+# 1. Criar o ambiente virtual (isolamento do projeto)
 python -m venv venv
+
+# 2. Ativar o ambiente
 source venv/Scripts/activate # Windows
 .\venv\Scripts\activate  # Windows alternative
 source venv/bin/activate # Linux/Mac
 pip install -r requirements.txt
 ```
 
-### 2. Executando o Pipeline
+### 2. Rodar o Programa
 
-1. **Prepare os Planos Referenciais:** Antes de processar seus arquivos ECD, você deve preparar a biblioteca de planos da RFB executando o gestor:
+Siga estes dois passos simples:
+
+1. **Preparar Planos do Governo**: Rode o gestor de tabelas (só precisa rodar uma vez ou quando mudar algo na RFB):
 
     ```bash
     python utils/ref_plan_manager.py
     ```
 
-    *Isso irá baixar/converter os planos, gerar o catálogo e realizar a auditoria de integridade.*
-
-2. **Processamento ECD:** Coloque seus arquivos ECD `.txt` na pasta `data/input` e execute o script principal:
+2. **Processar seus Arquivos**: Coloque seus arquivos `.txt` (ECD) na pasta `data/input` e rode o motor principal:
 
     ```bash
     python main.py
     ```
 
-3. Confira os resultados na pasta `data/output`. Os arquivos serão organizados assim:
-    - Uma subpasta para cada data final (`YYYYMMDD`).
-    - Arquivos nomeados com prefixo temporal (ex: `20231231_02_Balancete.xlsx`) para facilitar a análise comparativa no Excel.
+---
 
-## Desenvolvimento
+## 🗺️ Onde encontro cada coisa?
 
-Siga as regras definidas em `.cursorrules` para manter a consistência e qualidade do código. O histórico de mudanças pode ser acompanhado no [CHANGELOG.md](./CHANGELOG.md).
+Para que você não se perca, dividimos a documentação por necessidade:
+
+| Documento | Quando abrir? |
+| :--- | :--- |
+| **[CONTEXT.md](./CONTEXT.md)** | "Quero saber o que cada pasta/arquivo faz" ou "Como o código funciona?" |
+| **[.cursorrules.md](./.cursorrules.md)** | "Quais são as regras de ouro do projeto?" (Decimal, UTF-8, etc) |
+| **[CHANGELOG.md](./CHANGELOG.md)** | "O que mudou na última versão?" |
+| **[Metodologia de Auditoria](./docs/architecture/audit_methodology.md)** | "Como o teste de fraude (Benford) funciona?" |
+
+---
+**Dica para Iniciantes**: Sempre que for rodar o sistema, lembre-se de ativar o ambiente virtual (`venv`). Se o terminal mostrar `(venv)` ao lado do nome da pasta, você está pronto!

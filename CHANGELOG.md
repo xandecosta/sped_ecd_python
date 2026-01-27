@@ -3,6 +3,40 @@
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [2.2.0] - 2026-01-27
+
+### Adicionado [2.2.0]
+
+- **Refinamento da Lei de Benford:** Inclusão de coluna de interpretação automática (Excesso/Déficit) e tabelas de *drill-down* (Análise de Valores) para identificação de causas raiz de anomalias nos dígitos.
+- **Filtros de Duplicidade Inteligentes:** Implementação de critérios por materialidade (R$ 100), análise nominal de histórico e identificação de grupos financeiros (IOF, taxas, serviços) para eliminação de ruídos irrelevantes.
+- **Portabilidade Windows:** Configuração automática de `sys.stdout` para UTF-8, garantindo que o terminal Windows suporte acentuação e caracteres especiais sem travamentos.
+- **Tipagem Estática Progressiva:** Refatoração rigorosa com `typing.cast` em todos os módulos de auditoria, atingindo conformidade total com analisadores estáticos (Pyright).
+
+### Alterado [2.2.0]
+
+- **Isolamento de Dados no Excel:** Reestruturação do pipeline de exportação para gerar uma aba individual por teste de auditoria, eliminando a mistura de dados de naturezas diferentes.
+- **Sincronização Regional PT-BR:** Padronização mandatória de vírgulas decimais e datas em formato brasileiro em 100% dos relatórios gerados.
+- **Gestão de Caminhos:** Otimização do ajuste de `sys.path` em scripts e testes para suportar execução multiplataforma e de qualquer diretório da árvore.
+
+## [2.1.0] - 2026-01-26
+
+### Adicionado [2.1.0]
+
+- **Motor de Auditoria Forense:** Integração total do módulo `ECDAuditor` no pipeline principal (`main.py`). O sistema agora busca automaticamente por fraudes e erros matemáticos a cada execução.
+- **Dossiê de Evidências (I250):** Auditoria agora extrai os registros de lançamentos suspeitos para a aba `EVIDENCIAS_DETALHADAS`, garantindo auditabilidade imediata.
+- **Consolidação Híbrida:** Novo modelo de consolidação estratégica que gera um `Scorecard` global de riscos (comparativo anual) enquanto preserva detalhes massivos de forma local nas pastas de cada período.
+- **Documentação Pedagógica:** Reestruturação total do `README`, `CONTEXT` e `.cursorrules` focada em clareza extrema para desenvolvedores iniciantes, incluindo o "Mapa do Tesouro" do projeto.
+
+### Alterado [2.1.0]
+
+- **Nomenclatura Padronizada:** Arquivos de auditoria agora seguem a máscara `<DATA>_07_Auditoria...` para ordenação perfeita no sistema de arquivos.
+- **Organização do Repositório:** Scripts de desenvolvimento movidos para `/scripts` e testes unitários para `/tests`, mantendo a raiz do projeto limpa.
+- **Resiliência Forense:** Isolamento da execução de auditoria em blocos `try/except` para garantir que falhas em testes experimentais não interrompam a produção dos balancetes principais.
+
+### Removido [2.1.0]
+
+- **Limpeza de Legado:** Deleção de 11 scripts temporários (`analyze_*.py`) e resíduos de versões anteriores (pasta `audit_details`), simplificando a árvore do projeto.
+
 ## [2.0.0-beta] - 2026-01-22
 
 ### Adicionado [2.0.0-beta]

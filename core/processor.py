@@ -256,7 +256,9 @@ class ECDProcessor:
             mask_vazio = cast(pd.Series, df_res["COD_CTA_REF"]).isna() | (
                 cast(pd.Series, df_res["COD_CTA_REF"]).astype(str).str.strip() == ""
             )
-            mask_analitica = df_res["IND_CTA"].astype(str).str.upper() == "A"
+            mask_analitica = (
+                cast(pd.Series, df_res["IND_CTA"]).astype(str).str.upper() == "A"
+            )
             mask_alvo = mask_vazio & mask_analitica
 
             if mask_alvo.any():
@@ -282,7 +284,9 @@ class ECDProcessor:
                     df_res.loc[mask_alvo, "ORIGEM_MAP"] = novos_dados[1]
 
         # 4. Limpeza final: ORIGEM_MAP deve ser vazio para contas SINTÉTICAS
-        mask_sintetica = df_res["IND_CTA"].astype(str).str.upper() != "A"
+        mask_sintetica = (
+            cast(pd.Series, df_res["IND_CTA"]).astype(str).str.upper() != "A"
+        )
         df_res.loc[mask_sintetica, "ORIGEM_MAP"] = ""
 
         if "CTA" in df_res.columns:
@@ -465,7 +469,7 @@ class ECDProcessor:
         dfs_schemas = []
         for p in caminhos:
             try:
-                dfs_schemas.append(pd.read_csv(p, sep="|", dtype=str))
+                dfs_schemas.append(pd.read_csv(p, sep="|", dtype=str, encoding="utf-8"))
             except Exception as e:
                 logger.error(f"Erro ao carregar CSV referencial {p}: {e}")
 

@@ -1,70 +1,92 @@
-# Contexto do Projeto: SPED-ECD Parser Pro
+# Mapa de Bordo do Projeto: SPED-ECD Parser Pro
 
-## Estado Atual
+Este documento é o seu guia técnico principal. Ele explica a "anatomia" do projeto e como os componentes se comunicam.
 
-- **Data:** 15/01/2026
-- **Versão:** 1.9.0 (Arquitetura de Ponte Virtual - Bridging)
-- **Status:** Balancete baseRFB gerado com sucesso para anos omissos (ex: 2014) via inferência histórico-temporal. Auditoria de mapeamento integrada aos balancetes mensais.
+---
 
-## O Que Foi Feito
+## 1. O Fluxo de Dados (Caminho que a informação percorre)
 
-> Para o histórico detalhado de todas as versões, consulte o [CHANGELOG.md](./CHANGELOG.md).
+```mermaid
+graph LR
+    A[Arquivo .txt] --> B(Reader: Leitura)
+    B --> C(Processor: Inteligência)
+    C --> D(Auditor: Pente Fino)
+    D --> E(Exporter: Salvar)
+    E --> F[Excel / Parquet]
+```
 
-1. **Mapeamento e Consolidação RFB (V2.0 Core):**
-    - Implementação de processos que viabilizam o mapeamento de contas analíticas para o plano referencial da RFB.
-    - Consolidação de balancetes no formato referencial, permitindo auditoria direta contra o "Balancete baseRFB".
-2. **Ponte Virtual (Virtual I051):**
-    - Criação do módulo `HistoricalMapper` para aprender mapeamentos de anos adjacentes e preencher lacunas de arquivos sem registro I051.
-    - Implementação de "Funil de 3 Rodadas" (Identidade, Grupo e Consenso Global).
-    - Documentação detalhada do processo em [`bridging_logic.md`](./docs/architecture/bridging_logic.md).
-3. **Unificação de Gestão Referencial:**
-    - Fim da fragmentação de scripts em `utils/`. O `RefPlanManager.py` agora centraliza padronização, auditoria e descoberta de layouts.
-4. **Novo Motor de Auditoria e Integridade:**
-    - Implementação de pipeline multitarefa que gera relatórios de evolução histórica e detecta conflitos estruturais.
-5. **Saneamento e Estabilização:**
-    - Limpeza de arquivos CSV obsoletos e automação da regeração de schemas.
-    - Estabilização técnica com conformidade Pyright (typing.cast) em todo o pipeline.
+1. **Reader**: Lê cada linha do arquivo TXT e identifica os campos (ex: CNPJ, Data, Valor).
+2. **Processor**: faz as contas difíceis, junta tabelas e reconstrói o Balanço.
+3. **Auditor**: Analisa se os dados fazem sentido ou se há suspeitas de erro/fraude.
+4. **Exporter**: Transforma tudo o que foi calculado em arquivos bonitos que você abre no Excel.
 
-## Roadmap e Evolução Arquitetônica (v2.0+)
+---
 
-### 1. Infraestrutura de Dados (Próximos Passos)
+## 2. Mapa do Tesouro (O que faz cada pasta e arquivo)
 
-- **Integração DuckDB (Planejado):** Implementar o DuckDB como motor de persistência para permitir consultas transversais em toda a série histórica de balancetes consolidados.
-- **Consolidação Temporal:** Unificação de múltiplos anos em um único "Data Lake Contábil".
+Para facilitar sua jornada, aqui está a lista detalhada de cada "peça" do nosso quebra-cabeça:
 
-- **Log de Auditoria de Transformação:** Implementar um registro de rastreabilidade que vincule cada linha do banco de dados ao arquivo TXT de origem, garantindo segurança jurídica em perícias.
+### 📂 Pasta `/core/` (O Coração do Sistema)
 
-### 2. Transição para Modelos de Domínio (A Inteligência)
+Aqui fica a inteligência bruta que transforma texto em contabilidade.
 
-*Foco: Evoluir de tabelas genéricas para objetos que "entendem" as regras do SPED e da contabilidade.*
+- **`reader_ecd.py`**: O "Escriturário". Ele abre o arquivo TXT original e identifica cada linha (campos, blocos e tipos de dados).
+- **`processor.py`**: O "Contador Master". É aqui que as tabelas são ligadas, as contas são somadas de baixo para cima (Bottom-Up) e os balancetes são construídos.
+- **`auditor.py`**: O "Auditor Eletrônico". Contém a lógica matemática dos 11 testes forenses (consulte os detalhes em [Metodologia de Auditoria](./docs/architecture/audit_methodology.md)).
 
-- **Entidades de Domínio (POO):** Implementar classes `Conta`, `Lancamento` e `Empresa` utilizando `Dataclasses` ou `Pydantic`.
-- **Encapsulamento Contábil:** Mover a lógica de sinais (Devedor/Credor), natureza de conta e o algoritmo *Bottom-Up* para dentro dos métodos destas classes.
-- **Validação de Tipagem Forte:** Garantir integridade financeira absoluta (Decimal) e de datas no momento da criação dos objetos, isolando erros de entrada (input).
+### 📂 Pasta `/utils/` (As Ferramentas de Suporte)
 
-### 3. Auditoria Forense e Integridade (A Prova)
+Arquivos que ajudam na organização e finalização dos dados.
 
-*Foco: Automatizar o "pente fino" contábil nos séries históricas consolidadas.*
+- **`exporter.py`**: O "Formatador". Garante que o Excel saia com vírgulas e datas no padrão brasileiro.
+- **`audit_exporter.py`**: Especialista em relatórios de auditoria, criando as abas de Scorecard e evidências.
+- **`consolidator.py`**: O "Agregador". Ele junta os resultados de vários anos em um único arquivo consolidado.
+- **`ref_plan_manager.py`**: O "Bibliotecário". Gerencia e baixa os planos de contas oficiais da Receita Federal.
+- **`historical_mapper.py`**: O "Cérebro da Ponte". Aprende com anos passados para preencher falhas em arquivos antigos.
 
-- **Testes de Continuidade (Forward Roll):** Validação automática se o Saldo Final de um exercício é exatamente o Saldo Inicial do exercício seguinte em toda a linha do tempo.
-- **Cruzamentos de Dados (Cross-Check):** Implementar via SQL (DuckDB) o cruzamento entre os Registros de Lançamentos (I200/I250) e o Balancete (I155/I157).
-- **Integridade Hierárquica:** Testar se a soma das contas analíticas coincide com os totais das contas sintéticas em todos os níveis e períodos.
+### 📂 Pasta `/docs/` (A Enciclopédia Técnica)
 
-### 4. Abstração e Interface (A Entrega)
+Manuais detalhados sobre as metodologias aplicadas.
 
-*Foco: Tornar a ferramenta extensível a novos impostos e amigável para o usuário.*
+- **`architecture/audit_methodology.md`**: Explica o "porquê" e o "como" de cada teste de auditoria.
+- **`architecture/bridging_logic.md`**: Detalha a matemática por trás da recuperação de dados históricos.
 
-- **BaseReader Abstrato:** Interface para permitir a inclusão de novos módulos (ECF, EFD-Contribuições) sem alterar o núcleo do motor de processamento.
-- **Geradores de Relatórios (Strategy Pattern):** Módulos independentes para geração de Balanço Patrimonial, DRE e análises horizontais/verticais.
-- **CLI/Interface de Usuário:** Desenvolver um painel de controle para gestão de lotes de arquivos e monitoramento do progresso do processamento histórico.
+### 📂 Pasta `/scripts/` (Playground de Desenvolvimento)
 
-### 5. Algoritmo de Detecção do Plano Referencial (Funil de Metadados)
+Lugar para testes rápidos e ferramentas auxiliares.
 
-*Módulo de estabilidade para garantir a aplicação correta das tabelas da RFB ao longo das décadas:*
+- **`dev_audit.py`**: Script prático para testar a auditoria em apenas um arquivo ECD sem precisar rodar o processo inteiro.
 
-1. **Extração do DNA:** Identifica `COD_PLAN_REF` e o ano de vigência.
-2. **Filtragem por Instituição:** Localiza a entidade no catálogo referencial.
-3. **Filtragem por Vigência:** Cruza a data do arquivo com os períodos de validade dos planos.
-4. **Resolução Física:** Mapeia e carrega o CSV correspondente para o motor analítico.
+### 📂 Pasta `/tests/` (A Prova Real)
 
-*Este roadmap serve como bússola para futuras iterações, garantindo que o projeto evolua de uma ferramenta de processamento para uma plataforma de inteligência pericial contábil.*
+Scripts automáticos que conferem se as alterações no código estragaram algo.
+
+- **`test_auditoria_unit.py`**: Verifica se os cálculos de auditoria continuam precisos.
+- **`test_integracao.py`**: Testa o caminho completo, do TXT ao Excel, para garantir que o sistema está saudável.
+
+### 📂 Pasta `/data/` (Seu Armazém de Dados)
+
+- **`input/`**: Onde você deve "jogar" os arquivos `.txt` que deseja processar.
+- **`output/`**: Onde os relatórios prontos serão entregues pelo programa.
+- **`analysis/`**: Guarda relatórios técnicos sobre a evolução dos planos do governo.
+
+---
+
+## 3. Guia de Arquivos Chave (Acesso Rápido)
+
+- **`main.py`**: O comando central. É o arquivo que você executa para disparar todo o fluxo acima.
+- **`.cursorrules.md`**: Nossas diretrizes de desenvolvimento (as "Leis" do projeto).
+- **`requirements.txt`**: Lista de bibliotecas Python que o projeto precisa para funcionar.
+
+---
+
+## 4. Próximos Desafios (Roadmap)
+
+Atualmente estamos na **v2.1.0** (Auditoria Consolidada). No futuro, pretendemos:
+
+- **Integração DuckDB**: Usar um banco de dados real para que o sistema aguente arquivos gigantes (mais de 1GB).
+- **Interface Gráfica**: Uma janelinha para você não precisar usar o terminal.
+- **Novos Impostos**: Estender o parser para ler também ECF e Contribuições.
+
+---
+**Nota Técnica**: Este projeto segue o padrão **Data Pipeline**, o que significa que cada peça do quebra-cabeça tem uma função única e isolada (Módulos).
