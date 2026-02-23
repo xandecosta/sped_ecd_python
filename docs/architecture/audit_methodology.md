@@ -1,6 +1,6 @@
-# Metodologia de Auditoria Forense (Módulo ECDAuditor)
+# Metodologia e Algoritmos de Auditoria Forense (Módulo ECDAuditor)
 
-Este documento descreve detalhadamente a lógica, os fundamentos contábeis e os critérios de validação utilizados pelo motor de auditoria forense para arquivos SPED-ECD.
+Este documento descreve detalhadamente a lógica, os fundamentos contábeis e os algoritmos de processamento utilizados pelo motor de auditoria forense para arquivos SPED-ECD.
 
 ---
 
@@ -25,45 +25,54 @@ Foca na amarração matemática entre os diferentes registros da ECD.
 
 **Objetivo**: Verificar se a soma dos lançamentos analíticos (I250) corresponde à movimentação informada nos saldos mensais (I155).
 
-- **Processamento**:
+- **Algoritmo**:
     1. Agrega todos os lançamentos do Diário por `COD_CTA` e `PERIODO`.
-    2. **Filtro Forense**: O motor ignora automaticamente lançamentos do tipo 'E' (Encerramento) no Diário, uma vez que o balancete processado já reflete os saldos restaurados ao estado pré-encerramento para permitir a análise de continuidade.
-    3. **Isolamento de Contas**: O teste é aplicado exclusivamente a contas analíticas (`IND_CTA == 'A'`), eliminando falsos positivos causados por grupos sintéticos.
-    4. Compara a soma dos lançamentos com os campos `VL_DEB` e `VL_CRED` do registro I155.
-    5. **Composição da Prova**: Caso haja divergência, o sistema identifica as chaves (Conta + Período) com erro e extrai todos os registros I250 correspondentes para a aba `EVIDENCIAS_DETALHADAS`.
+    2. **Filtro Forense**: O motor ignora automaticamente lançamentos do tipo 'E' (Encerramento), pois o balancete processado já reflete os saldos restaurados ao estado pré-encerramento.
+    3. **Isolamento de Contas**: O teste é aplicado exclusivamente a contas analíticas (`IND_CTA == 'A'`).
+    4. Compara a soma dos lançamentos (`VL_D` e `VL_C`) com os campos `VL_DEB` e `VL_CRED` do registro I155.
+    5. **Composição da Prova**: Identifica as chaves (Conta + Período) com erro e extrai todos os registros I250 correspondentes para a aba `EVIDENCIAS_DETALHADAS`.
 - **Fundamento**: Princípio da Partida Dobrada e Integridade de Transporte.
 
 ### 1.2 Validação da Hierarquia Nativa
 
-**Objetivo**: Recalcular a consolidação das contas sintéticas a partir das analíticas.
+**Objetivo**: Validar se a estrutura de consolidação sintética informada no arquivo é matematicamente consistente (Bottom-Up).
 
-- **Processamento**:
-    1. Varre o Plano de Contas (I050) e os saldos (I155).
-    2. Para cada conta sintética, soma o saldo de seus filhos diretos (`COD_CTA_SUP`).
-    3. Compara o saldo informado com o saldo recalculado.
+- **Algoritmo**:
+    1. Iterar por cada período (mês) presente no balancete.
+    2. Identificar todas as contas sintéticas (`IND_CTA = 'S'`).
+    3. Para cada conta sintética:
+        - Localizar todas as contas filhas diretas (`COD_CTA_SUP` == conta atual).
+        - Somar o saldo final (`VL_SLD_FIN_SIG`) das filhas.
+        - Comparar o somatório com o saldo informado na conta sintética pai.
+    4. Reportar divergências de soma ou contas sintéticas sem filhas que possuam saldo.
 - **Fundamento**: Estrutura Conceitual para Relatórios Financeiros (NBC TG Estrutura Conceitual).
 
 ---
 
-## 3. Grupo 3: Coerência Referencial
+## 3. Grupo 3: Coerência Referencial (Normas RFB)
 
 Valida a conformidade com as regras de mapeamento da Receita Federal.
 
 ### 3.1 Consistência de Natureza
 
-**Objetivo**: Garantir que a natureza contábil da conta (Ativo, Passivo, Resultado) seja coerente com o grupo onde ela foi mapeada no Plano Referencial.
+**Objetivo**: Garantir que o mapeamento para o Plano de Contas Referencial respeita a natureza da conta (Ativo/Passivo/DRE).
 
 - **Lógica de Validação**:
-    - Conta Ativo (01) deve apontar para Referencial Grupo 1.
-    - Conta Passivo/PL (02/03) deve apontar para Referencial Grupo 2.
-    - Contas de Resultado (04) devem apontar para Referencial Grupo 3.
-- **Status**: Gera **ALERTA** se detectar cruzamentos indevidos (ex: conta de Receita mapeada no Ativo).
+    - **Nat 01 (Ativo)**: O código referencial deve obrigatoriamente iniciar com `1`.
+    - **Nat 02 (Passivo)**: O código referencial deve obrigatoriamente iniciar com `2`.
+    - **Nat 03 (PL)**: O código referencial deve obrigatoriamente iniciar com `2`.
+    - **Nat 04 (Resultado)**: O código referencial deve obrigatoriamente iniciar com `3`.
+    - **Nat 05/09**: Não devem estar mapeadas no Grupo 1 (Ativo) ou Grupo 2 (Passivo).
+- **Status**: Gera **ALERTA** se detectar cruzamentos indevidos.
 
 ### 3.2 Auditoria de Contas "Órfãs"
 
-**Objetivo**: Identificar contas analíticas com movimentação financeira relevante que não possuem mapeamento para o plano referencial (campo I051 ausente).
+**Objetivo**: Identificar contas analíticas com movimentação relevante que não possuem mapeamento para o plano referencial (campo I051 ausente).
 
-- **Critério de Seleção**: Contas com `IND_CTA == 'A'` e saldo final ou movimentação superior a R$ 0,00.
+- **Algoritmo**:
+    1. Filtrar contas analíticas (`IND_CTA == 'A'`) com Mapping Referencial (`COD_CTA_REF`) nulo ou vazio.
+    2. Aplicar filtro de relevância: Saldo Inicial, Débito, Crédito ou Saldo Final devem ser diferentes de zero.
+    3. Reportar ocorrências, destacando o maior saldo absoluto encontrado no período.
 
 ---
 
@@ -73,65 +82,64 @@ Utiliza métodos estatísticos e detecção de anomalias temporais.
 
 ### 4.1 Lei de Benford (Teste do Primeiro Dígito)
 
-**Objetivo**: Detectar se os valores dos lançamentos foram "inventados" ou manipulados artificialmente através da análise da frequência natural dos dígitos iniciais.
+**Objetivo**: Detectar se os valores dos lançamentos foram manipulados artificialmente através da análise da frequência natural dos dígitos iniciais.
 
-- **Metodologia**:
-    1. Extrai o primeiro dígito significativo de todos os valores absolutos do Diário.
-    2. Compara a frequência observada com a distribuição esperada pela Lei de Benford.
-    3. **Indicador de Risco (MAD)**: Utiliza o *Mean Absolute Deviation* (Desvio Médio Absoluto).
-        - **MAD > 0.012**: Status **ALERTA**. Indica conformidade marginal ou padrões operacionais enviesados (ex: parcelamentos fixos).
-        - **MAD > 0.020**: Status **REPROVADO**. Indica altíssima probabilidade de dados fabricados ou omissão sistemática de centavos/valores.
-    4. **Composição da Prova (Drill-Down)**: O sistema identifica os dígitos com maior excesso de frequência e mapeia os 10 valores exatos que mais contribuem para a anomalia, apontando as contas e históricos predominantes.
+- **Algoritmo**:
+    1. Extrai o primeiro dígito significativo (1-9) de todos os valores absolutos do Diário.
+    2. Compara a frequência observada com a distribuição teórica: $P(d) = \log_{10}(1 + \frac{1}{d})$.
+    3. **Indicador de Risco (MAD)**: Utiliza o *Mean Absolute Deviation*.
+        - **APROVADO**: MAD < 0.012
+        - **ALERTA**: MAD entre 0.012 e 0.020
+        - **REPROVADO**: MAD > 0.020 (indica forte desvio estatístico)
+    4. **Composição da Prova (Drill-Down)**: Identifica os dígitos viciados, mapeia os 10 valores exatos mais frequentes, apontando contas e históricos predominantes.
 
 ### 4.2 Detecção de Duplicidades
 
-**Objetivo**: Localizar lançamentos com características idênticas que podem indicar erros de processamento ou fraudes.
+**Objetivo**: Identificar erros de digitação ou fraudes por duplicidade de lançamentos.
 
-- **Filtro de Ruído Forense**: O motor aplica dois filtros inteligentes para evitar falsos positivos comuns em contabilidades reais:
-    - **Filtro A (Materialidade)**: Ignora lançamentos idênticos com valor absoluto inferior a **R$ 50,00** se a conta envolver termos como "BANCO", "TARIFA" ou "TED".
-    - **Filtro B (Processamento em Lote)**: Se o sistema detectar mais de **5 lançamentos idênticos** na mesma data e conta, o motor assume tratar-se de um padrão operacional (ex: folha de pagamento ou cobrança em massa) e reduz a criticidade do achado.
-- **Impacto**: O impacto é calculado pela soma absoluta dos lançamentos classificados como "Suspeitos" após a filtragem de ruído.
+- **Algoritmo**:
+    1. Busca no Diário lançamentos com a mesma **Data**, **Conta**, **Valor** e **Histórico**.
+    2. **Filtro de Ruído Forense**:
+        - **Filtro A (Materialidade)**: Ignora duplicidades de baixo valor (< R$ 100,00) em contas bancárias/tarifas.
+        - **Filtro B (Batch Processing)**: Se > 5 lançamentos idênticos no dia, assume conformidade operacional (ex: folha).
+- **Impacto**: Soma absoluta dos lançamentos classificados como "Suspeitos" após filtragem.
 
 ### 4.3 Omissão de Encerramento (DRE não zerada)
 
-**Objetivo**: Verificar se houve o encerramento das contas de resultado (zeramento) ao final do exercício.
+**Objetivo**: Confirmar se as contas de resultado foram devidamente zeradas ao final do exercício.
 
-- **Processamento**: Soma os saldos finais de todas as contas de natureza '04' na última data do arquivo. Saldo diferente de zero indica erro grave de apuração de lucro/prejuízo.
+- **Algoritmo**:
+    1. Soma os saldos finais de todas as contas analíticas de natureza `04` na última data do arquivo.
+    2. Confronta o saldo com os lançamentos de encerramento (`IND_LCTO = 'E'`).
+    3. O resultado líquido **deve ser zero**. Caso contrário, reportar omissão de encerramento.
 
 ---
 
-## 5. Grupo 5: Indicadores Profissionais (Análise Qualitativa)
+## 5. Grupo 5: Indicadores Profissionais (Qualitativos)
 
 ### 5.1 Inversão de Natureza
 
-Identifica contas que apresentam saldo contrário à sua natureza (ex: conta de Ativo com saldo credor) sem estarem classificadas como contas redutoras no plano.
+**Objetivo**: Detectar saldos anômalos (Ativo Credor ou Passivo Devedor).
+- **Lógica**: Identifica Ativo < 0 ou Passivo > 0, ignorando contas redutoras (ex: depreciasão, amortisação).
 
 ### 5.2 Estouro de Caixa
 
-Caso específico de inversão de natureza para o grupo de Disponibilidades (Caixa e Equivalentes). Um saldo credor no caixa indica omissão de receita ou passivo fictício.
+**Objetivo**: Identificar momentos em que as contas de disponibilidade ficaram com saldo credor.
+- **Lógica**: Filtra contas de Caixa/Bancos (via Nome ou Referencial 1.01.01) e reporta qualquer saldo final negativo no mês.
 
 ### 5.3 Passivo Fictício (Estaticidade)
 
-**Objetivo**: Detectar contas de obrigações (Fornecedores, Empréstimos) que apresentam saldo relevante mas permanecem "estáticas" por todo o exercício.
-
-- **Fundamento**: Uma dívida que não apresenta pagamento (débito) nem novos encargos (crédito) por meses sugere que a obrigação pode não existir mais ou foi liquidada por fora da contabilidade oficial.
-- **Lógica**: Identifica contas de natureza `02` com variação de saldo idêntica a zero durante todo o período coberto pela ECD.
+**Objetivo**: Identificar obrigações que permanecem no balancete sem qualquer movimentação no ano.
+- **Lógica**: Identifica contas de natureza `02` com saldo > R$ 1.000,00 que tiveram **zero** movimentação de débito e crédito no exercício.
 
 ### 5.4 Consistência PL vs. Resultado
 
-**Objetivo**: Validar a amarração técnica entre o lucro/prejuízo apurado na DRE e a conta de destino no Patrimônio Líquido.
-
-- **Fundamento**: Todo o resultado do exercício deve ser transferido para o PL através de lançamentos de encerramento.
-- **Processamento**:
-    1. Soma o saldo final de todas as contas de Resultado (Analíticas, Natureza `04`).
-    2. Soma todos os lançamentos de encerramento (`IND_LCTO == 'E'`) que atingiram contas de Patrimônio Líquido (Natureza `03`).
-    3. Calcula a divergência: `abs(Lucro_DRE - Transferencia_PL)`.
-- **Tolerância**: O sistema admite uma divergência de até **R$ 100,00** para acomodar pequenos ajustes de arredondamento em sistemas legados. Acima disso, gera um status de **ALERTA**.
+**Objetivo**: Validar a amarração técnica entre lucro da DRE e transferência para o PL.
+- **Lógica**: Compara o Lucro Líquido da DRE com o valor total dos lançamentos 'E' que atingiram o Patrimônio Líquido.
+- **Tolerância**: Admite divergência de até **R$ 100,00** para arredondamentos.
 
 ---
 
 ## 6. Fluxo de Output e Evidências
 
-Toda a metodologia converge para o arquivo `<DATA>_07_Auditoria.xlsx`.
-
-A maior inovação forense é a aba **EVIDENCIAS_DETALHADAS**, que atua como o elo final da auditabilidade. Em vez de obrigar o auditor a buscar o lançamento suspeito no PVA, o sistema já extrai as linhas do Diário (I250) que "não batem" com o Balancete, permitindo a conferência imediata.
+Toda a metodologia converge para o arquivo `<DATA>_07_Auditoria.xlsx`. A inovação forense principal é a aba **EVIDENCIAS_DETALHADAS**, que extrai as linhas do Diário (I250) vinculadas a qualquer erro identificado, poupando o trabalho de busca manual no PVA.
