@@ -89,11 +89,49 @@ Scripts automáticos que conferem se as alterações no código estragaram algo.
 
 ## 4. Próximos Desafios (Roadmap)
 
-Atualmente estamos na **v2.1.0** (Auditoria Consolidada). No futuro, pretendemos:
+O projeto está consolidado na **v2.6.x** (Estrutura Ouro). O foco agora é transformar o script em uma plataforma pericial robusta. Abaixo, os detalhes de cada evolução planejada:
 
-- **Integração DuckDB**: Usar um banco de dados real para que o sistema aguente arquivos gigantes (mais de 1GB).
-- **Interface Gráfica**: Uma janelinha para você não precisar usar o terminal.
-- **Novos Impostos**: Estender o parser para ler também ECF e Contribuições.
+### 🚀 Performance e Escalabilidade
+
+#### **1. Processamento Paralelo (Multiprocessing)**
+
+- **O quê:** Migrar do processamento sequencial para o paralelo.
+- **Por quê:** Atualmente, se um arquivo leva 30s, 10 arquivos levam 5 minutos. Em máquinas modernas (8+ núcleos), poderíamos processar quase todos simultaneamente.
+- **Como:** Utilizar a biblioteca `multiprocessing.Pool` para distribuir a lista de caminhos de arquivos entre os núcleos da CPU. Requer ajuste no sistema de logs para que as mensagens de diferentes processos não se sobreponham.
+
+#### **2. Otimização da Fase de Aprendizado (IO Inteligente)**
+
+- **O quê:** Salvar o aprendizado do `HistoricalMapper` em disco (`data/knowledge/history.json`).
+- **Por quê:** Evita ler a série histórica inteira toda vez que você adicionar apenas um arquivo novo à pasta de entrada (Redução drástica de IO).
+- **Como:** Serializar os dicionários de mapeamento e consenso para JSON após a fase de aprendizado. Na execução seguinte, o sistema verifica se o JSON existe e carrega os dados em milissegundos através do método `load_knowledge`.
+
+### 📊 Inteligência de Dados e Perícia
+
+#### **3. Data Warehouse Unificado com DuckDB**
+
+- **O quê:** Consolidar todos os Parquets em um banco de dados analítico único (`sped_pericia.db`).
+- **Por quê:** Facilita análises cruzadas. Ex: "Buscar o fornecedor X em todos os anos processados" exige apenas uma consulta SQL, em vez de abrir 11 planilhas Excel.
+- **Como:** Utilizar o DuckDB para criar tabelas persistentes apontando para os diretórios de saída. O DuckDB consegue ler Parquets absurdamente rápido e permite usar SQL padrão para gerar relatórios customizados.
+
+#### **4. Dashboard Pericial Interativo (Streamlit)**
+
+- **O quê:** Criar uma interface visual (Web Local) para navegar pelos resultados.
+- **Por quê:** Gráficos de barras e dispersão são melhores para identificar "saltos" suspeitos em contas de despesa do que linhas de tabela.
+- **Como:** Usar a biblioteca Streamlit para ler os arquivos Parquet e exibir dashboards dinâmicos com filtros por CNPJ, Ano e Conta. Permitir um "Drill-down" onde você clica em um saldo e ele abre a lista de lançamentos que compõem aquele valor.
+
+### 🧹 Robustez e Conformidade
+
+#### **5. Camada de Sanitização Pré-Parser**
+
+- **O quê:** Um "filtro de impurezas" que roda antes do leitor principal.
+- **Por quê:** Arquivos SPED gigantes costumam ter caracteres especiais órfãos ou quebras de linha indevidas no meio do histórico, o que causa erro de leitura no Pandas (`ParserError`).
+- **Como:** Ler o arquivo em blocos de bytes, remover caracteres não-imprimíveis e validar se o número de delimitadores `|` por linha está correto antes de entregar os dados para o `ECDReader`.
+
+#### **6. Auditoria Cruzada (ECD x ECF)**
+
+- **O quê:** Módulo para ler e comparar os dados contábeis (ECD) com os fiscais (ECF).
+- **Por quê:** Detectar divergências entre o que foi contabilizado e o que foi oferecido à tributação no LALUR/LACS.
+- **Como:** Expandir o `core/reader_ecd.py` para suportar os registros específicos da ECF e criar uma regra no `core/auditor.py` que faça o batimento automático de saldos entre as duas escriturações.
 
 ---
 **Nota Técnica**: Este projeto segue o padrão **Data Pipeline**, o que significa que cada peça do quebra-cabeça tem uma função única e isolada (Módulos).

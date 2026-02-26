@@ -26,12 +26,12 @@ Se preferir o terminal, abra a pasta do projeto e use:
 
 ```bash
 # 1. Criar o ambiente virtual (isolamento do projeto)
-python -m venv venv
+python -m venv .venv
 
 # 2. Ativar o ambiente
-source venv/Scripts/activate # Windows
-.\venv\Scripts\activate  # Windows alternative
-source venv/bin/activate # Linux/Mac
+source .venv/Scripts/activate   # Git Bash (recomendado)
+.\.venv\Scripts\activate        # PowerShell
+.venv\Scripts\activate          # CMD
 pip install -r requirements.txt
 ```
 
