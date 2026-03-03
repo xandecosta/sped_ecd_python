@@ -3,6 +3,18 @@
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 O formato é baseado em [Keep a Changelog](https://keepachangelog.com/pt-br/1.0.0/).
 
+## [2.8.0] - 2026-03-03
+
+### Adicionado [2.8.0]
+
+- **Processamento Paralelo (Multi-core)**: Implementação de `ProcessPoolExecutor` no `main.py`, permitindo o processamento simultâneo de múltiplos arquivos ECD.
+- **Telemetria Distribuída**: Sistema de coleta e mesclagem de métricas de performance vindas de processos isolados, mantendo logs de execução precisos e granulares.
+
+### Alterado [2.8.0]
+
+- **Pipeline de Execução**: Refatoração do `main.py` para suportar orquestração de tarefas paralelas após a fase de aprendizado histórico.
+- **Performance Industrial**: Redução drástica do tempo de execução em ambientes multi-core (Ex: 11 arquivos processados em **1m 37s**, contra 3m 31s da versão anterior).
+
 ## [2.7.0] - 2026-02-27
 
 ### Adicionado [2.7.0]

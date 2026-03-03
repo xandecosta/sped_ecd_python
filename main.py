@@ -5,17 +5,19 @@ import logging
 import traceback
 import warnings
 import re
-from typing import Optional, cast, Any, Set
+from typing import Optional, cast, Any, Set, Dict
 import pandas as pd
 from core.reader_ecd import ECDReader
 from core.processor import ECDProcessor
+from core.auditor import ECDAuditor
+from core.telemetry import TelemetryCollector
 from exporters.exporter import ECDExporter
 from exporters.consolidator import ECDConsolidator
-from intelligence.historical_mapper import HistoricalMapper
-from core.auditor import ECDAuditor
-from datetime import datetime, timedelta
 from exporters.audit_exporter import AuditExporter
-from core.telemetry import TelemetryCollector
+from intelligence.historical_mapper import HistoricalMapper
+from datetime import datetime, timedelta
+from concurrent.futures import ProcessPoolExecutor, as_completed
+import multiprocessing
 
 
 import sys
@@ -43,7 +45,7 @@ def processar_um_arquivo(
     output_base: str,
     mapper: Optional[HistoricalMapper] = None,
     telemetry: Optional[TelemetryCollector] = None,
-):
+) -> Dict[str, Any]:
     """
     Executa o ciclo completo de processamento para um único arquivo ECD.
     """
@@ -76,8 +78,10 @@ def processar_um_arquivo(
         registros = list(reader.processar_arquivo())
 
         if not registros:
-            print("      [AVISO] Arquivo vazio ou sem registros válidos.")
-            return
+            print(
+                f"      [AVISO] {nome_arquivo}: Arquivo vazio ou sem registros válidos."
+            )
+            return {}
 
         # Captura metadados críticos do Reader para o processamento de auditoria
         # Usa o período real detectado pelo reader (pode diferir do temp)
@@ -193,6 +197,8 @@ def processar_um_arquivo(
     except Exception as e:
         print(f"      [ERRO] Falha ao processar {nome_arquivo}: {str(e)}")
         logging.error(traceback.format_exc())
+
+    return telemetry.data if telemetry else {}
 
 
 def executar_pipeline_batch(telemetry: Optional[TelemetryCollector] = None):
@@ -347,8 +353,34 @@ def executar_pipeline_batch(telemetry: Optional[TelemetryCollector] = None):
     mapper.save_knowledge(history_file)
     print(f"      [IO] Conhecimento persistido em {os.path.basename(history_file)}")
 
-    for arquivo in arquivos:
-        processar_um_arquivo(arquivo, output_dir, mapper, telemetry=telemetry)
+    # --- PASSO NOVO: EXECUÇÃO PARALELIZADA ---
+    # Sugestão: Usar metade dos núcleos disponíveis ou até 4 para evitar concorrência de IO excessiva
+    num_trabalhadores = max(1, multiprocessing.cpu_count() // 2)
+    print(f"\n>>> INICIANDO EXECUÇÃO PARALELA ({num_trabalhadores} núcleos)...")
+
+    results_data = []
+    with ProcessPoolExecutor(max_workers=num_trabalhadores) as executor:
+        # Criamos as tarefas
+        tasks = {
+            executor.submit(
+                processar_um_arquivo, arquivo, output_dir, mapper, telemetry
+            ): arquivo
+            for arquivo in arquivos
+        }
+
+        # Coletamos conforme terminam
+        for future in as_completed(tasks):
+            try:
+                partial_telemetry = future.result()
+                if partial_telemetry:
+                    results_data.append(partial_telemetry)
+            except Exception as exc:
+                print(f"    [ALERTA] Uma tarefa paralela falhou: {exc}")
+
+    # Mesclar telemetria dos processos paralelos de volta para o objeto principal
+    if telemetry:
+        for data_dict in results_data:
+            telemetry.data.update(data_dict)
 
     # --- PASSO 4: CONSOLIDAÇÃO ---
     consolidator = ECDConsolidator(output_dir)
@@ -383,7 +415,7 @@ if __name__ == "__main__":
                 ts_sessao = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 f.write("\n" + "=" * 100 + "\n")
                 f.write(
-                    f"SESSÃO DE ANÁLISE: {ts_sessao} [MODO: SEQUENCIAL / IO INTELIGENTE]\n"
+                    f"SESSÃO DE ANÁLISE: {ts_sessao} [MODO: PARALELO / IO INTELIGENTE]\n"
                 )
                 f.write("=" * 100 + "\n\n")
 
